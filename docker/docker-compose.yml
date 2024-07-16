@@ -1,0 +1,12 @@
+services:
+  bieristo_tools:
+    container_name: bieristo_tools
+    image: httpd:latest
+    restart: always
+    volumes:
+      - ../app:/usr/local/apache2/htdocs
+    networks:
+      - 'web'
+networks:
+  web:
+    external: true

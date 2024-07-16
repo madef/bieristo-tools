@@ -1,0 +1,68 @@
+{
+  "AppTitle": {
+    "*": "Outils de brassage - Bieristo"
+  },
+  "Bieristo is a website app to pilot brewing systems based on Raspberry Pi cards.": {
+    "*": "Bieristo est une application web pour piloter des système de brassage basé sur des cartes Raspberry Pi."
+  },
+  "Menu:title": {
+    "*": "MENU"
+  },
+  "Unit:L": {
+    "*": "Litre"
+  },
+  "Unit:GAL": {
+    "*": "Gallon"
+  },
+  "Unit:BAR": {
+    "*": "Bar"
+  },
+  "Unit:PSI": {
+    "*": "PSI"
+  },
+  "Unit:SG": {
+    "*": "Gravité standard"
+  },
+  "Unit:P": {
+    "*": "Plato"
+  },
+  "Unit:B": {
+    "*": "Brix"
+  },
+  "Unit:C": {
+    "*": "Celsius"
+  },
+  "Unit:F": {
+    "*": "Fahrenheit"
+  },
+  "Unit:cm": {
+    "*": "Centimètres"
+  },
+  "Unit:I": {
+    "*": "Pouce"
+  },
+  "ViewUnitConversion:shortTitle": {
+    "*": "Conversion d'unités"
+  },
+  "ViewUnitConversion:title": {
+    "*": "Conversion d'unités"
+  },
+  "Pressure:label": {
+    "*": "Pression"
+  },
+  "Volume:label": {
+    "*": "Volume"
+  },
+  "Temperature:label": {
+    "*": "Température"
+  },
+  "Gravity:label": {
+    "*": "Densité"
+  },
+  "ViewAlcool:shortTitle": {
+    "*": "Calcul des taux d'alcool"
+  },
+  "ViewVolume:shortTitle": {
+    "*": "Calcul des volumes"
+  }
+}
