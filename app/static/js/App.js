@@ -33,7 +33,6 @@ class App {
 
   setCurrentView (view) {
     this.currentView = view
-    console.log('setCurrentView', view)
     this.loadCurrentView()
   }
 
@@ -151,10 +150,6 @@ class App {
     return this
   }
 
-  oneAction (e) {
-    console.log('oneAction', this)
-  }
-
   getUnit (type) {
     const code = localStorage.getItem(`UNIT_${type}`) // eslint-disable-line no-undef
     if (code === null) {
@@ -197,7 +192,7 @@ class App {
         },
         {
           label: Translator.__('Unit:GAL'),
-          shortLabel: 'G',
+          shortLabel: 'gal',
           code: 'G',
           convert: unit => {
             return {
@@ -210,7 +205,7 @@ class App {
       pressure: [
         {
           label: Translator.__('Unit:BAR'),
-          shortLabel: 'B',
+          shortLabel: 'bar',
           code: 'B',
           convert: unit => {
             return {
@@ -307,7 +302,7 @@ class App {
         },
         {
           label: Translator.__('Unit:I'),
-          shortLabel: 'I',
+          shortLabel: 'po',
           code: 'I',
           convert: unit => {
             return {

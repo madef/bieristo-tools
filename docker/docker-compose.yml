@@ -1,7 +1,8 @@
 services:
   bieristo_tools:
     container_name: bieristo_tools
-    image: httpd:latest
+    build: images/httpd
+    #image: httpd:latest
     restart: always
     volumes:
       - ../app:/usr/local/apache2/htdocs

@@ -8,6 +8,39 @@
   "Menu:title": {
     "*": "MENU"
   },
+  "Menu:Unit:volume": {
+    "*": "Volume"
+  },
+  "Menu:Unit:temperature": {
+    "*": "Température"
+  },
+  "Menu:Unit:pressure": {
+    "*": "Pression"
+  },
+  "Menu:Unit:gravity": {
+    "*": "Densité"
+  },
+  "Menu:Unit:length": {
+    "*": "Longeur"
+  },
+  "Menu:Unit:Label:volume": {
+    "*": "Volume: %value%"
+  },
+  "Menu:Unit:Label:temperature": {
+    "*": "Température: %value%"
+  },
+  "Menu:Unit:Label:pressure": {
+    "*": "Pression: %value%"
+  },
+  "Menu:Unit:Label:gravity": {
+    "*": "Densité: %value%"
+  },
+  "Menu:Unit:Label:length": {
+    "*": "Longeur: %value%"
+  },
+  "Menu:close": {
+    "*": "Fermer"
+  },
   "Unit:L": {
     "*": "Litre"
   },
@@ -41,22 +74,28 @@
   "Unit:I": {
     "*": "Pouce"
   },
+  "Generic:Action:copy": {
+    "*": "Copier"
+  },
+  "Generic:Action:remove": {
+    "*": "Supprimer"
+  },
   "ViewUnitConversion:shortTitle": {
     "*": "Conversion d'unités"
   },
   "ViewUnitConversion:title": {
     "*": "Conversion d'unités"
   },
-  "Pressure:label": {
+  "ViewUnitConversion:Label:pressure": {
     "*": "Pression"
   },
-  "Volume:label": {
+  "ViewUnitConversion:Label:volume": {
     "*": "Volume"
   },
-  "Temperature:label": {
+  "ViewUnitConversion:Label:temperature": {
     "*": "Température"
   },
-  "Gravity:label": {
+  "ViewUnitConversion:Label:gravity": {
     "*": "Densité"
   },
   "ViewAlcool:shortTitle": {
