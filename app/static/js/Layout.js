@@ -32,7 +32,7 @@ class Layout {
   }
 
   openMenu ($root) {
-    const menu = new Brique(`<div class="absolute inset-0 bg-main text-white overflow-y-auto p-2 flex flex-col items-center">
+    const menu = new Brique(`<div class="absolute inset-0 text-white overflow-y-auto p-2 flex flex-col items-center bg-black/80 backdrop-blur-sm" data-var="overlay">
       <div class="flex flex-col items-center gap-2" data-var="menu">
         <button class="bg-red-700 hover:bg-transparent hover:text-red-700 focus:bg-transparent focus:text-red-700 rounded p-2 w-full text-xl flex gap-2 items-center justify-center h-12" data-var="close">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
@@ -49,6 +49,7 @@ class Layout {
     }
 
     menu.addEventListener('close', 'click', closeMenu)
+    menu.addEventListener('overlay', 'click', closeMenu)
 
     this.getViewList().forEach((view) => {
       const button = new Brique(`<button class="bg-amber-500 hover:bg-transparent hover:text-amber-500 focus:bg-transparent focus:text-amber-500 rounded p-2 w-full text-xl h-12" data-var="${view.key}">${view.label}</button>`)
@@ -63,7 +64,7 @@ class Layout {
   renderUnitList ($root) {
     this.layout.empty('unitList');
 
-    ['volume', 'pressure', 'gravity', 'temperature', 'length'].forEach((type) => {
+    ['pressure', 'gravity', 'volume', 'temperature', 'length'].forEach((type) => {
       const unit = this.getUnit(type)
       const button = new Brique(`<button
           class="bg-amber-500 hover:bg-transparent hover:text-amber-500 focus:bg-transparent focus:text-amber-500 rounded w-14 md:w-20 h-16"
@@ -81,7 +82,7 @@ class Layout {
   }
 
   openUnitMenu ($root, type) {
-    const menu = new Brique(`<div class="absolute inset-0 bg-main text-white overflow-y-auto p-2 flex flex-col items-center">
+    const menu = new Brique(`<div class="absolute inset-0 text-white overflow-y-auto p-2 flex flex-col items-center bg-black/80 backdrop-blur-sm" data-var="overlay">
       <div class="flex flex-col items-center gap-2" data-var="menu">
         <button class="bg-red-700 hover:bg-transparent hover:text-red-700 focus:bg-transparent focus:text-red-700 rounded p-2 w-full text-xl flex gap-2 items-center justify-center h-12" data-var="close">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
@@ -98,6 +99,7 @@ class Layout {
     }
 
     menu.addEventListener('close', 'click', closeMenu)
+    menu.addEventListener('overlay', 'click', closeMenu)
 
     this.getUnitList(type).forEach((value) => {
       const button = new Brique(`<button class="bg-amber-500 hover:bg-transparent hover:text-amber-500 focus:bg-transparent focus:text-amber-500 rounded p-2 w-full text-xl h-12" data-var="action">${value.label}</button>`)

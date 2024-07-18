@@ -5,6 +5,9 @@
   "Bieristo is a website app to pilot brewing systems based on Raspberry Pi cards.": {
     "*": "Bieristo est une application web pour piloter des système de brassage basé sur des cartes Raspberry Pi."
   },
+  "Confirm:default": {
+    "*": "Êtes-vous certain ?"
+  },
   "Menu:title": {
     "*": "MENU"
   },
@@ -79,6 +82,12 @@
   },
   "Generic:Action:remove": {
     "*": "Supprimer"
+  },
+  "Generic:no": {
+    "*": "Non"
+  },
+  "Generic:yes": {
+    "*": "Oui"
   },
   "ViewUnitConversion:shortTitle": {
     "*": "Conversion d'unités"

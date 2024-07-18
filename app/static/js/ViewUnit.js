@@ -2,6 +2,7 @@
 
 import Brique from './Brique.js'
 import Translator from './Translator.js'
+import Confirm from './Confirm.js'
 
 class ViewUnit {
   constructor ($content, getUnit, getHistory, addHistory, removeHistory, clearHistory) {
@@ -19,7 +20,7 @@ class ViewUnit {
                 <input type="number" autocomplete="off" id="pressure" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="pressure">
                 <div class="pointer-events-none" data-var="pressureUnit">${this.getUnit('pressure').shortLabel}</div>
               </div>
-              <div class="flex items-center w-1/2 gap-2" data-var="pressureResult">
+              <div class="flex items-center w-1/2 gap-2 overflow-x-auto" data-var="pressureResult">
               </div>
             </div>
           </div>
@@ -30,7 +31,7 @@ class ViewUnit {
                 <input type="number" autocomplete="off" id="volume" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="volume">
                 <div class="pointer-events-none" data-var="volumeUnit">${this.getUnit('volume').shortLabel}</div>
               </div>
-              <div class="flex items-center w-1/2 gap-2" data-var="volumeResult">
+              <div class="flex items-center w-1/2 gap-2 overflow-x-auto" data-var="volumeResult">
                 <div class="bg-cyan-950 rounded-md p-2">
                   89 gal
                 </div>
@@ -47,7 +48,7 @@ class ViewUnit {
                 <input type="number" autocomplete="off" id="gravity" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="gravity">
                 <div class="pointer-events-none" data-var="gravityUnit">${this.getUnit('gravity').shortLabel}</div>
               </div>
-              <div class="flex items-center w-1/2 gap-2" data-var="gravityResult">
+              <div class="flex items-center w-1/2 gap-2 overflow-x-auto" data-var="gravityResult">
                 <div class="bg-cyan-950 rounded-md p-2">
                   89 gal
                 </div>
@@ -64,7 +65,7 @@ class ViewUnit {
                 <input type="number" autocomplete="off" id="temperature" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="temperature">
                 <div class="pointer-events-none" data-var="temperatureUnit">${this.getUnit('temperature').shortLabel}</div>
               </div>
-              <div class="flex items-center w-1/2 gap-2" data-var="temperatureResult">
+              <div class="flex items-center w-1/2 gap-2 overflow-x-auto" data-var="temperatureResult">
                 <div class="bg-cyan-950 rounded-md p-2">
                   89 gal
                 </div>
@@ -247,8 +248,9 @@ class ViewUnit {
           </button>
         </li>`)
         .addEventListener('remove', 'click', () => {
-          this.removeHistory(key)
-          this.renderHistory()
+          new Confirm
+          //this.removeHistory(key)
+          //this.renderHistory()
         })
         .addEventListener('copy', 'click', () => {
           this.view.get(history.type).value = history.value
