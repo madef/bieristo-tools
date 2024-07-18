@@ -68,7 +68,7 @@ class Layout {
       const unit = this.getUnit(type)
       const button = new Brique(`<button
           class="bg-amber-500 hover:bg-transparent hover:text-amber-500 focus:bg-transparent focus:text-amber-500 rounded w-14 md:w-20 h-16"
-          aria-label="${Translator.__(`Menu:Unit:Label:${type}`, {value: unit.label})}"
+          aria-label="${Translator.__(`Menu:Unit:Label:${type}`, { value: unit.label })}"
           data-var="action"
         >
           <div class="text-xl md:text-2xl font-black">${unit.shortLabel}</div>
@@ -91,7 +91,7 @@ class Layout {
           ${Translator.__('Menu:close')}
         </button>
       </div>
-    </div>`);
+    </div>`)
     menu.appendTo($root)
 
     const closeMenu = () => {

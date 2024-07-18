@@ -143,7 +143,7 @@ class ViewUnit {
 
     const unit = this.getUnit(type)
     const convert = unit.convert(value)
-    let resultTextList = []
+    const resultTextList = []
     let history = ''
     switch (type) {
       case 'temperature':
@@ -218,8 +218,8 @@ class ViewUnit {
     }
 
     resultTextList.forEach((result) => {
-        this.view.append(`${type}Result`, new Brique(`<div class="bg-cyan-950 rounded-md p-2">${result}</div>`))
-    });
+      this.view.append(`${type}Result`, new Brique(`<div class="bg-cyan-950 rounded-md p-2">${result}</div>`))
+    })
 
     $unit.innerText = `${unit.shortLabel}`
   }
@@ -248,9 +248,9 @@ class ViewUnit {
           </button>
         </li>`)
         .addEventListener('remove', 'click', () => {
-          new Confirm
-          //this.removeHistory(key)
-          //this.renderHistory()
+          new Confirm() // eslint-disable-line no-new
+          // this.removeHistory(key)
+          // this.renderHistory()
         })
         .addEventListener('copy', 'click', () => {
           this.view.get(history.type).value = history.value
