@@ -112,5 +112,20 @@
   },
   "ViewVolume:shortTitle": {
     "*": "Calcul des volumes"
+  },
+  "ViewVolume:Label:diameter": {
+    "*": "Diamètre"
+  },
+  "ViewVolume:Label:bottomHeight": {
+    "*": "Hauteur du faux fond"
+  },
+  "ViewVolume:Label:tankHeight": {
+    "*": "Hauteur du moût"
+  },
+  "ViewVolume:Label:totalVolume": {
+    "*": "Volume total"
+  },
+  "History:Confirm:remove": {
+    "*": "Voulez-vous supprimer l'entrée « %entry% » de l'historique ?"
   }
 }

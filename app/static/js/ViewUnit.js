@@ -5,8 +5,9 @@ import Translator from './Translator.js'
 import Confirm from './Confirm.js'
 
 class ViewUnit {
-  constructor ($content, getUnit, getHistory, addHistory, removeHistory, clearHistory) {
+  constructor ($content, getUnit, setUnit, getHistory, addHistory, removeHistory) {
     this.getUnit = getUnit
+    this.setUnit = setUnit
     this.getHistory = getHistory
     this.removeHistory = removeHistory
     this.addHistory = addHistory
@@ -32,12 +33,6 @@ class ViewUnit {
                 <div class="pointer-events-none" data-var="volumeUnit">${this.getUnit('volume').shortLabel}</div>
               </div>
               <div class="flex items-center w-1/2 gap-2 overflow-x-auto" data-var="volumeResult">
-                <div class="bg-cyan-950 rounded-md p-2">
-                  89 gal
-                </div>
-                <div class="bg-cyan-950 rounded-md p-2">
-                  89 Gal
-                </div>
               </div>
             </div>
           </div>
@@ -49,12 +44,6 @@ class ViewUnit {
                 <div class="pointer-events-none" data-var="gravityUnit">${this.getUnit('gravity').shortLabel}</div>
               </div>
               <div class="flex items-center w-1/2 gap-2 overflow-x-auto" data-var="gravityResult">
-                <div class="bg-cyan-950 rounded-md p-2">
-                  89 gal
-                </div>
-                <div class="bg-cyan-950 rounded-md p-2">
-                  89 Gal
-                </div>
               </div>
             </div>
           </div>
@@ -66,12 +55,6 @@ class ViewUnit {
                 <div class="pointer-events-none" data-var="temperatureUnit">${this.getUnit('temperature').shortLabel}</div>
               </div>
               <div class="flex items-center w-1/2 gap-2 overflow-x-auto" data-var="temperatureResult">
-                <div class="bg-cyan-950 rounded-md p-2">
-                  89 gal
-                </div>
-                <div class="bg-cyan-950 rounded-md p-2">
-                  89 Gal
-                </div>
               </div>
             </div>
           </div>
@@ -83,10 +66,8 @@ class ViewUnit {
 
     this.setDefaultValue()
 
-    document.addEventListener('unitChange', () => {
-      ['temperature', 'pressure', 'volume', 'gravity'].forEach((type) => {
-        this.updateResult(type)
-      })
+    document.addEventListener('unitChange', (e) => {
+      this.updateResult(e.unit, 'staged')
     });
 
     ['temperature', 'pressure', 'volume', 'gravity'].forEach((type) => {
@@ -203,13 +184,13 @@ class ViewUnit {
     }
 
     if (typeof status !== 'undefined') {
-      this.cleanLastStagedHistory(type)
-
       const lastHistory = this.getLastHistory(type)
-      if (!lastHistory || lastHistory.value !== value) {
+      this.cleanLastStagedHistory(type)
+      if (!lastHistory || lastHistory.status === 'staged' || lastHistory.value !== value || lastHistory.unit !== unit.code) {
         this.addHistory({
           type,
           value,
+          unit: unit.code,
           status,
           display: history
         })
@@ -248,12 +229,19 @@ class ViewUnit {
           </button>
         </li>`)
         .addEventListener('remove', 'click', () => {
-          new Confirm() // eslint-disable-line no-new
-          // this.removeHistory(key)
-          // this.renderHistory()
+          new Confirm( // eslint-disable-line no-new
+            (code) => {
+              if (code === 1) {
+                this.removeHistory(key)
+                this.renderHistory()
+              }
+            },
+            Translator.__('History:Confirm:remove', { entry: history.display })
+          )
         })
         .addEventListener('copy', 'click', () => {
           this.view.get(history.type).value = history.value
+          this.setUnit(history.type, history.unit)
           this.updateResult(history.type)
         })
       this.view.append('history', historyLine)

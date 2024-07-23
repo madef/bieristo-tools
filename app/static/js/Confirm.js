@@ -5,6 +5,8 @@ import Translator from './Translator.js'
 
 class Confirm {
   constructor (callback, confirmSentence, options) {
+    this.callback = callback
+
     if (typeof confirmSentence === 'undefined') {
       confirmSentence = Translator.__('Confirm:default')
     }
@@ -28,6 +30,7 @@ class Confirm {
     const proceed = (e, value) => {
       e.stopPropagation()
       console.log('proceed', value)
+      this.callback(value)
       popin.remove()
     }
 

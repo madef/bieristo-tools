@@ -55,6 +55,19 @@ class Brique {
     throw new InvalidNodeIdentifier(`Invalid identifier ${identifier}`)
   }
 
+  forEach (identifier, callback) {
+      console.log('forEach', identifier, callback);
+    for (const $child of this.getChildren()) {
+      if ($child.getAttribute(this.varAttribute) === identifier) {
+        callback($child)
+      }
+
+      $child.querySelectorAll(`[${this.varAttribute}=${identifier}]`).forEach($node => callback($node))
+    }
+
+    return this
+  }
+
   appendTo (node, identifier) {
     let children = this.getChildren()
 

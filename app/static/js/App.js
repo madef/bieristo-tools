@@ -4,6 +4,7 @@ import Translator from './Translator.js'
 import Layout from './Layout.js'
 import LayoutBleuScreenOfDeath from './LayoutBleuScreenOfDeath.js'
 import ViewUnit from './ViewUnit.js'
+import ViewVolume from './ViewVolume.js'
 import InvalidUnitIdentifier from './Exception/InvalidUnitIdentifier.js'
 import InvalidUnitCode from './Exception/InvalidUnitCode.js'
 
@@ -28,19 +29,23 @@ class App {
       })
       .catch((e) => {
         new LayoutBleuScreenOfDeath($root, e.message) // eslint-disable-line no-new
+        console.error(e)
       })
   }
 
   setCurrentView (view) {
-    this.currentView = view
+    localStorage.setItem('currentView', view) // eslint-disable-line no-undef
     this.loadCurrentView()
   }
 
   getCurrentView () {
-    if (typeof this.currentView === 'undefined') {
+    const currentView = localStorage.getItem('currentView') // eslint-disable-line no-undef
+
+    if (!currentView) {
       return this.getViewList()[0].key
     }
-    return this.currentView
+
+    return currentView
   }
 
   getViewList () {
@@ -61,17 +66,13 @@ class App {
   }
 
   loadCurrentView () {
-    if (this.currentView === this.getCurrentView()) {
-      return
-    }
-
-    this.currentView = this.getCurrentView()
     this.layout.emptyContent()
     switch (this.getCurrentView()) {
       case 'UNIT':
         return new ViewUnit(
           this.$content,
           (type) => { return this.getUnit(type) },
+          (type, code) => { return this.setUnit(type, code) },
           () => {
             return this.getViewHistory()
           },
@@ -80,9 +81,21 @@ class App {
           },
           (historyKey) => {
             this.removeViewHistory(historyKey)
-          },
+          }
+        )
+      case 'VOLUME':
+        return new ViewVolume(
+          this.$content,
+          (type) => { return this.getUnit(type) },
+          (type, code) => { return this.setUnit(type, code) },
           () => {
-            this.clearViewHistory()
+            return this.getViewHistory()
+          },
+          (historyItem) => {
+            this.addViewHistory(historyItem)
+          },
+          (historyKey) => {
+            this.removeViewHistory(historyKey)
           }
         )
       case 'ALCOOL':
@@ -94,21 +107,8 @@ class App {
           (historyItem) => {
             this.addViewHistory(historyItem)
           },
-          () => {
-            this.clearViewHistory()
-          }
-        )
-      case 'VOLUME':
-        return new ViewVolume(
-          this.$content,
-          () => {
-            return this.getViewHistory()
-          },
-          (historyItem) => {
-            this.addViewHistory(historyItem)
-          },
-          () => {
-            this.clearViewHistory()
+          (historyKey) => {
+            this.removeViewHistory(historyKey)
           }
         )
       default:
@@ -168,6 +168,7 @@ class App {
       if (unit.code === code) {
         localStorage.setItem(`UNIT_${type}`, code) // eslint-disable-line no-undef
         const event = new Event('unitChange', { bubbles: true, cancelable: false })
+        event.unit = type
         document.dispatchEvent(event)
         return
       }
@@ -188,6 +189,12 @@ class App {
               L: unit,
               G: unit * 0.264172
             }
+          },
+          unconvert: unit => {
+            return {
+              L: unit,
+              G: unit / 0.264172
+            }
           }
         },
         {
@@ -197,6 +204,12 @@ class App {
           convert: unit => {
             return {
               L: unit / 0.264172,
+              G: unit
+            }
+          },
+          unconvert: unit => {
+            return {
+              L: unit * 0.264172,
               G: unit
             }
           }
@@ -220,7 +233,7 @@ class App {
           code: 'PSI',
           convert: unit => {
             return {
-              B: 14.5038 / unit,
+              B: unit / 14.5038,
               PSI: unit
             }
           }
