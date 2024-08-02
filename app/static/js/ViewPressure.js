@@ -308,6 +308,7 @@ class ViewPressure {
 
       const values = [
         this.getCurrentStyle().code,
+        temperature,
         min,
         max
       ]
@@ -353,8 +354,9 @@ class ViewPressure {
     const lastHistory = this.getLastHistory()
     if (lastHistory) {
       this.view.get('style').value = lastHistory.values[0]
-      this.view.get('min').value = lastHistory.values[1]
-      this.view.get('max').value = lastHistory.values[2]
+      this.view.get('temperature').value = lastHistory.values[1]
+      this.view.get('min').value = lastHistory.values[2]
+      this.view.get('max').value = lastHistory.values[3]
     }
     this.updateResult()
   }
@@ -374,9 +376,10 @@ class ViewPressure {
       this.view.get('history'),
       this.history,
       (historyRow) => {
-        this.view.get('temperature').value = historyRow.values[0]
-        this.view.get('min').value = historyRow.values[1]
-        this.view.get('max').value = historyRow.values[2]
+        this.view.get('style').value = historyRow.values[0]
+        this.view.get('temperature').value = historyRow.values[1]
+        this.view.get('min').value = historyRow.values[2]
+        this.view.get('max').value = historyRow.values[3]
         this.unit.set('temperature', historyRow.units[0])
         this.unit.set('pressure', historyRow.units[1])
         this.updateResult()
