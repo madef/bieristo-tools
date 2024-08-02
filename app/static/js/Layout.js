@@ -61,9 +61,9 @@ class Layout {
 
     this.view.getList().forEach((view) => {
       const button = new Brique(`<button
-        class="w-20 flex flex-col justify-center gap-1 group"
+        class="w-20 flex flex-col justify-center items-center gap-1 group"
         data-var="${view.key}"
-        aria-label=${view.label}"
+        aria-label="${view.label}"
         title="${view.label}"
       >
         ${view.icon}
