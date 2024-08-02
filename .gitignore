@@ -1,2 +1,2 @@
 ﻿app/static/css/style.min.css
-docker/docker-composer.override.yml
+docker/docker-compose.override.yml
