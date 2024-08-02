@@ -38,7 +38,7 @@ class Layout {
     const menu = new Brique(`<div class="absolute inset-0 text-white overflow-y-auto p-4 flex items-start bg-black/80 backdrop-blur-sm z-10" data-var="overlay">
       <div class="flex flex-wrap gap-4 justify-center md:justify-start items-start" data-var="menu">
         <button
-          class="w-20 flex flex-col justify-center gap-1 group"
+          class="w-20 flex flex-col justify-center items-center gap-1 group"
           data-var="close"
           aria-label=${Translator.__('Menu:close')}"
           title="${Translator.__('Menu:close')}"
