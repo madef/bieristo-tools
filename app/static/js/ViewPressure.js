@@ -236,6 +236,7 @@ class ViewPressure {
     const unitPressure = this.unit.get('pressure')
 
     this.view.get('temperatureUnit').innerText = unitTemperature.shortLabel
+    this.view.forEach('pressureUnit', $unit => { $unit.innerText = unitPressure.shortLabel })
 
     if (isNaN(min)) {
       if (status !== 'staged') {
@@ -244,10 +245,14 @@ class ViewPressure {
 
       min = 1.5
     } else if (min < 1.5) {
-      this.view.get('min').value = '1.5'
+      if (status !== 'staged') {
+        this.view.get('min').value = '1.5'
+      }
       min = 1.5
     } else if (min > 4.3) {
-      this.view.get('min').value = '4.3'
+      if (status !== 'staged') {
+        this.view.get('min').value = '4.3'
+      }
       min = 4.3
     }
 
@@ -258,10 +263,14 @@ class ViewPressure {
 
       max = 4.3
     } else if (max < 1.5 || max < min) {
-      this.view.get('max').value = min
+      if (status !== 'staged') {
+        this.view.get('max').value = min
+      }
       max = min
     } else if (max > 4.3) {
-      this.view.get('max').value = 4.3
+      if (status !== 'staged') {
+        this.view.get('max').value = 4.3
+      }
       max = 4.3
     }
 
@@ -272,10 +281,14 @@ class ViewPressure {
 
       temperature = 8
     } else if (temperature < 2) {
-      this.view.get('temperature').value = '2'
+      if (status !== 'staged') {
+        this.view.get('temperature').value = '2'
+      }
       temperature = 2
     } else if (temperature > 30) {
-      this.view.get('temperature').value = '30'
+      if (status !== 'staged') {
+        this.view.get('temperature').value = '30'
+      }
       temperature = 30
     }
 
