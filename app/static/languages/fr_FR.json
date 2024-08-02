@@ -2,9 +2,6 @@
   "AppTitle": {
     "*": "Outils de brassage - Bieristo"
   },
-  "Bieristo is a website app to pilot brewing systems based on Raspberry Pi cards.": {
-    "*": "Bieristo est une application web pour piloter des système de brassage basé sur des cartes Raspberry Pi."
-  },
   "Confirm:default": {
     "*": "Êtes-vous certain ?"
   },
@@ -89,29 +86,245 @@
   "Generic:yes": {
     "*": "Oui"
   },
-  "ViewUnitConversion:shortTitle": {
-    "*": "Conversion d'unités"
+  "Generic:ok": {
+    "*": "OK"
   },
-  "ViewUnitConversion:title": {
-    "*": "Conversion d'unités"
+  "ViewCells:shortTitle": {
+    "*": "Levure"
   },
-  "ViewUnitConversion:Label:pressure": {
-    "*": "Pression"
+  "ViewCells:title": {
+    "*": "Calcul des levures"
   },
-  "ViewUnitConversion:Label:volume": {
-    "*": "Volume"
+  "ViewSugar:shortTitle": {
+    "*": "Resucrage"
   },
-  "ViewUnitConversion:Label:temperature": {
+  "ViewSugar:title": {
+    "*": "Calcul du taux de resucrage"
+  },
+  "ViewPressure:shortTitle": {
+    "*": "Carbo"
+  },
+  "ViewPressure:title": {
+    "*": "Carbonation forcée"
+  },
+  "ViewPressure:Style:bri": {
+    "*": "Ale Britannique"
+  },
+  "ViewPressure:Style:double": {
+    "*": "Double Belge"
+  },
+  "ViewPressure:Style:ipa": {
+    "*": "India Pale Ale"
+  },
+  "ViewPressure:Style:barleywine": {
+    "*": "Barley wine"
+  },
+  "ViewPressure:Style:strong": {
+    "*": "Strong / Old / Brown Ale (UK), Strong Scotch Ale"
+  },
+  "ViewPressure:Style:stout-porter": {
+    "*": "Stout & Porter"
+  },
+  "ViewPressure:Style:belge": {
+    "*": "Ale Belge"
+  },
+  "ViewPressure:Style:lager-eu": {
+    "*": "Lager Européenne"
+  },
+  "ViewPressure:Style:vienna": {
+    "*": "Vienna Lager"
+  },
+  "ViewPressure:Style:lambic": {
+    "*": "Lambic"
+  },
+  "ViewPressure:Style:american": {
+    "*": "Ale & Lager américan"
+  },
+  "ViewPressure:Style:cream-oktoberfest": {
+    "*": "Oktoberfest"
+  },
+  "ViewPressure:Style:marzen": {
+    "*": "Marzen"
+  },
+  "ViewPressure:Style:gueuze": {
+    "*": "Gueuze"
+  },
+  "ViewPressure:Style:german-ble": {
+    "*": "Bière de blé Allemande"
+  },
+  "ViewPressure:Style:belge-ble": {
+    "*": "Bière de blé Belge"
+  },
+  "ViewPressure:Style:altbier": {
+    "*": "Altbier"
+  },
+  "ViewPressure:Style:apa": {
+    "*": "Américan Pale Ale"
+  },
+  "ViewPressure:Label:style": {
+    "*": "Style de bière"
+  },
+  "ViewPressure:Label:min": {
+    "*": "Min"
+  },
+  "ViewPressure:Label:max": {
+    "*": "Max"
+  },
+  "ViewPressure:Label:temperature": {
     "*": "Température"
   },
-  "ViewUnitConversion:Label:gravity": {
+  "ViewPressure:Label:pressureMin": {
+    "*": "Pression minimale"
+  },
+  "ViewPressure:Label:pressureMax": {
+    "*": "Pression maximale"
+  },
+  "ViewPressure:Unit:co2": {
+    "*": "CO2 Res."
+  },
+  "ViewPressure:History:display": {
+    "*": "[%style%] min: %min%, max: %max% à %temperature%%unitTemperature% => pression de %pressureMin% à %pressureMax% (%unitPressure%)"
+  },
+  "View:shortTitle": {
+    "*": "Unités"
+  },
+  "View:title": {
+    "*": "Conversion d'unités"
+  },
+  "ViewUnit:shortTitle": {
+    "*": "Unités"
+  },
+  "ViewUnit:title": {
+    "*": "Conversion d'unités"
+  },
+  "ViewUnit:Label:pressure": {
+    "*": "Pression"
+  },
+  "ViewUnit:Label:volume": {
+    "*": "Volume"
+  },
+  "ViewUnit:Label:temperature": {
+    "*": "Température"
+  },
+  "ViewUnit:Label:gravity": {
     "*": "Densité"
   },
-  "ViewAlcool:shortTitle": {
+  "ViewAlcool:title": {
     "*": "Calcul des taux d'alcool"
   },
-  "ViewVolume:shortTitle": {
+  "ViewAlcool:shortTitle": {
+    "*": "Alcool"
+  },
+  "ViewAlcool:Label:mode": {
+    "*": "Utiliser le réfractomètre"
+  },
+  "ViewAlcool:Label:di": {
+    "*": "Densité initiale"
+  },
+  "ViewAlcool:Label:df": {
+    "*": "Densité finale"
+  },
+  "ViewAlcool:Label:sugar": {
+    "*": "Sucre ajouté"
+  },
+  "ViewAlcool:History:refractometer": {
+    "*": "[Réfractomètre] DI: %di%%unit%, DF: %df%%unit% (%dfAjusted%), Alcool %abv%%"
+  },
+  "ViewAlcool:History:classical": {
+    "*": "[Densimètre] DI: %di%%unit%, DF: %df%%unit%, Alcool %abv%%"
+  },
+  "ViewAlcool:Label:total": {
+    "*": "Taux d'alcool"
+  },
+  "ViewVolume:title": {
     "*": "Calcul des volumes"
+  },
+  "ViewClean:shortTitle": {
+    "*": "Nettoyant"
+  },
+  "ViewClean:San:label": {
+    "*": "SAN"
+  },
+  "ViewClean:San:unit": {
+    "*": "ml"
+  },
+  "ViewClean:Pwb:label": {
+    "*": "PWB"
+  },
+  "ViewClean:Pwb:unit": {
+    "*": "g"
+  },
+  "ViewClean:Oxy:label": {
+    "*": "OXY"
+  },
+  "ViewClean:Oxy:unit": {
+    "*": "g"
+  },
+  "ViewClean:Wash:label": {
+    "*": "WASH"
+  },
+  "ViewClean:Wash:unit": {
+    "*": "g"
+  },
+  "ViewClean:Cip:label": {
+    "*": "CIP"
+  },
+  "ViewClean:Cip:unit": {
+    "*": "ml"
+  },
+  "ViewClean:Acid:label": {
+    "*": "ACIDE"
+  },
+  "ViewClean:Acid:unit": {
+    "*": "ml"
+  },
+  "ViewClean:title": {
+    "*": "Dosage des nettoyants"
+  },
+  "ViewTemperature:shortTitle": {
+    "*": "Température"
+  },
+  "ViewTemperature:title": {
+    "*": "Correction de température"
+  },
+  "ViewTemperature:Label:temperature": {
+    "*": "Température"
+  },
+  "ViewTemperature:Label:gravity": {
+    "*": "Densité"
+  },
+  "ViewTemperature:Label:total": {
+    "*": "Total"
+  },
+  "ViewTemperature:History:display": {
+    "*": "Densité: %gravity%%unitGravity%, Température: %temperature%%unitTemperature% => %ajustedGravity%"
+  },
+  "ViewNote:shortTitle": {
+    "*": "Carnet"
+  },
+  "ViewNote:title": {
+    "*": "Carnet de notes"
+  },
+  "ViewNote:label": {
+    "*": "Note"
+  },
+  "ViewNote:submit": {
+    "*": "Ajouter"
+  },
+  "ViewNote:copy": {
+    "*": "Copier l'historique"
+  },
+  "ViewNote:remove": {
+    "*": "Vider l'historique"
+  },
+  "ViewNote:Confirm:remove": {
+    "*": "Confirmez-vous vouloir supprimer l'ensemble de l'historique"
+  },
+  "ViewNote:Confirm:copy": {
+    "*": "L'historique a été copié dans le presse-papier."
+  },
+  "ViewVolume:shortTitle": {
+    "*": "Volumes"
   },
   "ViewVolume:Label:diameter": {
     "*": "Diamètre"

@@ -2,57 +2,60 @@
 
 import Brique from './Brique.js'
 import Translator from './Translator.js'
-import Confirm from './Confirm.js'
+import BlockHistory from './BlockHistory.js'
+import History from './History.js'
+import Unit from './Unit.js'
 
 class ViewUnit {
-  constructor ($content, getUnit, setUnit, getHistory, addHistory, removeHistory) {
-    this.getUnit = getUnit
-    this.setUnit = setUnit
-    this.getHistory = getHistory
-    this.removeHistory = removeHistory
-    this.addHistory = addHistory
+  constructor ($content) {
+    this.history = new History('ViewUnit')
+
+    this.unit = Unit.getInstance()
+    this.unit.addChangeObserver('view', (unitType) => {
+      this.updateResult(unitType, 'staged')
+    })
 
     this.view = new Brique(`<div class="flex flex-col gap-4">
         <div class="grid md:grid-cols-2 gap-2">
           <div>
-            <label for="pressure" class="block text-sm font-medium leading-6">${Translator.__('ViewUnitConversion:Label:pressure')}</label>
+            <label for="pressure" class="block text-sm font-medium leading-6">${Translator.__('ViewUnit:Label:pressure')}</label>
             <div class="relative mt-2 rounded-md shadow-sm flex gap-2">
               <div class="flex w-1/2 items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
                 <input type="number" autocomplete="off" id="pressure" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="pressure">
-                <div class="pointer-events-none" data-var="pressureUnit">${this.getUnit('pressure').shortLabel}</div>
+                <div class="pointer-events-none" data-var="pressureUnit">${this.unit.get('pressure').shortLabel}</div>
               </div>
               <div class="flex items-center w-1/2 gap-2 overflow-x-auto" data-var="pressureResult">
               </div>
             </div>
           </div>
           <div>
-            <label for="volume" class="block text-sm font-medium leading-6">${Translator.__('ViewUnitConversion:Label:volume')}</label>
+            <label for="volume" class="block text-sm font-medium leading-6">${Translator.__('ViewUnit:Label:volume')}</label>
             <div class="relative mt-2 rounded-md shadow-sm flex gap-2">
               <div class="flex w-1/2 items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
                 <input type="number" autocomplete="off" id="volume" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="volume">
-                <div class="pointer-events-none" data-var="volumeUnit">${this.getUnit('volume').shortLabel}</div>
+                <div class="pointer-events-none" data-var="volumeUnit">${this.unit.get('volume').shortLabel}</div>
               </div>
               <div class="flex items-center w-1/2 gap-2 overflow-x-auto" data-var="volumeResult">
               </div>
             </div>
           </div>
           <div>
-            <label for="gravity" class="block text-sm font-medium leading-6">${Translator.__('ViewUnitConversion:Label:gravity')}</label>
+            <label for="gravity" class="block text-sm font-medium leading-6">${Translator.__('ViewUnit:Label:gravity')}</label>
             <div class="relative mt-2 rounded-md shadow-sm flex gap-2">
               <div class="flex w-1/2 items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
                 <input type="number" autocomplete="off" id="gravity" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="gravity">
-                <div class="pointer-events-none" data-var="gravityUnit">${this.getUnit('gravity').shortLabel}</div>
+                <div class="pointer-events-none" data-var="gravityUnit">${this.unit.get('gravity').shortLabel}</div>
               </div>
               <div class="flex items-center w-1/2 gap-2 overflow-x-auto" data-var="gravityResult">
               </div>
             </div>
           </div>
           <div>
-            <label for="temperature" class="block text-sm font-medium leading-6">${Translator.__('ViewUnitConversion:Label:temperature')}</label>
+            <label for="temperature" class="block text-sm font-medium leading-6">${Translator.__('ViewUnit:Label:temperature')}</label>
             <div class="relative mt-2 rounded-md shadow-sm flex gap-2">
               <div class="flex w-1/2 items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
                 <input type="number" autocomplete="off" id="temperature" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="temperature">
-                <div class="pointer-events-none" data-var="temperatureUnit">${this.getUnit('temperature').shortLabel}</div>
+                <div class="pointer-events-none" data-var="temperatureUnit">${this.unit.get('temperature').shortLabel}</div>
               </div>
               <div class="flex items-center w-1/2 gap-2 overflow-x-auto" data-var="temperatureResult">
               </div>
@@ -62,13 +65,7 @@ class ViewUnit {
         <ul data-var="history" class="border border-zinc-700 rounded">
         </ul>
       </div>`)
-      .appendTo($content)
-
-    this.setDefaultValue()
-
-    document.addEventListener('unitChange', (e) => {
-      this.updateResult(e.unit, 'staged')
-    });
+      .appendTo($content, true);
 
     ['temperature', 'pressure', 'volume', 'gravity'].forEach((type) => {
       this.view.addEventListener(type, ['keyup', 'change'], (e) => {
@@ -77,6 +74,7 @@ class ViewUnit {
     })
 
     this.renderHistory()
+    this.setDefaultValue()
   }
 
   setDefaultValue () {
@@ -90,7 +88,7 @@ class ViewUnit {
   }
 
   getLastHistory (type) {
-    for (const history of this.getHistory()) {
+    for (const history of this.history.get()) {
       if (history.type === type) {
         return history
       }
@@ -100,12 +98,12 @@ class ViewUnit {
   }
 
   cleanLastStagedHistory (type) {
-    const historyList = this.getHistory()
+    const historyList = this.history.get()
     for (const historyKey in historyList) {
       const history = historyList[historyKey]
       if (history.type === type) {
         if (history.status === 'staged') {
-          this.removeHistory(historyKey)
+          this.history.removeRow(historyKey)
         }
         return
       }
@@ -122,7 +120,7 @@ class ViewUnit {
       return
     }
 
-    const unit = this.getUnit(type)
+    const unit = this.unit.get(type)
     const convert = unit.convert(value)
     const resultTextList = []
     let history = ''
@@ -187,14 +185,13 @@ class ViewUnit {
       const lastHistory = this.getLastHistory(type)
       this.cleanLastStagedHistory(type)
       if (!lastHistory || lastHistory.status === 'staged' || lastHistory.value !== value || lastHistory.unit !== unit.code) {
-        this.addHistory({
+        this.history.addRow({
           type,
           value,
           unit: unit.code,
           status,
           display: history
         })
-        this.renderHistory()
       }
     }
 
@@ -210,42 +207,15 @@ class ViewUnit {
   }
 
   renderHistory () {
-    this.view.empty('history')
-
-    this.getHistory().forEach((history, key) => {
-      const historyLine = new Brique(`<li class="flex flex-wrap odd:bg-box even:bg-zinc-800 p-4 justify-center md:justify-between items-center gap-2">
-          <div class="grow w-full md:w-auto text-center md:text-left">${history.display}</div>
-          <button class="bg-cyan-700 hover:bg-transparent hover:text-cyan-700 focus:bg-transparent focus:text-cyan-700 rounded flex items-center p-2" data-var="copy">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
-            </svg>
-            ${Translator.__('Generic:Action:copy')}
-          </button>
-          <button class="bg-red-700 hover:bg-transparent hover:text-red-700 focus:bg-transparent focus:text-red-700 rounded flex items-center p-2" data-var="remove">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-            </svg>
-            ${Translator.__('Generic:Action:remove')}
-          </button>
-        </li>`)
-        .addEventListener('remove', 'click', () => {
-          new Confirm( // eslint-disable-line no-new
-            (code) => {
-              if (code === 1) {
-                this.removeHistory(key)
-                this.renderHistory()
-              }
-            },
-            Translator.__('History:Confirm:remove', { entry: history.display })
-          )
-        })
-        .addEventListener('copy', 'click', () => {
-          this.view.get(history.type).value = history.value
-          this.setUnit(history.type, history.unit)
-          this.updateResult(history.type)
-        })
-      this.view.append('history', historyLine)
-    })
+    new BlockHistory( // eslint-disable-line no-new
+      this.view.get('history'),
+      this.history,
+      (historyRow) => {
+        this.view.get(historyRow.type).value = historyRow.value
+        this.unit.set(historyRow.type, historyRow.unit)
+        this.updateResult(historyRow.type)
+      }
+    )
   }
 
   getContent () {

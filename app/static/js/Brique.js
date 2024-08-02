@@ -56,7 +56,6 @@ class Brique {
   }
 
   forEach (identifier, callback) {
-      console.log('forEach', identifier, callback);
     for (const $child of this.getChildren()) {
       if ($child.getAttribute(this.varAttribute) === identifier) {
         callback($child)
@@ -68,11 +67,17 @@ class Brique {
     return this
   }
 
-  appendTo (node, identifier) {
+  appendTo (node, identifier, empty) {
     let children = this.getChildren()
 
     if (typeof identifier === 'string') {
       children = [this.get(identifier)]
+    } else if (typeof identifier === 'boolean') {
+      empty = identifier
+    }
+
+    if (typeof empty === 'boolean' && empty) {
+      node.replaceChildren()
     }
 
     for (const $child of children) {

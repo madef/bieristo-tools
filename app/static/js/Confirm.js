@@ -29,12 +29,11 @@ class Confirm {
 
     const proceed = (e, value) => {
       e.stopPropagation()
-      console.log('proceed', value)
       this.callback(value)
       popin.remove()
     }
 
-    const popin = new Brique(`<div class="absolute inset-0 text-white overflow-y-auto p-2 flex flex-col justify-center items-center bg-black/80 backdrop-blur-sm" data-var="overlay">
+    const popin = new Brique(`<div class="absolute inset-0 text-white overflow-y-auto p-2 flex flex-col justify-center items-center bg-black/80 backdrop-blur-sm z-10" data-var="overlay">
         <div class="flex flex-col items-center max-w-2xl w-full flex p-4 gap-6" data-var="popin">
           <p class="text-2xl">${confirmSentence}</p>
           <div data-var="actions" class="flex justify-between w-full gap-4 flex-wrap"></div>
