@@ -22,7 +22,41 @@ class View {
         description: Translator.__('ViewUnit:title'),
         icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="size-20 p-2 rounded bg-amber-500 group-hover:text-amber-500 group-hover:bg-transparent group-focus:text-amber-500 group-focus:bg-transparent" aria-hidden="true">
   <path d="M1 0a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h5v-1H2v-1h4v-1H4v-1h2v-1H2v-1h4V9H4V8h2V7H2V6h4V2h1v4h1V4h1v2h1V2h1v4h1V4h1v2h1V2h1v4h1V1a1 1 0 0 0-1-1z"/>
+</svg>`,
+        children: [
+          {
+            key: 'pressure',
+            label: Translator.__('ViewUnit:Pressure:shortTitle'),
+            description: Translator.__('ViewUnit:Pressure:title'),
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="size-20 p-2 rounded bg-amber-500 group-hover:text-amber-500 group-hover:bg-transparent group-focus:text-amber-500 group-focus:bg-transparent" aria-hidden="true">
+  <path d="M1 0a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h5v-1H2v-1h4v-1H4v-1h2v-1H2v-1h4V9H4V8h2V7H2V6h4V2h1v4h1V4h1v2h1V2h1v4h1V4h1v2h1V2h1v4h1V1a1 1 0 0 0-1-1z"/>
 </svg>`
+          },
+          {
+            key: 'volume',
+            label: Translator.__('ViewUnit:Volume:shortTitle'),
+            description: Translator.__('ViewUnit:Volume:title'),
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="size-20 p-2 rounded bg-amber-500 group-hover:text-amber-500 group-hover:bg-transparent group-focus:text-amber-500 group-focus:bg-transparent" aria-hidden="true">
+  <path d="M1 0a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h5v-1H2v-1h4v-1H4v-1h2v-1H2v-1h4V9H4V8h2V7H2V6h4V2h1v4h1V4h1v2h1V2h1v4h1V4h1v2h1V2h1v4h1V1a1 1 0 0 0-1-1z"/>
+</svg>`
+          },
+          {
+            key: 'temperature',
+            label: Translator.__('ViewUnit:Temperature:shortTitle'),
+            description: Translator.__('ViewUnit:Temperature:title'),
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="size-20 p-2 rounded bg-amber-500 group-hover:text-amber-500 group-hover:bg-transparent group-focus:text-amber-500 group-focus:bg-transparent" aria-hidden="true">
+  <path d="M1 0a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h5v-1H2v-1h4v-1H4v-1h2v-1H2v-1h4V9H4V8h2V7H2V6h4V2h1v4h1V4h1v2h1V2h1v4h1V4h1v2h1V2h1v4h1V1a1 1 0 0 0-1-1z"/>
+</svg>`
+          },
+          {
+            key: 'gravity',
+            label: Translator.__('ViewUnit:Gravity:shortTitle'),
+            description: Translator.__('ViewUnit:Gravity:title'),
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="size-20 p-2 rounded bg-amber-500 group-hover:text-amber-500 group-hover:bg-transparent group-focus:text-amber-500 group-focus:bg-transparent" aria-hidden="true">
+  <path d="M1 0a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h5v-1H2v-1h4v-1H4v-1h2v-1H2v-1h4V9H4V8h2V7H2V6h4V2h1v4h1V4h1v2h1V2h1v4h1V4h1v2h1V2h1v4h1V1a1 1 0 0 0-1-1z"/>
+</svg>`
+          },
+        ]
       },
       {
         key: 'VOLUME',
@@ -97,8 +131,8 @@ class View {
     ]
   }
 
-  set (view) {
-    this.load(view)
+  set (view, subview) {
+    this.load(view, subview)
   }
 
   get () {
@@ -111,7 +145,7 @@ class View {
     return view
   }
 
-  load (view) {
+  load (view, subview) {
     if (!view) {
       view = this.get()
     }
@@ -119,7 +153,8 @@ class View {
     switch (view) {
       case 'UNIT':
         this.currentViewInstance = new ViewUnit(
-          this.$root
+          this.$root,
+          subview
         )
         break
       case 'VOLUME':
@@ -157,6 +192,7 @@ class View {
     }
 
     localStorage.setItem('view', view) // eslint-disable-line no-undef
+    localStorage.setItem('subview', subview) // eslint-disable-line no-undef
   }
 }
 

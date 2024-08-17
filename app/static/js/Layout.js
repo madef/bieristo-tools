@@ -70,10 +70,65 @@ class Layout {
         <div class="text-sm text-amber-500 group-hover:text-white group-focus:text-white">${view.label}</div>
       </button>`)
         .addEventListener(view.key, 'click', () => {
-          this.view.load(view.key)
           closeMenu()
+
+          if (typeof view.children !== 'undefined') {
+            this.openSubmenu($root, view)
+          } else {
+            this.view.load(view.key)
+          }
         })
       menu.append('menu', button)
+    })
+  }
+
+  openSubmenu ($root, view) {
+    const submenu = new Brique(`<div class="absolute inset-0 text-white overflow-y-auto p-4 flex items-start bg-black/80 backdrop-blur-sm z-10" data-var="overlay">
+      <div class="flex flex-wrap gap-4 justify-center md:justify-start items-start" data-var="menu">
+        <button
+          class="w-20 flex flex-col justify-center items-center gap-1 group"
+          data-var="back"
+          aria-label=${Translator.__('Menu:back')}"
+          title="${Translator.__('Menu:back')}"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-20 rounded bg-red-700 group-hover:text-red-700 group-hover:bg-transparent group-focus:text-red-700 group-focus:bg-transparent" aria-hidder="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+          <div class="text-sm text-red-700 group-hover:text-white group-focus:text-white">${Translator.__('Menu:back')}</div>
+        </button>
+      </div>
+    </div>`)
+    submenu.appendTo($root)
+
+    const closeMenu = (e) => {
+      e.stopPropagation()
+      e.preventDefault()
+      submenu.remove()
+    }
+
+    const back = (e) => {
+      closeMenu(e)
+      this.openMenu($root)
+    }
+
+    submenu.addEventListener('back', 'click', back)
+    submenu.addEventListener('overlay', 'click', back)
+
+    view.children.forEach((subview) => {
+      const button = new Brique(`<button
+        class="w-20 flex flex-col justify-center items-center gap-1 group"
+        data-var="${subview.key}"
+        aria-label="${subview.label}"
+        title="${subview.label}"
+      >
+        ${subview.icon}
+        <div class="text-sm text-amber-500 group-hover:text-white group-focus:text-white">${subview.label}</div>
+      </button>`)
+        .addEventListener(subview.key, 'click', (e) => {
+          this.view.load(view.key, subview.key)
+          closeMenu(e)
+        })
+      submenu.append('menu', button)
     })
   }
 

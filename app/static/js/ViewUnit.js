@@ -7,58 +7,44 @@ import History from './History.js'
 import Unit from './Unit.js'
 
 class ViewUnit {
-  constructor ($content) {
-    this.history = new History('ViewUnit')
+  constructor ($content, subview) {
+    switch (subview) {
+      case 'volume':
+         this.unitType = 'volume'
+         break;
+      case 'gravity':
+         this.unitType = 'gravity'
+         break;
+      case 'temperature':
+         this.unitType = 'temperature'
+         break;
+      default:
+         this.unitType = 'pressure'
+         break;
+    }
+
+    this.history = new History('ViewUnit:' + this.unitType)
 
     this.unit = Unit.getInstance()
     this.unit.addChangeObserver('view', (unitType) => {
-      this.updateResult(unitType, 'staged')
+      if (this.unitType === unitType) {
+        this.updateResult('staged')
+      }
     })
 
     this.view = new Brique(`<div class="flex flex-col gap-4">
-        <div class="grid md:grid-cols-2 gap-2">
-          <div>
-            <label for="pressure" class="block text-sm font-medium leading-6">${Translator.__('ViewUnit:Label:pressure')}</label>
-            <div class="relative mt-2 rounded-md shadow-sm flex gap-2">
-              <div class="flex w-1/2 items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <input type="number" autocomplete="off" id="pressure" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="pressure">
-                <div class="pointer-events-none" data-var="pressureUnit">${this.unit.get('pressure').shortLabel}</div>
-              </div>
-              <div class="flex items-center w-1/2 gap-2 overflow-x-auto" data-var="pressureResult">
-              </div>
-            </div>
-          </div>
-          <div>
-            <label for="volume" class="block text-sm font-medium leading-6">${Translator.__('ViewUnit:Label:volume')}</label>
-            <div class="relative mt-2 rounded-md shadow-sm flex gap-2">
-              <div class="flex w-1/2 items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <input type="number" autocomplete="off" id="volume" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="volume">
-                <div class="pointer-events-none" data-var="volumeUnit">${this.unit.get('volume').shortLabel}</div>
-              </div>
-              <div class="flex items-center w-1/2 gap-2 overflow-x-auto" data-var="volumeResult">
+        <div>
+          <label for="${this.unitType}" class="block text-sm font-medium leading-6">${Translator.__(`ViewUnit:Label:${this.unitType}`)}</label>
+          <div class="grid md:grid-cols-2 gap-2">
+            <div>
+              <div class="relative rounded-md shadow-sm flex gap-2">
+                <div class="flex w-full items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
+                  <input type="number" autocomplete="off" id="${this.unitType}" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="value">
+                  <div class="pointer-events-none" data-var="unit">${this.unit.get(this.unitType).shortLabel}</div>
+                </div>
               </div>
             </div>
-          </div>
-          <div>
-            <label for="gravity" class="block text-sm font-medium leading-6">${Translator.__('ViewUnit:Label:gravity')}</label>
-            <div class="relative mt-2 rounded-md shadow-sm flex gap-2">
-              <div class="flex w-1/2 items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <input type="number" autocomplete="off" id="gravity" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="gravity">
-                <div class="pointer-events-none" data-var="gravityUnit">${this.unit.get('gravity').shortLabel}</div>
-              </div>
-              <div class="flex items-center w-1/2 gap-2 overflow-x-auto" data-var="gravityResult">
-              </div>
-            </div>
-          </div>
-          <div>
-            <label for="temperature" class="block text-sm font-medium leading-6">${Translator.__('ViewUnit:Label:temperature')}</label>
-            <div class="relative mt-2 rounded-md shadow-sm flex gap-2">
-              <div class="flex w-1/2 items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <input type="number" autocomplete="off" id="temperature" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="temperature">
-                <div class="pointer-events-none" data-var="temperatureUnit">${this.unit.get('temperature').shortLabel}</div>
-              </div>
-              <div class="flex items-center w-1/2 gap-2 overflow-x-auto" data-var="temperatureResult">
-              </div>
+            <div class="flex items-center gap-2 overflow-x-auto" data-var="result">
             </div>
           </div>
         </div>
@@ -67,10 +53,8 @@ class ViewUnit {
       </div>`)
       .appendTo($content, true);
 
-    ['temperature', 'pressure', 'volume', 'gravity'].forEach((type) => {
-      this.view.addEventListener(type, ['keyup', 'change'], (e) => {
-        this.updateResult(type, e.type === 'change' ? 'final' : 'staged')
-      })
+    this.view.addEventListener('value', ['keyup', 'change'], (e) => {
+      this.updateResult(e.type === 'change' ? 'final' : 'staged')
     })
 
     this.renderHistory()
@@ -78,53 +62,47 @@ class ViewUnit {
   }
 
   setDefaultValue () {
-    ['temperature', 'pressure', 'volume', 'gravity'].forEach((type) => {
-      const lastHistory = this.getLastHistory(type)
-      if (lastHistory) {
-        this.view.get(type).value = lastHistory.value
-        this.updateResult(type)
-      }
-    })
+    const lastHistory = this.getLastHistory()
+    if (lastHistory) {
+      this.view.get('value').value = lastHistory.value
+      this.updateResult()
+    }
   }
 
-  getLastHistory (type) {
+  getLastHistory () {
     for (const history of this.history.get()) {
-      if (history.type === type) {
-        return history
-      }
+      return history
     }
 
     return null
   }
 
-  cleanLastStagedHistory (type) {
+  cleanLastStagedHistory () {
     const historyList = this.history.get()
     for (const historyKey in historyList) {
       const history = historyList[historyKey]
-      if (history.type === type) {
-        if (history.status === 'staged') {
-          this.history.removeRow(historyKey)
-        }
-        return
+      if (history.status === 'staged') {
+        this.history.removeRow(historyKey)
       }
+      return
     }
   }
 
-  updateResult (type, status) {
-    const value = parseFloat(this.view.get(type).value)
-    const $unit = this.view.get(`${type}Unit`)
+  updateResult (status) {
+    const value = parseFloat(this.view.get('value').value)
+    const $unit = this.view.get(`unit`)
 
-    this.view.empty(`${type}Result`)
+    this.view.empty(`result`)
 
     if (isNaN(value)) {
       return
     }
 
-    const unit = this.unit.get(type)
+    const unit = this.unit.get(this.unitType)
     const convert = unit.convert(value)
     const resultTextList = []
     let history = ''
-    switch (type) {
+    switch (this.unitType) {
       case 'temperature':
         switch (unit.code) {
           case 'C':
@@ -182,11 +160,10 @@ class ViewUnit {
     }
 
     if (typeof status !== 'undefined') {
-      const lastHistory = this.getLastHistory(type)
-      this.cleanLastStagedHistory(type)
+      const lastHistory = this.getLastHistory()
+      this.cleanLastStagedHistory()
       if (!lastHistory || lastHistory.status === 'staged' || lastHistory.value !== value || lastHistory.unit !== unit.code) {
         this.history.addRow({
-          type,
           value,
           unit: unit.code,
           status,
@@ -196,7 +173,7 @@ class ViewUnit {
     }
 
     resultTextList.forEach((result) => {
-      this.view.append(`${type}Result`, new Brique(`<div class="bg-cyan-950 rounded-md p-2">${result}</div>`))
+      this.view.append('result', new Brique(`<div class="bg-cyan-950 rounded-md p-2">${result}</div>`))
     })
 
     $unit.innerText = `${unit.shortLabel}`
@@ -211,9 +188,9 @@ class ViewUnit {
       this.view.get('history'),
       this.history,
       (historyRow) => {
-        this.view.get(historyRow.type).value = historyRow.value
-        this.unit.set(historyRow.type, historyRow.unit)
-        this.updateResult(historyRow.type)
+        this.view.get('value').value = historyRow.value
+        this.unit.set(this.unitType, historyRow.unit)
+        this.updateResult()
       }
     )
   }

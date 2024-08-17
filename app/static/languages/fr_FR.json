@@ -41,6 +41,9 @@
   "Menu:close": {
     "*": "Fermer"
   },
+  "Menu:back": {
+    "*": "Retour"
+  },
   "Unit:L": {
     "*": "Litre"
   },
@@ -196,6 +199,30 @@
   },
   "ViewUnit:title": {
     "*": "Conversion d'unités"
+  },
+  "ViewUnit:Pressure:shortTitle": {
+    "*": "Pression"
+  },
+  "ViewUnit:Pressure:title": {
+    "*": "Pression"
+  },
+  "ViewUnit:Volume:shortTitle": {
+    "*": "Volume"
+  },
+  "ViewUnit:Volume:title": {
+    "*": "Volume"
+  },
+  "ViewUnit:Gravity:shortTitle": {
+    "*": "Densité"
+  },
+  "ViewUnit:Gravity:title": {
+    "*": "Densité"
+  },
+  "ViewUnit:Temperature:shortTitle": {
+    "*": "Température"
+  },
+  "ViewUnit:Temperature:title": {
+    "*": "Température"
   },
   "ViewUnit:Label:pressure": {
     "*": "Pression"
