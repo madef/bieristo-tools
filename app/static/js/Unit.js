@@ -193,6 +193,12 @@ class Unit {
               C: unit,
               F: 9 / 5 * unit + 32
             }
+          },
+          unconvert: unit => {
+            return {
+              C: unit,
+              F: (unit - 32) * 5 / 9
+            }
           }
         },
         {
@@ -202,6 +208,12 @@ class Unit {
           convert: unit => {
             return {
               C: (unit - 32) * 5 / 9,
+              F: unit
+            }
+          },
+          unconvert: unit => {
+            return {
+              C: 9 / 5 * unit + 32,
               F: unit
             }
           }

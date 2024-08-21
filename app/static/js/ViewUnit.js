@@ -44,7 +44,7 @@ class ViewUnit {
                 </div>
               </div>
             </div>
-            <div class="flex items-center gap-2 overflow-x-auto" data-var="result">
+            <div class="flex flex-wrap md:flex-nowrap items-center gap-2 overflow-x-auto" data-var="result">
             </div>
           </div>
         </div>
@@ -100,64 +100,76 @@ class ViewUnit {
 
     const unit = this.unit.get(this.unitType)
     const convert = unit.convert(value)
+    const unconvert = unit.unconvert(value)
     const resultTextList = []
-    let history = ''
+    const altResultTextList = []
     switch (this.unitType) {
       case 'temperature':
         switch (unit.code) {
           case 'C':
-            resultTextList.push(`${this.round(convert.F)}°F`)
+            resultTextList.push(`${value}°C → ${this.round(convert.F)}°F`)
+            altResultTextList.push(`${value}°F → ${this.round(unconvert.F)}°C`)
             break
           case 'F':
-            resultTextList.push(`${this.round(convert.C)}°C`)
+            resultTextList.push(`${value}°F → ${this.round(convert.C)}°C`)
+            altResultTextList.push(`${value}°C → ${this.round(unconvert.C)}°F`)
             break
         }
 
-        history = `${value}${unit.shortLabel} = ${resultTextList.join(', ')}`
         break
       case 'pressure':
         switch (unit.code) {
           case 'B':
-            resultTextList.push(`${this.round(convert.PSI)} PSI`)
+            resultTextList.push(`${value}Bar → ${this.round(convert.PSI)}PSI`)
+            altResultTextList.push(`${value}PSI → ${this.round(unconvert.PSI)}Bar`)
             break
           case 'PSI':
-            resultTextList.push(`${this.round(convert.B)} Bar`)
+            resultTextList.push(`${value}PSI → ${this.round(convert.B)}Bar`)
+            altResultTextList.push(`${value}Bar → ${this.round(unconvert.B)}PSI`)
             break
         }
 
-        history = `${value} ${unit.shortLabel} = ${resultTextList.join(', ')}`
         break
       case 'volume':
         switch (unit.code) {
           case 'L':
-            resultTextList.push(`${this.round(convert.G)} Gal`)
+            resultTextList.push(`${value}L → ${this.round(convert.G)}Gal`)
+            altResultTextList.push(`${value}Gal → ${this.round(unconvert.G)}L`)
             break
           case 'G':
-            resultTextList.push(`${this.round(convert.L)} L`)
+            resultTextList.push(`${value}Gal → ${this.round(convert.L)}L`)
+            altResultTextList.push(`${value}L → ${this.round(unconvert.L)}Gal`)
             break
         }
 
-        history = `${value} ${unit.shortLabel} = ${resultTextList.join(', ')}`
         break
       case 'gravity':
         switch (unit.code) {
           case 'SG':
-            resultTextList.push(`${this.round(convert.P)}°P`)
-            resultTextList.push(`${this.round(convert.B)}°Bx`)
+            resultTextList.push(`${value} SG → ${this.round(convert.P)}°P`)
+            resultTextList.push(`${value} SG → ${this.round(convert.B)}°Bx`)
+            altResultTextList.push(`${value}°P → ${this.round(unconvert.P)} SG`)
+            altResultTextList.push(`${value}°Bx → ${this.round(unconvert.B)} SG`)
+            console.log(unconvert);
             break
           case 'P':
-            resultTextList.push(`${this.round(convert.SG, 3)}°SG`)
-            resultTextList.push(`${this.round(convert.B)}°Bx`)
+            resultTextList.push(`${value}°P → ${this.round(convert.SG)}SG`)
+            resultTextList.push(`${value}°P → ${this.round(convert.B)}°Bx`)
+            altResultTextList.push(`${value}SG → ${this.round(unconvert.SG)}°P`)
+            altResultTextList.push(`${value}°Bx → ${this.round(unconvert.B)}°P`)
             break
           case 'B':
-            resultTextList.push(`${this.round(convert.SG, 3)}°SG`)
-            resultTextList.push(`${this.round(convert.P)}°P`)
+            resultTextList.push(`${value}°Bx → ${this.round(convert.SG)}SG`)
+            resultTextList.push(`${value}°Bx → ${this.round(convert.P)}°P`)
+            altResultTextList.push(`${value}SG → ${this.round(unconvert.SG)}°Bx`)
+            altResultTextList.push(`${value}°Bx → ${this.round(unconvert.P)}°P`)
             break
         }
 
-        history = `${value} ${unit.shortLabel} = ${resultTextList.join(', ')}`
         break
     }
+
+    const history = `${resultTextList.concat(altResultTextList).join(', ')}`
 
     if (typeof status !== 'undefined') {
       const lastHistory = this.getLastHistory()
@@ -173,7 +185,11 @@ class ViewUnit {
     }
 
     resultTextList.forEach((result) => {
-      this.view.append('result', new Brique(`<div class="bg-cyan-950 rounded-md p-2">${result}</div>`))
+      this.view.append('result', new Brique(`<div class="w-full md:w-auto bg-cyan-950 rounded-md p-2">${result}</div>`))
+    })
+
+    altResultTextList.forEach((result) => {
+      this.view.append('result', new Brique(`<div class="w-full md:w-auto bg-green-800 rounded-md p-2">${result}</div>`))
     })
 
     $unit.innerText = `${unit.shortLabel}`
