@@ -2,6 +2,7 @@
 
 import ViewAlcool from './ViewAlcool.js'
 import ViewClean from './ViewClean.js'
+import ViewImport from './ViewImport.js'
 import ViewNote from './ViewNote.js'
 import ViewPressure from './ViewPressure.js'
 import ViewTemperature from './ViewTemperature.js'
@@ -54,10 +55,14 @@ class View {
             key: 'gravity',
             label: Translator.__('ViewUnit:Gravity:shortTitle'),
             description: Translator.__('ViewUnit:Gravity:title'),
-            icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="size-20 p-2 rounded bg-amber-500 group-hover:text-amber-500 group-hover:bg-transparent group-focus:text-amber-500 group-focus:bg-transparent" aria-hidden="true">
-  <path d="M1 0a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h5v-1H2v-1h4v-1H4v-1h2v-1H2v-1h4V9H4V8h2V7H2V6h4V2h1v4h1V4h1v2h1V2h1v4h1V4h1v2h1V2h1v4h1V1a1 1 0 0 0-1-1z"/>
+            icon: `<svg fill="currentColor" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 296 296" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 296 296" class="size-20 p-2 rounded bg-amber-500 group-hover:text-amber-500 group-hover:bg-transparent group-focus:text-amber-500 group-focus:bg-transparent" aria-hidden="true">
+  <g>
+    <g>
+      <path d="m197.5,264.465v-211.797l17.333-52.668h-115.333v264.295l-67,15.705v16h115.829 0.669 114.502v-16l-66-15.535zm-16-83.465v16h-66v-16h66zm-66-17v-16h33v16h-33zm33,50v16h-33v-16h33zm33-83h-66v-16h66v16zm-33-33h-33v-16h33v16zm44.333-82h0.065l-10.301,31.947-.363,1.053h-66.734v-33h77.333z"/>
+    </g>
+  </g>
 </svg>`
-          },
+          }
         ]
       },
       {
@@ -80,7 +85,33 @@ class View {
         description: Translator.__('ViewAlcool:title'),
         icon: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="size-20 rounded bg-amber-500 group-hover:text-amber-500 group-hover:bg-transparent group-focus:text-amber-500 group-focus:bg-transparent" aria-hidden="true">
   <path d="M13.442 2.558a.625.625 0 0 1 0 .884l-10 10a.625.625 0 1 1-.884-.884l10-10a.625.625 0 0 1 .884 0M4.5 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5m7 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
+</svg>`,
+        children: [
+          {
+            key: 'densimeter',
+            label: Translator.__('ViewAlcool:Densimeter:shortTitle'),
+            description: Translator.__('ViewAlcool:Densimeter:title'),
+            icon: `<svg fill="currentColor" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 296 296" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 296 296" class="size-20 p-2 rounded bg-amber-500 group-hover:text-amber-500 group-hover:bg-transparent group-focus:text-amber-500 group-focus:bg-transparent" aria-hidden="true">
+  <g>
+    <g>
+      <path d="m197.5,264.465v-211.797l17.333-52.668h-115.333v264.295l-67,15.705v16h115.829 0.669 114.502v-16l-66-15.535zm-16-83.465v16h-66v-16h66zm-66-17v-16h33v16h-33zm33,50v16h-33v-16h33zm33-83h-66v-16h66v16zm-33-33h-33v-16h33v16zm44.333-82h0.065l-10.301,31.947-.363,1.053h-66.734v-33h77.333z"/>
+    </g>
+  </g>
 </svg>`
+          },
+          {
+            key: 'refractometer',
+            label: Translator.__('ViewAlcool:Refractometer:shortTitle'),
+            description: Translator.__('ViewAlcool:Refractometer:title'),
+            icon: `<svg fill="currentColor" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+  viewBox="0 0 260 260" enable-background="new 0 0 260 260" xml:space="preserve"  class="size-20 p-2 rounded bg-amber-500 group-hover:text-amber-500 group-hover:bg-transparent group-focus:text-amber-500 group-focus:bg-transparent" aria-hidden="true">
+<path d="M186.662,212.515l-52.247-52.247l25.853-25.853l52.247,52.247l0.101,25.954L186.662,212.515z M258,243.369l-21.847-21.847
+  l-0.173-44.632L117.796,58.698l14.771-14.771l-22.16-22.16L95.563,36.611l-22.23-22.23c-16.319-16.318-42.776-16.318-59.094,0
+  c-16.318,16.319-16.318,42.776,0,59.094L36.5,95.674l-14.733,14.733l22.16,22.16l14.771-14.771L176.89,235.98l44.346,0.172
+  l21.99,21.99L258,243.369z M69.777,106.717l36.94-36.94L220.34,183.4l0.14,37.08l-37.08-0.14L69.777,106.717z"/>
+</svg>`
+          }
+        ]
       },
       {
         key: 'TEMPERATURE',
@@ -105,6 +136,14 @@ class View {
   <path d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
   <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
   <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+</svg>`
+      },
+      {
+        key: 'IMPORT',
+        label: Translator.__('ViewImport:shortTitle'),
+        description: Translator.__('ViewImport:title'),
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="size-20 p-2 rounded bg-amber-500 group-hover:text-amber-500 group-hover:bg-transparent group-focus:text-amber-500 group-focus:bg-transparent" aria-hidden="true">
+  <path d="M8.5 1.5A1.5 1.5 0 0 1 10 0h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h6c-.314.418-.5.937-.5 1.5v6h-2a.5.5 0 0 0-.354.854l2.5 2.5a.5.5 0 0 0 .708 0l2.5-2.5A.5.5 0 0 0 10.5 7.5h-2z"/>
 </svg>`
       }/*,
       {
@@ -172,7 +211,8 @@ class View {
         break
       case 'ALCOOL':
         this.currentViewInstance = new ViewAlcool(
-          this.$root
+          this.$root,
+          subview
         )
         break
       case 'TEMPERATURE':
@@ -187,6 +227,11 @@ class View {
         break
       case 'NOTE':
         this.currentViewInstance = new ViewNote(
+          this.$root
+        )
+        break
+      case 'IMPORT':
+        this.currentViewInstance = new ViewImport(
           this.$root
         )
         break

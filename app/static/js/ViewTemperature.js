@@ -181,10 +181,6 @@ class ViewTemperature {
   round (number, precision = 2) {
     return Math.round(number * Math.pow(10, precision)) / Math.pow(10, precision)
   }
-
-  getContent () {
-    return this.layout.get('content')
-  }
 }
 
 export default ViewTemperature

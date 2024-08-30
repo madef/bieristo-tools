@@ -190,10 +190,6 @@ class ViewVolume {
       }
     )
   }
-
-  getContent () {
-    return this.layout.get('content')
-  }
 }
 
 export default ViewVolume

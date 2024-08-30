@@ -63,8 +63,8 @@ class Layout {
       const button = new Brique(`<button
         class="w-20 flex flex-col justify-center items-center gap-1 group"
         data-var="${view.key}"
-        aria-label="${view.label}"
-        title="${view.label}"
+        aria-label="${view.description}"
+        title="${view.description}"
       >
         ${view.icon}
         <div class="text-sm text-amber-500 group-hover:text-white group-focus:text-white">${view.label}</div>
@@ -120,8 +120,8 @@ class Layout {
       const button = new Brique(`<button
         class="w-20 flex flex-col justify-center items-center gap-1 group"
         data-var="${subview.key}"
-        aria-label="${subview.label}"
-        title="${subview.label}"
+        aria-label="${subview.description}"
+        title="${subview.description}"
       >
         ${subview.icon}
         <div class="text-sm text-amber-500 group-hover:text-white group-focus:text-white">${subview.label}</div>

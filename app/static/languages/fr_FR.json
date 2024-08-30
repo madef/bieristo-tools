@@ -8,6 +8,33 @@
   "Menu:title": {
     "*": "MENU"
   },
+  "ViewImport:shortTitle": {
+    "*": "Sauvegarder"
+  },
+  "ViewImport:title": {
+    "*": "Importer ou exporter l'historique"
+  },
+  "ViewImport:filename": {
+    "*": "sauvegarde"
+  },
+  "ViewImport:save": {
+    "*": "Sauvegarder la configuration"
+  },
+  "ViewImport:open": {
+    "*": "Charger une configuration"
+  },
+  "ViewImport:remove": {
+    "*": "Supprimer les données locales"
+  },
+  "ViewImport:Confirm:remove": {
+    "*": "Confirmez-vous vouloir supprimer l'ensemble des données locales ?"
+  },
+  "ViewImport:Error:cannotLoadFile": {
+    "*": "Le fichier n'a pas pu être chargé."
+  },
+  "ViewImport:Error:invalidSyntax": {
+    "*": "Le format du fichier est incorrect."
+  },
   "Menu:Unit:volume": {
     "*": "Volume"
   },
@@ -108,7 +135,7 @@
     "*": "Carbo"
   },
   "ViewPressure:title": {
-    "*": "Carbonation forcée"
+    "*": "Calcul de carbonation forcée"
   },
   "ViewPressure:Style:bri": {
     "*": "Ale Britannique"
@@ -204,25 +231,25 @@
     "*": "Pression"
   },
   "ViewUnit:Pressure:title": {
-    "*": "Pression"
+    "*": "Conversion des unités de pression"
   },
   "ViewUnit:Volume:shortTitle": {
     "*": "Volume"
   },
   "ViewUnit:Volume:title": {
-    "*": "Volume"
+    "*": "Conversion des unités de volume"
   },
   "ViewUnit:Gravity:shortTitle": {
     "*": "Densité"
   },
   "ViewUnit:Gravity:title": {
-    "*": "Densité"
+    "*": "Conversion des unités de densité"
   },
   "ViewUnit:Temperature:shortTitle": {
     "*": "Température"
   },
   "ViewUnit:Temperature:title": {
-    "*": "Température"
+    "*": "Conversion des unités de température"
   },
   "ViewUnit:Label:pressure": {
     "*": "Pression"
@@ -241,6 +268,18 @@
   },
   "ViewAlcool:shortTitle": {
     "*": "Alcool"
+  },
+  "ViewAlcool:Densimeter:title": {
+    "*": "Calcul du taux d'alcool avec densimètre"
+  },
+  "ViewAlcool:Densimeter:shortTitle": {
+    "*": "Densimètre"
+  },
+  "ViewAlcool:Refractometer:title": {
+    "*": "Calcul du taux d'alcool avec réfractomètre"
+  },
+  "ViewAlcool:Refractometer:shortTitle": {
+    "*": "Réfractomètre"
   },
   "ViewAlcool:Label:mode": {
     "*": "Utiliser le réfractomètre"
@@ -312,7 +351,7 @@
     "*": "Température"
   },
   "ViewTemperature:title": {
-    "*": "Correction de température"
+    "*": "Correction de la densité en fonction de la température"
   },
   "ViewTemperature:Label:temperature": {
     "*": "Température"
@@ -338,8 +377,14 @@
   "ViewNote:submit": {
     "*": "Ajouter"
   },
+  "ViewNote:download": {
+    "*": "Télécharger les notes"
+  },
   "ViewNote:copy": {
-    "*": "Copier l'historique"
+    "*": "Copier les notes"
+  },
+  "ViewNote:filename": {
+    "*": "notes-de-brassage"
   },
   "ViewNote:remove": {
     "*": "Vider l'historique"

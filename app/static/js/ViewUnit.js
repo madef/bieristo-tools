@@ -10,20 +10,20 @@ class ViewUnit {
   constructor ($content, subview) {
     switch (subview) {
       case 'volume':
-         this.unitType = 'volume'
-         break;
+        this.unitType = 'volume'
+        break
       case 'gravity':
-         this.unitType = 'gravity'
-         break;
+        this.unitType = 'gravity'
+        break
       case 'temperature':
-         this.unitType = 'temperature'
-         break;
+        this.unitType = 'temperature'
+        break
       default:
-         this.unitType = 'pressure'
-         break;
+        this.unitType = 'pressure'
+        break
     }
 
-    this.history = new History('ViewUnit:' + this.unitType)
+    this.history = new History(`ViewUnit:${this.unitType}`)
 
     this.unit = Unit.getInstance()
     this.unit.addChangeObserver('view', (unitType) => {
@@ -51,7 +51,7 @@ class ViewUnit {
         <ul data-var="history" class="border border-zinc-700 rounded">
         </ul>
       </div>`)
-      .appendTo($content, true);
+      .appendTo($content, true)
 
     this.view.addEventListener('value', ['keyup', 'change'], (e) => {
       this.updateResult(e.type === 'change' ? 'final' : 'staged')
@@ -70,8 +70,10 @@ class ViewUnit {
   }
 
   getLastHistory () {
-    for (const history of this.history.get()) {
-      return history
+    const history = this.history.get()
+
+    if (history.length) {
+      return history[0]
     }
 
     return null
@@ -90,9 +92,9 @@ class ViewUnit {
 
   updateResult (status) {
     const value = parseFloat(this.view.get('value').value)
-    const $unit = this.view.get(`unit`)
+    const $unit = this.view.get('unit')
 
-    this.view.empty(`result`)
+    this.view.empty('result')
 
     if (isNaN(value)) {
       return
@@ -150,7 +152,7 @@ class ViewUnit {
             resultTextList.push(`${value} SG → ${this.round(convert.B)}°Bx`)
             altResultTextList.push(`${value}°P → ${this.round(unconvert.P)} SG`)
             altResultTextList.push(`${value}°Bx → ${this.round(unconvert.B)} SG`)
-            console.log(unconvert);
+            console.log(unconvert)
             break
           case 'P':
             resultTextList.push(`${value}°P → ${this.round(convert.SG)}SG`)
@@ -209,10 +211,6 @@ class ViewUnit {
         this.updateResult()
       }
     )
-  }
-
-  getContent () {
-    return this.layout.get('content')
   }
 }
 

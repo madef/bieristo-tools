@@ -249,10 +249,6 @@ class ViewClean {
       }
     )
   }
-
-  getContent () {
-    return this.layout.get('content')
-  }
 }
 
 export default ViewClean
