@@ -56,11 +56,9 @@ class ViewVolume {
             </div>
           </div>
           <div>
-            <label for="totalVolume" class="block text-sm font-medium leading-6">${Translator.__('ViewVolume:Label:totalVolume')}</label>
+            <div class="block text-sm font-medium leading-6">${Translator.__('ViewVolume:Label:totalVolume')}</div>
             <div class="relative mt-2 rounded-md shadow-sm flex gap-2">
-              <div class="flex w-full md:w-1/2 items-center gap-2 rounded-md bg-cyan-950 pr-2 group hover:bg-amber-500 focus-within:bg-amber-500">
-                <input type="text" readonly autocomplete="off" id="totalVolume" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="totalVolume">
-                <div class="pointer-events-none" data-var="volumeUnit">${this.unit.get('volume').shortLabel}</div>
+              <div class="flex w-full md:w-1/2 items-center gap-2 rounded-md bg-cyan-950 py-1 px-2 text-lg" data-var="totalVolume">
               </div>
             </div>
           </div>
@@ -73,8 +71,8 @@ class ViewVolume {
     this.setDefaultValue();
 
     ['bottomHeight', 'tankHeight', 'diameter'].forEach((type) => {
-      this.view.addEventListener(type, ['keyup', 'change'], (e) => {
-        this.updateResult(e.type === 'change' ? 'final' : 'staged')
+      this.view.addEventListener(type, 'keyup', () => {
+        this.updateResult()
       })
     })
 
@@ -101,17 +99,7 @@ class ViewVolume {
     return null
   }
 
-  cleanLastStagedHistory () {
-    const historyList = this.history.get()
-    if (historyList.length) {
-      const history = historyList[0]
-      if (history.status === 'staged') {
-        this.history.removeRow(0)
-      }
-    }
-  }
-
-  updateResult (status) {
+  updateResult () {
     let bottomHeight = parseFloat(this.view.get('bottomHeight').value)
     let tankHeight = parseFloat(this.view.get('tankHeight').value)
     let diameter = parseFloat(this.view.get('diameter').value)
@@ -144,32 +132,40 @@ class ViewVolume {
 
     this.view.get('bottomVolume').value = calculVolume(bottomHeight)
     this.view.get('tankVolume').value = calculVolume(tankHeight)
-    this.view.get('totalVolume').value = this.round(total)
 
-    if (total !== 0 && typeof status !== 'undefined') {
-      const lastHistory = this.getLastHistory()
-      this.cleanLastStagedHistory()
+    this.view.empty('totalVolume')
+    this.view.append(
+      'totalVolume',
+      new Brique(`<div class="grow">${this.round(total)}</div>
+  <div>${volume.shortLabel}</div>
+  <button class="hover:text-amber-500" data-var="history-add" title="${Translator.__('Generic:Action:historyAdd')}" aria-label="${Translator.__('Generic:Action:historyAdd')}">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+    </svg>
+  </button>
+</div>`)
+    )
+      .addEventListener('history-add', 'click', () => {
+        const display = `${diameter}${length.shortLabel}  ⌀ x (${bottomHeight} + ${tankHeight}) = ${total} ${volume.shortLabel}`
+        if (!this.getLastHistory() || this.getLastHistory().display !== display) {
+          const values = [
+            bottomHeight,
+            tankHeight,
+            diameter
+          ]
 
-      const values = [
-        bottomHeight,
-        tankHeight,
-        diameter
-      ]
+          const units = [
+            length.code,
+            volume.code
+          ]
 
-      const units = [
-        length.code,
-        volume.code
-      ]
-
-      if (!lastHistory || lastHistory.status === 'staged' || lastHistory.values.toString() !== values.toString() || lastHistory.units.toString() !== units.toString()) {
-        this.history.addRow({
-          values,
-          units,
-          status,
-          display: `${diameter}${length.shortLabel}  ⌀ x (${bottomHeight} + ${tankHeight}) = ${total} ${volume.shortLabel}`
-        })
-      }
-    }
+          this.history.addRow({
+            values,
+            units,
+            display
+          })
+        }
+      })
   }
 
   round (number, precision = 2) {

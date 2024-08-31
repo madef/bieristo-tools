@@ -58,18 +58,14 @@ class ViewPressure {
           <div>
             <label for="pressureMin" class="block text-sm font-medium leading-6">${Translator.__('ViewPressure:Label:pressureMin')}</label>
             <div class="relative mt-2 rounded-md shadow-sm flex gap-2">
-              <div class="flex w-full items-center gap-2 rounded-md bg-cyan-950 pr-2 group hover:bg-amber-500 focus-within:bg-amber-500">
-                <input type="text" readonly autocomplete="off" id="pressureMin" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="pressureMin">
-                <div class="pointer-events-none" data-var="pressureUnit">${this.unit.get('pressure').shortLabel}</div>
+              <div class="flex w-full items-center gap-2 rounded-md bg-cyan-950 py-1 px-2 text-lg" data-var="pressureMin" data-var="pressureMin">
               </div>
             </div>
           </div>
           <div>
             <label for="pressureMax" class="block text-sm font-medium leading-6">${Translator.__('ViewPressure:Label:pressureMax')}</label>
             <div class="relative mt-2 rounded-md shadow-sm flex gap-2">
-              <div class="flex w-full items-center gap-2 rounded-md bg-cyan-950 pr-2 group hover:bg-amber-500 focus-within:bg-amber-500">
-                <input type="text" readonly autocomplete="off" id="pressureMax" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="pressureMax">
-                <div class="pointer-events-none" data-var="pressureUnit">${this.unit.get('pressure').shortLabel}</div>
+              <div class="flex w-full items-center gap-2 rounded-md bg-cyan-950 py-1 px-2 text-lg" data-var="pressureMax">
               </div>
             </div>
           </div>
@@ -85,8 +81,8 @@ class ViewPressure {
       .appendTo($content, true);
 
     ['min', 'max', 'temperature'].forEach((type) => {
-      this.view.addEventListener(type, ['keyup', 'change'], (e) => {
-        this.updateResult(e.type === 'change' ? 'final' : 'staged')
+      this.view.addEventListener(type, 'keyup', () => {
+        this.updateResult()
       })
     })
 
@@ -238,58 +234,33 @@ class ViewPressure {
     this.view.get('temperatureUnit').innerText = unitTemperature.shortLabel
     this.view.forEach('pressureUnit', $unit => { $unit.innerText = unitPressure.shortLabel })
 
-    if (isNaN(min)) {
-      if (status !== 'staged') {
+    if (!isNaN(min)) {
+      if (min < 1.5) {
         this.view.get('min').value = '1.5'
-      }
-
-      min = 1.5
-    } else if (min < 1.5) {
-      if (status !== 'staged') {
-        this.view.get('min').value = '1.5'
-      }
-      min = 1.5
-    } else if (min > 4.3) {
-      if (status !== 'staged') {
+        min = 1.5
+      } else if (min > 4.3) {
         this.view.get('min').value = '4.3'
+        min = 4.3
       }
-      min = 4.3
     }
 
-    if (isNaN(max)) {
-      if (status !== 'staged') {
-        this.view.get('max').value = '4.3'
-      }
-
-      max = 4.3
-    } else if (max < 1.5 || max < min) {
-      if (status !== 'staged') {
-        this.view.get('max').value = min
-      }
-      max = min
-    } else if (max > 4.3) {
-      if (status !== 'staged') {
+    if (!isNaN(max)) {
+      if (max < 1.5 || max < min) {
+        max = min
+      } else if (max > 4.3) {
         this.view.get('max').value = 4.3
+        max = 4.3
       }
-      max = 4.3
     }
 
-    if (isNaN(temperature) || temperature < 2) {
-      if (status !== 'staged') {
-        this.view.get('temperature').value = '8'
-      }
-
-      temperature = 8
-    } else if (temperature < 2) {
-      if (status !== 'staged') {
+    if (!isNaN(temperature)) {
+      if (temperature < 2) {
         this.view.get('temperature').value = '2'
-      }
-      temperature = 2
-    } else if (temperature > 30) {
-      if (status !== 'staged') {
+        temperature = 2
+      } else if (temperature > 30) {
         this.view.get('temperature').value = '30'
+        temperature = 30
       }
-      temperature = 30
     }
 
     const minRes = min * 1.98 // Convert to g/l
@@ -312,13 +283,39 @@ class ViewPressure {
       2
     )
 
-    this.view.get('pressureMin').value = pressureMin
-    this.view.get('pressureMax').value = pressureMax
+    this.view.empty('pressureMin')
+    this.view.append(
+      'pressureMin',
+      new Brique(`<div class="grow">${pressureMin}</div>
+  <div>${unitPressure.shortLabel}</div>
+  <button class="hover:text-amber-500" data-var="history-add" title="${Translator.__('Generic:Action:historyAdd')}" aria-label="${Translator.__('Generic:Action:historyAdd')}">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+    </svg>
+  </button>
+</div>`)
+        .addEventListener('history-add', 'click', () => {
+          addToHistory()
+        })
+    )
 
-    if (typeof status !== 'undefined') {
-      const lastHistory = this.getLastHistory()
-      this.cleanLastStagedHistory()
+    this.view.empty('pressureMax')
+    this.view.append(
+      'pressureMax',
+      new Brique(`<div class="grow">${pressureMax}</div>
+  <div>${unitPressure.shortLabel}</div>
+  <button class="hover:text-amber-500" data-var="history-add" title="${Translator.__('Generic:Action:historyAdd')}" aria-label="${Translator.__('Generic:Action:historyAdd')}">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+    </svg>
+  </button>
+</div>`)
+        .addEventListener('history-add', 'click', () => {
+          addToHistory()
+        })
+    )
 
+    const addToHistory = () => {
       const values = [
         this.getCurrentStyle().code,
         temperature,
@@ -331,22 +328,21 @@ class ViewPressure {
         unitPressure.code
       ]
 
-      if (!lastHistory || lastHistory.status === 'staged' || lastHistory.values.toString() !== values.toString() || lastHistory.units.toString() !== units.toString()) {
-        const display = Translator.__('ViewPressure:History:display', {
-          style: this.getCurrentStyle().label,
-          temperature,
-          min,
-          max,
-          pressureMin,
-          pressureMax,
-          unitPressure: unitPressure.shortLabel,
-          unitTemperature: unitTemperature.shortLabel
-        })
+      const display = Translator.__('ViewPressure:History:display', {
+        style: this.getCurrentStyle().label,
+        temperature,
+        min,
+        max,
+        pressureMin,
+        pressureMax,
+        unitPressure: unitPressure.shortLabel,
+        unitTemperature: unitTemperature.shortLabel
+      })
 
+      if (!this.getLastHistory() || this.getLastHistory().display !== display) {
         this.history.addRow({
           values,
           units,
-          status,
           display
         })
       }
@@ -372,16 +368,6 @@ class ViewPressure {
       this.view.get('max').value = lastHistory.values[3]
     }
     this.updateResult()
-  }
-
-  cleanLastStagedHistory () {
-    const historyList = this.history.get()
-    if (historyList.length) {
-      const history = historyList[0]
-      if (history.status === 'staged') {
-        this.history.removeRow(0)
-      }
-    }
   }
 
   renderHistory () {

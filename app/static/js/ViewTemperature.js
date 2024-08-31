@@ -23,7 +23,7 @@ class ViewTemperature {
             <label for="gravity" class="block text-sm font-medium leading-6">${Translator.__('ViewTemperature:Label:gravity')}</label>
             <div class="relative mt-2 rounded-md shadow-sm flex gap-2">
               <div class="flex w-full items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <input type="number" autocomplete="off" id="gravity" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="gravity">
+                <input type="number" autocomplete="off" id="gravity" value="1.000" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="gravity">
                 <div class="pointer-events-none" data-var="gravityUnit">${this.unit.get('gravity').shortLabel}</div>
               </div>
             </div>
@@ -32,17 +32,15 @@ class ViewTemperature {
             <label for="temperature" class="block text-sm font-medium leading-6">${Translator.__('ViewTemperature:Label:temperature')}</label>
             <div class="relative mt-2 rounded-md shadow-sm flex gap-2">
               <div class="flex w-full items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <input type="number" autocomplete="off" id="temperature" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="temperature">
+                <input type="number" autocomplete="off" id="temperature" value="20" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="temperature">
                 <div class="pointer-events-none whitespace-nowrap" data-var="temperatureUnit">${this.unit.get('temperature').shortLabel}</div>
               </div>
             </div>
           </div>
           <div class="col-span-2">
-            <label for="total" class="block text-sm font-medium leading-6">${Translator.__('ViewTemperature:Label:total')}</label>
+            <div class="block text-sm font-medium leading-6">${Translator.__('ViewTemperature:Label:total')}</div>
             <div class="relative mt-2 rounded-md shadow-sm flex gap-2">
-              <div class="flex w-full items-center gap-2 rounded-md bg-cyan-950 pr-2 group hover:bg-amber-500 focus-within:bg-amber-500">
-                <input type="text" readonly autocomplete="off" id="total" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="total">
-                <div class="pointer-events-none" data-var="gravityUnit">${this.unit.get('gravity').shortLabel}</div>
+              <div class="flex w-full items-center gap-2 rounded-md bg-cyan-950 py-1 px-2 text-lg" data-var="total">
               </div>
             </div>
           </div>
@@ -53,8 +51,8 @@ class ViewTemperature {
       .appendTo($content, true);
 
     ['gravity', 'temperature'].forEach((type) => {
-      this.view.addEventListener(type, ['keyup', 'change'], (e) => {
-        this.updateResult(e.type === 'change' ? 'final' : 'staged')
+      this.view.addEventListener(type, 'keyup', () => {
+        this.updateResult()
       })
     })
 
@@ -67,7 +65,7 @@ class ViewTemperature {
     this.setDefaultValue()
   }
 
-  updateResult (status) {
+  updateResult () {
     let gravity = parseFloat(this.view.get('gravity').value)
     let temperature = parseFloat(this.view.get('temperature').value)
 
@@ -78,18 +76,10 @@ class ViewTemperature {
     this.view.get('temperatureUnit').innerText = unitTemperature.shortLabel
 
     if (isNaN(gravity)) {
-      if (status !== 'staged') {
-        this.view.get('gravity').value = '1.000'
-      }
-
       gravity = 1.0
     }
 
     if (isNaN(temperature)) {
-      if (status !== 'staged') {
-        this.view.get('temperature').value = '20'
-      }
-
       temperature = 20
     }
 
@@ -102,21 +92,19 @@ class ViewTemperature {
 
     this.view.get('total').value = ajustedGravity
 
-    if (typeof status !== 'undefined') {
-      const lastHistory = this.getLastHistory()
-      this.cleanLastStagedHistory()
-
-      const values = [
-        temperature,
-        gravity
-      ]
-
-      const units = [
-        unitTemperature.code,
-        unitGravity.code
-      ]
-
-      if (!lastHistory || lastHistory.status === 'staged' || lastHistory.values.toString() !== values.toString() || lastHistory.units.toString() !== units.toString()) {
+    this.view.empty('total')
+    this.view.append(
+      'total',
+      new Brique(`<div class="grow">${ajustedGravity}</div>
+  <div>${unitGravity.shortLabel}</div>
+  <button class="hover:text-amber-500" data-var="history-add" title="${Translator.__('Generic:Action:historyAdd')}" aria-label="${Translator.__('Generic:Action:historyAdd')}">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+    </svg>
+  </button>
+</div>`)
+    )
+      .addEventListener('history-add', 'click', () => {
         const display = Translator.__('ViewTemperature:History:display', {
           gravity,
           temperature,
@@ -125,14 +113,23 @@ class ViewTemperature {
           unitTemperature: unitTemperature.shortLabel
         })
 
-        this.history.addRow({
-          values,
-          units,
-          status,
-          display
-        })
-      }
-    }
+        if (!this.getLastHistory() || this.getLastHistory().display !== display) {
+          const values = [
+            temperature,
+            gravity
+          ]
+
+          const units = [
+            unitTemperature.code,
+            unitGravity.code
+          ]
+          this.history.addRow({
+            values,
+            units,
+            display
+          })
+        }
+      })
   }
 
   getLastHistory () {
@@ -152,16 +149,6 @@ class ViewTemperature {
       this.view.get('gravity').value = lastHistory.values[1]
     }
     this.updateResult()
-  }
-
-  cleanLastStagedHistory () {
-    const historyList = this.history.get()
-    if (historyList.length) {
-      const history = historyList[0]
-      if (history.status === 'staged') {
-        this.history.removeRow(0)
-      }
-    }
   }
 
   renderHistory () {

@@ -22,7 +22,7 @@ class ViewAlcool {
 
     this.unit.addChangeObserver('view', (unitType) => {
       if (unitType === 'volume' || unitType === 'gravity') {
-        this.updateResult('staged')
+        this.updateResult()
       }
     })
 
@@ -32,7 +32,7 @@ class ViewAlcool {
             <label for="sugar" class="block text-sm font-medium leading-6">${Translator.__('ViewAlcool:Label:sugar')}</label>
             <div class="relative mt-2 rounded-md shadow-sm flex gap-2">
               <div class="flex w-full items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <input type="number" autocomplete="off" id="sugar" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="sugar">
+                <input type="number" autocomplete="off" id="sugar" value="0" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="sugar">
                 <div class="pointer-events-none whitespace-nowrap" data-var="sugarUnit">g/${this.unit.get('volume').shortLabel}</div>
               </div>
             </div>
@@ -41,7 +41,7 @@ class ViewAlcool {
             <label for="di" class="block text-sm font-medium leading-6">${Translator.__('ViewAlcool:Label:di')}</label>
             <div class="relative mt-2 rounded-md shadow-sm flex gap-2">
               <div class="flex w-full items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <input type="number" autocomplete="off" id="di" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="di">
+                <input type="number" autocomplete="off" id="di" value="1.200" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="di">
                 <div class="pointer-events-none" data-var="gravityUnit">${this.unit.get('gravity').shortLabel}</div>
               </div>
             </div>
@@ -50,17 +50,15 @@ class ViewAlcool {
             <label for="df" class="block text-sm font-medium leading-6">${Translator.__('ViewAlcool:Label:df')}</label>
             <div class="relative mt-2 rounded-md shadow-sm flex gap-2">
               <div class="flex w-full items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <input type="number" autocomplete="off" id="df" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="df">
+                <input type="number" autocomplete="off" id="df" value="1.000" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="df">
                 <div class="pointer-events-none" data-var="gravityUnit">${this.unit.get('gravity').shortLabel}</div>
               </div>
             </div>
           </div>
           <div class="md:col-span-3">
-            <label for="total" class="block text-sm font-medium leading-6">${Translator.__('ViewAlcool:Label:total')}</label>
+            <div class="block text-sm font-medium leading-6">${Translator.__('ViewAlcool:Label:total')}</div>
             <div class="relative mt-2 rounded-md shadow-sm flex gap-2">
-              <div class="flex w-full items-center gap-2 rounded-md bg-cyan-950 pr-2 group hover:bg-amber-500 focus-within:bg-amber-500">
-                <input type="text" readonly autocomplete="off" id="total" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="total">
-                <div class="pointer-events-none" data-var="volumeUnit">%</div>
+              <div class="flex w-full items-center gap-2 rounded-md bg-cyan-950 pr-2 group py-1 px-2 text-lg" data-var="total">
               </div>
             </div>
           </div>
@@ -71,8 +69,8 @@ class ViewAlcool {
       .appendTo($content, true);
 
     ['di', 'df', 'sugar'].forEach((type) => {
-      this.view.addEventListener(type, ['keyup', 'change'], (e) => {
-        this.updateResult(e.type === 'change' ? 'final' : 'staged')
+      this.view.addEventListener(type, 'keyup', () => {
+        this.updateResult()
       })
     })
 
@@ -85,7 +83,7 @@ class ViewAlcool {
     this.setDefaultValue()
   }
 
-  updateResult (status) {
+  updateResult () {
     let di = parseFloat(this.view.get('di').value)
     let df = parseFloat(this.view.get('df').value)
     let sugar = parseFloat(this.view.get('sugar').value)
@@ -96,26 +94,14 @@ class ViewAlcool {
     this.view.get('sugarUnit').innerText = `g/${volume.shortLabel}`
 
     if (isNaN(di)) {
-      if (status !== 'staged') {
-        this.view.get('di').value = '1.000'
-      }
-
       di = 1.0
     }
 
     if (isNaN(df)) {
-      if (status !== 'staged') {
-        this.view.get('df').value = '1.000'
-      }
-
       df = 1.0
     }
 
     if (isNaN(sugar)) {
-      if (status !== 'staged') {
-        this.view.get('sugar').value = '0'
-      }
-
       sugar = 0.0
     }
 
@@ -137,30 +123,26 @@ class ViewAlcool {
 
     abv = this.round(abv + sugar / volume.convert(1).L / 19.5 / 0.789)
 
-    this.view.get('total').value = abv
-
-    if (abv > 0 && typeof status !== 'undefined') {
-      const lastHistory = this.getLastHistory()
-      this.cleanLastStagedHistory()
-
-      const values = [
-        sugar,
-        di,
-        df
-      ]
-
-      const units = [
-        gravity.code,
-        volume.code
-      ]
-
-      if (!lastHistory || lastHistory.status === 'staged' || lastHistory.values.toString() !== values.toString() || lastHistory.units.toString() !== units.toString()) {
+    this.view.empty('total')
+    this.view.append(
+      'total',
+      new Brique(`<div class="grow">${abv}</div>
+  <div>%</div>
+  <button class="hover:text-amber-500" data-var="history-add" title="${Translator.__('Generic:Action:historyAdd')}" aria-label="${Translator.__('Generic:Action:historyAdd')}">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+    </svg>
+  </button>
+</div>`)
+    )
+      .addEventListener('history-add', 'click', () => {
         let display = Translator.__('ViewAlcool:History:classical', {
           di,
           df,
           abv,
           unit: gravity.shortLabel
         })
+
         if (this.isRefractometerMode()) {
           display = Translator.__('ViewAlcool:History:refractometer', {
             di,
@@ -171,15 +153,25 @@ class ViewAlcool {
           })
         }
 
-        this.history.addRow({
-          values,
-          isRefractometerMode: this.isRefractometerMode(),
-          units,
-          status,
-          display
-        })
-      }
-    }
+        if (!this.getLastHistory() || this.getLastHistory().display !== display) {
+          const values = [
+            sugar,
+            di,
+            df
+          ]
+
+          const units = [
+            gravity.code,
+            volume.code
+          ]
+
+          this.history.addRow({
+            values,
+            units,
+            display
+          })
+        }
+      })
   }
 
   getLastHistory () {
@@ -200,16 +192,6 @@ class ViewAlcool {
       this.view.get('df').value = lastHistory.values[2]
     }
     this.updateResult()
-  }
-
-  cleanLastStagedHistory () {
-    const historyList = this.history.get()
-    if (historyList.length) {
-      const history = historyList[0]
-      if (history.status === 'staged') {
-        this.history.removeRow(0)
-      }
-    }
   }
 
   isRefractometerMode () {

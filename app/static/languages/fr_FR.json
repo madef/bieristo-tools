@@ -104,6 +104,9 @@
   "Unit:I": {
     "*": "Pouce"
   },
+  "Generic:Action:historyAdd": {
+    "*": "Copier dans l'historique"
+  },
   "Generic:Action:copy": {
     "*": "Copier"
   },

@@ -28,7 +28,7 @@ class ViewUnit {
     this.unit = Unit.getInstance()
     this.unit.addChangeObserver('view', (unitType) => {
       if (this.unitType === unitType) {
-        this.updateResult('staged')
+        this.updateResult()
       }
     })
 
@@ -53,8 +53,8 @@ class ViewUnit {
       </div>`)
       .appendTo($content, true)
 
-    this.view.addEventListener('value', ['keyup', 'change'], (e) => {
-      this.updateResult(e.type === 'change' ? 'final' : 'staged')
+    this.view.addEventListener('value', 'keyup', () => {
+      this.updateResult()
     })
 
     this.renderHistory()
@@ -79,18 +79,7 @@ class ViewUnit {
     return null
   }
 
-  cleanLastStagedHistory () {
-    const historyList = this.history.get()
-    for (const historyKey in historyList) {
-      const history = historyList[historyKey]
-      if (history.status === 'staged') {
-        this.history.removeRow(historyKey)
-      }
-      return
-    }
-  }
-
-  updateResult (status) {
+  updateResult () {
     const value = parseFloat(this.view.get('value').value)
     const $unit = this.view.get('unit')
 
@@ -171,27 +160,50 @@ class ViewUnit {
         break
     }
 
-    const history = `${resultTextList.concat(altResultTextList).join(', ')}`
-
-    if (typeof status !== 'undefined') {
-      const lastHistory = this.getLastHistory()
-      this.cleanLastStagedHistory()
-      if (!lastHistory || lastHistory.status === 'staged' || lastHistory.value !== value || lastHistory.unit !== unit.code) {
-        this.history.addRow({
-          value,
-          unit: unit.code,
-          status,
-          display: history
-        })
-      }
-    }
-
     resultTextList.forEach((result) => {
-      this.view.append('result', new Brique(`<div class="w-full md:w-auto bg-cyan-950 rounded-md p-2">${result}</div>`))
+      this.view.append(
+        'result',
+        new Brique(`<div class="flex gap-2 items-center w-full md:w-auto bg-cyan-950 rounded-md p-2">
+  <span class="grow">${result}</span>
+  <button class="hover:text-amber-500" data-var="history-add" title="${Translator.__('Generic:Action:historyAdd')}" aria-label="${Translator.__('Generic:Action:historyAdd')}">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+    </svg>
+  </button>
+</div>`)
+          .addEventListener('history-add', 'click', () => {
+            if (!this.getLastHistory() || this.getLastHistory().display !== result) {
+              this.history.addRow({
+                value,
+                unit: unit.code,
+                display: result
+              })
+            }
+          })
+      )
     })
 
     altResultTextList.forEach((result) => {
-      this.view.append('result', new Brique(`<div class="w-full md:w-auto bg-green-800 rounded-md p-2">${result}</div>`))
+      this.view.append(
+        'result',
+        new Brique(`<div class="flex gap-2 items-center w-full md:w-auto bg-green-800 rounded-md p-2" data-var="result-value">
+  <span class="grow">${result}</span>
+  <button class="hover:text-amber-500" data-var="history-add" title="${Translator.__('Generic:Action:historyAdd')}" aria-label="${Translator.__('Generic:Action:historyAdd')}">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+    </svg>
+  </button>
+</div>`)
+          .addEventListener('history-add', 'click', () => {
+            if (!this.getLastHistory() || this.getLastHistory().display !== result) {
+              this.history.addRow({
+                value,
+                unit: unit.code,
+                display: result
+              })
+            }
+          })
+      )
     })
 
     $unit.innerText = `${unit.shortLabel}`
