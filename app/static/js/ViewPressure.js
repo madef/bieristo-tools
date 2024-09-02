@@ -243,6 +243,7 @@ class ViewPressure {
 
     const unitTemperature = this.unit.get('temperature')
     const unitPressure = this.unit.get('pressure')
+    const totalUnit = this.mode === 'co2' ? unitPressure.shortLabel : 'g/L'
 
     this.view.get('temperatureUnit').innerText = unitTemperature.shortLabel
     this.view.forEach('pressureUnit', $unit => { $unit.innerText = unitPressure.shortLabel })
@@ -284,7 +285,7 @@ class ViewPressure {
     this.view.append(
       'totalMin',
       new Brique(`<div class="grow">${totalMin}</div>
-  <div>${unitPressure.shortLabel}</div>
+  <div>${totalUnit}</div>
   <button class="hover:text-amber-500" data-var="history-add" title="${Translator.__('Generic:Action:historyAdd')}" aria-label="${Translator.__('Generic:Action:historyAdd')}">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
       <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
@@ -300,7 +301,7 @@ class ViewPressure {
     this.view.append(
       'totalMax',
       new Brique(`<div class="grow">${totalMax}</div>
-  <div>${unitPressure.shortLabel}</div>
+  <div>${totalUnit}</div>
   <button class="hover:text-amber-500" data-var="history-add" title="${Translator.__('Generic:Action:historyAdd')}" aria-label="${Translator.__('Generic:Action:historyAdd')}">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
       <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
