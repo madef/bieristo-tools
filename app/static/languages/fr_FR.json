@@ -206,17 +206,38 @@
   "ViewPressure:Label:temperature": {
     "*": "Température"
   },
-  "ViewPressure:Label:pressureMin": {
+  "ViewPressure:Label:TotalMin:co2": {
     "*": "Pression minimale"
   },
-  "ViewPressure:Label:pressureMax": {
+  "ViewPressure:Label:TotalMax:co2": {
     "*": "Pression maximale"
+  },
+  "ViewPressure:Label:TotalMin:sugar": {
+    "*": "Quantité de sucre minimale"
+  },
+  "ViewPressure:Label:TotalMax:sugar": {
+    "*": "Quantité de sucre maximale"
   },
   "ViewPressure:Unit:co2": {
     "*": "CO2 Res."
   },
-  "ViewPressure:History:display": {
-    "*": "[%style%] min: %min%, max: %max% à %temperature%%unitTemperature% => pression de %pressureMin% à %pressureMax% (%unitPressure%)"
+  "ViewPressure:History:Display:co2": {
+    "*": "[%style%] min: %min%, max: %max% à %temperature%%unitTemperature% => pression de %totalMin% à %totalMax% (%unitPressure%)"
+  },
+  "ViewPressure:History:Display:sugar": {
+    "*": "[%style%] min: %min%, max: %max% à %temperature%%unitTemperature% => sucre à ajouter entre %totalMin% à %totalMax% (%unitSugar%)"
+  },
+  "ViewPressure:Sugar:shortTitle": {
+    "*": "Resucrage"
+  },
+  "ViewPressure:Sugar:title": {
+    "*": "Calcul de la carbonatation par resucrage"
+  },
+  "ViewPressure:Co2:shortTitle": {
+    "*": "Forcée"
+  },
+  "ViewPressure:Co2:title": {
+    "*": "Calcul de la carbonatation forcée"
   },
   "View:shortTitle": {
     "*": "Unités"
@@ -311,16 +332,19 @@
   "ViewClean:shortTitle": {
     "*": "Nettoyant"
   },
+  "ViewClean:description": {
+    "*": "Dosage %product%"
+  },
   "ViewClean:San:label": {
     "*": "SAN"
   },
   "ViewClean:San:unit": {
     "*": "ml"
   },
-  "ViewClean:Pwb:label": {
-    "*": "PWB"
+  "ViewClean:Pbw:label": {
+    "*": "PBW"
   },
-  "ViewClean:Pwb:unit": {
+  "ViewClean:Pbw:unit": {
     "*": "g"
   },
   "ViewClean:Oxy:label": {
