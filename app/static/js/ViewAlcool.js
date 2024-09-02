@@ -84,26 +84,14 @@ class ViewAlcool {
   }
 
   updateResult () {
-    let di = parseFloat(this.view.get('di').value)
-    let df = parseFloat(this.view.get('df').value)
-    let sugar = parseFloat(this.view.get('sugar').value)
+    const di = parseFloat(this.view.get('di').value)
+    const df = parseFloat(this.view.get('df').value)
+    const sugar = parseFloat(this.view.get('sugar').value)
     const gravity = this.unit.get('gravity')
     const volume = this.unit.get('volume')
 
     this.view.forEach('gravityUnit', $unit => { $unit.innerText = gravity.shortLabel })
     this.view.get('sugarUnit').innerText = `g/${volume.shortLabel}`
-
-    if (isNaN(di)) {
-      di = 1.0
-    }
-
-    if (isNaN(df)) {
-      df = 1.0
-    }
-
-    if (isNaN(sugar)) {
-      sugar = 0.0
-    }
 
     const diAjusted = gravity.convert(di).SG
     let dfAjusted = gravity.convert(df).SG

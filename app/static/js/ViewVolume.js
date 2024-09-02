@@ -24,7 +24,7 @@ class ViewVolume {
             <label for="bottomHeight" class="block text-sm font-medium leading-6">${Translator.__('ViewVolume:Label:bottomHeight')}</label>
             <div class="relative mt-2 rounded-md shadow-sm flex flex-wrap md:flex-nowrap gap-2">
               <div class="flex w-full md:w-1/2 items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <input type="number" autocomplete="off" id="bottomHeight" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="bottomHeight">
+                <input type="number" autocomplete="off" id="bottomHeight" value="10" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="bottomHeight">
                 <div class="pointer-events-none" data-var="lengthUnit">${this.unit.get('length').shortLabel}</div>
               </div>
               <div class="flex w-full md:w-1/3 items-center gap-2 rounded-md bg-cyan-950 pr-2 group hover:bg-amber-500 focus-within:bg-amber-500">
@@ -37,7 +37,7 @@ class ViewVolume {
             <label for="tankHeight" class="block text-sm font-medium leading-6">${Translator.__('ViewVolume:Label:tankHeight')}</label>
             <div class="relative mt-2 rounded-md shadow-sm flex flex-wrap md:flex-nowrap gap-2">
               <div class="flex w-full md:w-1/2 items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <input type="number" autocomplete="off" id="tankHeight" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="tankHeight">
+                <input type="number" autocomplete="off" id="tankHeight" value="50" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="tankHeight">
                 <div class="pointer-events-none" data-var="lengthUnit">${this.unit.get('length').shortLabel}</div>
               </div>
               <div class="flex w-full md:w-1/3 items-center gap-2 rounded-md bg-cyan-950 pr-2 group hover:bg-amber-500 focus-within:bg-amber-500">
@@ -50,7 +50,7 @@ class ViewVolume {
             <label for="diameter" class="block text-sm font-medium leading-6">${Translator.__('ViewVolume:Label:diameter')}</label>
             <div class="relative mt-2 rounded-md shadow-sm flex gap-2">
               <div class="flex w-full md:w-1/2 items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <input type="number" autocomplete="off" id="diameter" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="diameter">
+                <input type="number" autocomplete="off" id="diameter" value="40" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="diameter">
                 <div class="pointer-events-none" data-var="lengthUnit">${this.unit.get('length').shortLabel}</div>
               </div>
             </div>
@@ -100,29 +100,14 @@ class ViewVolume {
   }
 
   updateResult () {
-    let bottomHeight = parseFloat(this.view.get('bottomHeight').value)
-    let tankHeight = parseFloat(this.view.get('tankHeight').value)
-    let diameter = parseFloat(this.view.get('diameter').value)
+    const bottomHeight = parseFloat(this.view.get('bottomHeight').value)
+    const tankHeight = parseFloat(this.view.get('tankHeight').value)
+    const diameter = parseFloat(this.view.get('diameter').value)
     const length = this.unit.get('length')
     const volume = this.unit.get('volume')
 
     this.view.forEach('volumeUnit', $unit => { $unit.innerText = volume.shortLabel })
     this.view.forEach('lengthUnit', $unit => { $unit.innerText = length.shortLabel })
-
-    if (isNaN(diameter)) {
-      this.view.get('diameter').value = '0'
-      diameter = 0.0
-    }
-
-    if (isNaN(bottomHeight)) {
-      this.view.get('bottomHeight').value = '0'
-      bottomHeight = 0.0
-    }
-
-    if (isNaN(tankHeight)) {
-      this.view.get('tankHeight').value = '0'
-      tankHeight = 0.0
-    }
 
     const calculVolume = (height) => {
       return this.round(volume.unconvert(Math.PI * Math.pow(length.convert(diameter).cm / 2, 2) * length.convert(height).cm / 1000).L)

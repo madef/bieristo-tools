@@ -66,22 +66,14 @@ class ViewTemperature {
   }
 
   updateResult () {
-    let gravity = parseFloat(this.view.get('gravity').value)
-    let temperature = parseFloat(this.view.get('temperature').value)
+    const gravity = parseFloat(this.view.get('gravity').value)
+    const temperature = parseFloat(this.view.get('temperature').value)
 
     const unitGravity = this.unit.get('gravity')
     const unitTemperature = this.unit.get('temperature')
 
     this.view.forEach('gravityUnit', $unit => { $unit.innerText = unitGravity.shortLabel })
     this.view.get('temperatureUnit').innerText = unitTemperature.shortLabel
-
-    if (isNaN(gravity)) {
-      gravity = 1.0
-    }
-
-    if (isNaN(temperature)) {
-      temperature = 20
-    }
 
     const ajustedGravity = this.round(
       unitGravity.unconvert(
