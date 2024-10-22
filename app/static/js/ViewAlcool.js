@@ -84,8 +84,8 @@ class ViewAlcool {
   }
 
   updateResult () {
-    const di = parseFloat(this.view.get('di').value)
-    const df = parseFloat(this.view.get('df').value)
+    let di = parseFloat(this.view.get('di').value)
+    let df = parseFloat(this.view.get('df').value)
     const sugar = parseFloat(this.view.get('sugar').value)
     const gravity = this.unit.get('gravity')
     const volume = this.unit.get('volume')
@@ -93,8 +93,8 @@ class ViewAlcool {
     this.view.forEach('gravityUnit', $unit => { $unit.innerText = gravity.shortLabel })
     this.view.get('sugarUnit').innerText = `g/${volume.shortLabel}`
 
-    const diAjusted = gravity.convert(di).SG
-    let dfAjusted = gravity.convert(df).SG
+    const diAjusted = gravity.convert(di).SG / 1000
+    let dfAjusted = gravity.convert(df).SG / 1000
     if (this.isRefractometerMode()) {
       const diBrix = gravity.convert(di).B
       const dfBrix = gravity.convert(df).B
@@ -110,6 +110,12 @@ class ViewAlcool {
     let abv = 131.25 * (diAjusted - dfAjusted)
 
     abv = this.round(abv + sugar / volume.convert(1).L / 19.5 / 0.789)
+
+    if (gravity.code == 'SG') {
+      di = gravity.convert(di).SG
+      df = gravity.convert(df).SG
+      dfAjusted = gravity.convert(dfAjusted).SG
+    }
 
     this.view.empty('total')
     this.view.append(

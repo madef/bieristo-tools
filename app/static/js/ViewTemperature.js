@@ -77,7 +77,7 @@ class ViewTemperature {
 
     const ajustedGravity = this.round(
       unitGravity.unconvert(
-        (unitGravity.convert(gravity).SG * 1000 + 0.00352871 * Math.pow(unitTemperature.convert(temperature).C - 20, 2) + 0.225225 * (unitTemperature.convert(temperature).C - 20)) / 1000
+        (unitGravity.convert(gravity).SG + 0.00352871 * Math.pow(unitTemperature.convert(temperature).C - 20, 2) + 0.225225 * (unitTemperature.convert(temperature).C - 20))
       ).SG,
       3
     )

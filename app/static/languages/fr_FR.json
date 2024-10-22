@@ -222,10 +222,10 @@
     "*": "CO2 Res."
   },
   "ViewPressure:History:Display:co2": {
-    "*": "[%style%] min: %min%, max: %max% à %temperature%%unitTemperature% => pression de %totalMin% à %totalMax% (%unitPressure%)"
+    "*": "[%style%] min: %min%, max: %max% à %temperature%%unitTemperature% → pression de %totalMin% à %totalMax% (%unitPressure%)"
   },
   "ViewPressure:History:Display:sugar": {
-    "*": "[%style%] min: %min%, max: %max% à %temperature%%unitTemperature% => sucre à ajouter entre %totalMin% à %totalMax% (%unitSugar%)"
+    "*": "[%style%] min: %min%, max: %max% à %temperature%%unitTemperature% → sucre à ajouter entre %totalMin% à %totalMax% (%unitSugar%)"
   },
   "ViewPressure:Sugar:shortTitle": {
     "*": "Resucrage"
@@ -390,7 +390,7 @@
     "*": "Total"
   },
   "ViewTemperature:History:display": {
-    "*": "Densité: %gravity%%unitGravity%, Température: %temperature%%unitTemperature% => %ajustedGravity%"
+    "*": "Densité: %gravity%%unitGravity%, Température: %temperature%%unitTemperature% → %ajustedGravity%%unitGravity%"
   },
   "ViewNote:shortTitle": {
     "*": "Carnet"

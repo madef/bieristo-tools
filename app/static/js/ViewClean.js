@@ -176,7 +176,7 @@ class ViewClean {
     }
 
     const addToHistory = () => {
-      const display = minResult === maxResult ? `${value}${volume.shortLabel} => ${minResult}${this.product.unit}` : `${value}${volume.shortLabel} => ${minResult}${this.product.unit} - ${maxResult}${this.product.unit}`
+      const display = minResult === maxResult ? `${value}${volume.shortLabel} → ${minResult}${this.product.unit}` : `${value}${volume.shortLabel} → ${minResult}${this.product.unit} - ${maxResult}${this.product.unit}`
 
       if (!this.getLastHistory() || this.getLastHistory().display !== display) {
         this.history.addRow({

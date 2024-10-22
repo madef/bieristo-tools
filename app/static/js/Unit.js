@@ -34,6 +34,14 @@ class Unit {
     }
   }
 
+  getUnit(unitType, code) {
+    for (const unit of this.getList(unitType)) {
+      if (unit.code === code) {
+        return unit
+      }
+    }
+  }
+
   set (unitType, code) {
     for (const unit of this.getList(unitType)) {
       if (unit.code === code) {
@@ -130,17 +138,23 @@ class Unit {
           shortLabel: 'SG',
           code: 'SG',
           convert: unit => {
+            if (unit > 200) {
+                unit = unit / 1000;
+            } else if (unit > 2) {
+                unit = (1000 + unit) / 1000
+            }
+
             return {
-              SG: unit,
+              SG: unit * 1000,
               P: 258.6 * (unit - 1) / (0.12 + 0.88 * unit),
               B: 258.6 * (unit - 1) / (0.12 + 0.88 * unit) / 0.96
             }
           },
           unconvert: unit => {
             return {
-              SG: unit,
-              P: 1 + (unit / (258.6 - (0.88 * unit))),
-              B: 1 + ((unit * 0.96) / (258.6 - (0.88 * unit * 0.96)))
+              SG: Math.round(unit),
+              P: Math.round(1000 * (1 + unit / (258.6 - (0.88 * unit)))),
+              B: Math.round(1000 * (1 + ((unit * 0.96) / (258.6 - (0.88 * unit * 0.96)))))
             }
           }
         },
@@ -150,14 +164,21 @@ class Unit {
           code: 'P',
           convert: unit => {
             return {
-              SG: 1 + (unit / (258.6 - (0.88 * unit))),
+              SG: Math.round(1000 * (1 + (unit / (258.6 - (0.88 * unit))))),
               P: unit,
               B: unit / 0.96
             }
           },
           unconvert: unit => {
+            let sgUnit = unit;
+            if (sgUnit > 200) {
+                sgUnit = sgUnit / 1000;
+            } else if (sgUnit > 2) {
+                sgUnit = (1000 + sgUnit) / 1000
+            }
+
             return {
-              SG: 258.6 * (unit - 1) / (0.12 + 0.88 * unit),
+              SG: 258.6 * (sgUnit - 1) / (0.12 + 0.88 * sgUnit),
               P: unit,
               B: unit * 0.96
             }
@@ -169,14 +190,21 @@ class Unit {
           code: 'B',
           convert: unit => {
             return {
-              SG: 1 + ((unit * 0.96) / (258.6 - (0.88 * unit * 0.96))),
+              SG: Math.round(1000 * (1 + ((unit * 0.96) / (258.6 - (0.88 * unit * 0.96))))),
               P: unit * 0.96,
               B: unit
             }
           },
           unconvert: unit => {
+            let sgUnit = unit;
+            if (sgUnit > 200) {
+                sgUnit = sgUnit / 1000;
+            } else if (sgUnit > 2) {
+                sgUnit = (1000 + sgUnit) / 1000
+            }
+
             return {
-              SG: 258.6 * (unit - 1) / (0.12 + 0.88 * unit) / 0.96,
+              SG: 258.6 * (sgUnit - 1) / (0.12 + 0.88 * sgUnit) / 0.96,
               P: unit / 0.96,
               B: unit
             }
