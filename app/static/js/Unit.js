@@ -135,7 +135,7 @@ class Unit {
       gravity: [
         {
           label: Translator.__('Unit:SG'),
-          shortLabel: 'SG',
+          shortLabel: 'G',
           code: 'SG',
           convert: unit => {
             if (unit > 200) {
@@ -145,7 +145,7 @@ class Unit {
             }
 
             return {
-              SG: unit * 1000,
+              SG: Math.round(unit * 1000),
               P: 258.6 * (unit - 1) / (0.12 + 0.88 * unit),
               B: 258.6 * (unit - 1) / (0.12 + 0.88 * unit) / 0.96
             }

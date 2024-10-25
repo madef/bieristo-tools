@@ -138,21 +138,21 @@ class ViewUnit {
         const sgValue = this.unit.getUnit('gravity', 'SG').convert(value).SG
         switch (unit.code) {
           case 'SG':
-            resultTextList.push(`${sgValue}SG → ${this.round(convert.P)}°P`)
-            resultTextList.push(`${sgValue}SG → ${this.round(convert.B)}°Bx`)
-            altResultTextList.push(`${value}°P → ${this.round(unconvert.P)}SG`)
-            altResultTextList.push(`${value}°Bx → ${this.round(unconvert.B)}SG`)
+            resultTextList.push(`${sgValue}G → ${this.round(convert.P)}°P`)
+            resultTextList.push(`${sgValue}G → ${this.round(convert.B)}°Bx`)
+            altResultTextList.push(`${value}°P → ${this.round(unconvert.P)}G`)
+            altResultTextList.push(`${value}°Bx → ${this.round(unconvert.B)}G`)
             break
           case 'P':
-            resultTextList.push(`${value}°P → ${this.round(convert.SG)}SG`)
+            resultTextList.push(`${value}°P → ${this.round(convert.SG)}G`)
             resultTextList.push(`${value}°P → ${this.round(convert.B)}°Bx`)
-            altResultTextList.push(`${sgValue}SG → ${this.round(unconvert.SG)}°P`)
+            altResultTextList.push(`${sgValue}G → ${this.round(unconvert.SG)}°P`)
             altResultTextList.push(`${value}°Bx → ${this.round(unconvert.B)}°P`)
             break
           case 'B':
-            resultTextList.push(`${value}°Bx → ${this.round(convert.SG)}SG`)
+            resultTextList.push(`${value}°Bx → ${this.round(convert.SG)}G`)
             resultTextList.push(`${value}°Bx → ${this.round(convert.P)}°P`)
-            altResultTextList.push(`${sgValue}SG → ${this.round(unconvert.SG)}°Bx`)
+            altResultTextList.push(`${sgValue}G → ${this.round(unconvert.SG)}°Bx`)
             altResultTextList.push(`${value}°Bx → ${this.round(unconvert.P)}°P`)
             break
         }
