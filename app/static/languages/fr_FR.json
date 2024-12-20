@@ -305,11 +305,23 @@
   "ViewAlcool:Refractometer:shortTitle": {
     "*": "Réfractomètre"
   },
+  "ViewAlcool:Mixed:title": {
+    "*": "Calcul du taux d'alcool avec réfractomètre et densimètre"
+  },
+  "ViewAlcool:Mixed:shortTitle": {
+    "*": "Densités finales"
+  },
   "ViewAlcool:Label:mode": {
     "*": "Utiliser le réfractomètre"
   },
   "ViewAlcool:Label:di": {
     "*": "Densité initiale"
+  },
+  "ViewAlcool:Label:dfDensimeter": {
+    "*": "Densité final réelle"
+  },
+  "ViewAlcool:Label:dfRefractometer": {
+        "*": "Densité final réfractomètre"
   },
   "ViewAlcool:Label:df": {
     "*": "Densité finale"
@@ -318,10 +330,13 @@
     "*": "Sucre ajouté"
   },
   "ViewAlcool:History:refractometer": {
-    "*": "[Réfractomètre] DI: %di%%unit%, DF: %df%%unit% (%dfAjusted%), Alcool %abv%%"
+    "*": "[Réfractomètre] DI: %di%%unit%, DF: %df%%unit% (%dfAjusted%%unit%), Alcool: %abv%%"
+  },
+  "ViewAlcool:History:mixed": {
+    "*": "[Réfractomètre+Densimètre] DI: %di%%unit%, DF Réf: %dfRef%%unit%, DF Dens: %dfDens%%unit%, Alcool: %abv%%"
   },
   "ViewAlcool:History:classical": {
-    "*": "[Densimètre] DI: %di%%unit%, DF: %df%%unit%, Alcool %abv%%"
+    "*": "[Densimètre] DI: %di%%unit%, DF: %df%%unit%, Alcool: %abv%%"
   },
   "ViewAlcool:Label:total": {
     "*": "Taux d'alcool"

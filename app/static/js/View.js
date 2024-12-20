@@ -144,6 +144,18 @@ class View {
   c-16.318,16.319-16.318,42.776,0,59.094L36.5,95.674l-14.733,14.733l22.16,22.16l14.771-14.771L176.89,235.98l44.346,0.172
   l21.99,21.99L258,243.369z M69.777,106.717l36.94-36.94L220.34,183.4l0.14,37.08l-37.08-0.14L69.777,106.717z"/>
 </svg>`
+          },
+          {
+            key: 'mixed',
+            label: Translator.__('ViewAlcool:Mixed:shortTitle'),
+            description: Translator.__('ViewAlcool:Mixed:title'),
+            icon: `<svg fill="currentColor" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+  viewBox="0 0 260 260" enable-background="new 0 0 260 260" xml:space="preserve"  class="size-20 p-2 rounded bg-amber-500 group-hover:text-amber-500 group-hover:bg-transparent group-focus:text-amber-500 group-focus:bg-transparent" aria-hidden="true">
+<path d="M186.662,212.515l-52.247-52.247l25.853-25.853l52.247,52.247l0.101,25.954L186.662,212.515z M258,243.369l-21.847-21.847
+  l-0.173-44.632L117.796,58.698l14.771-14.771l-22.16-22.16L95.563,36.611l-22.23-22.23c-16.319-16.318-42.776-16.318-59.094,0
+  c-16.318,16.319-16.318,42.776,0,59.094L36.5,95.674l-14.733,14.733l22.16,22.16l14.771-14.771L176.89,235.98l44.346,0.172
+  l21.99,21.99L258,243.369z M69.777,106.717l36.94-36.94L220.34,183.4l0.14,37.08l-37.08-0.14L69.777,106.717z"/>
+</svg>`
           }
         ]
       },

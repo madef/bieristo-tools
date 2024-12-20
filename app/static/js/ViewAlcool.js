@@ -12,6 +12,9 @@ class ViewAlcool {
       case 'densimeter':
         this.mode = 'densimeter'
         break
+      case 'mixed':
+        this.mode = 'mixed'
+        break
       default:
         this.mode = 'refractometer'
         break
@@ -38,7 +41,7 @@ class ViewAlcool {
             </div>
           </div>
           <div>
-            <label for="di" class="block text-sm font-medium leading-6">${Translator.__('ViewAlcool:Label:di')}</label>
+            <label for="di" class="block text-sm font-medium leading-6">${Translator.__(this.isMixedMode() ? 'ViewAlcool:Label:dfDensimeter' : 'ViewAlcool:Label:di')}</label>
             <div class="relative mt-2 rounded-md shadow-sm flex gap-2">
               <div class="flex w-full items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
                 <input type="number" autocomplete="off" id="di" value="1.200" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="di">
@@ -47,7 +50,7 @@ class ViewAlcool {
             </div>
           </div>
           <div>
-            <label for="df" class="block text-sm font-medium leading-6">${Translator.__('ViewAlcool:Label:df')}</label>
+            <label for="df" class="block text-sm font-medium leading-6">${Translator.__(this.isMixedMode() ? 'ViewAlcool:Label:dfRefractometer' : 'ViewAlcool:Label:df')}</label>
             <div class="relative mt-2 rounded-md shadow-sm flex gap-2">
               <div class="flex w-full items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
                 <input type="number" autocomplete="off" id="df" value="1.000" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="df">
@@ -93,18 +96,52 @@ class ViewAlcool {
     this.view.forEach('gravityUnit', $unit => { $unit.innerText = gravity.shortLabel })
     this.view.get('sugarUnit').innerText = `g/${volume.shortLabel}`
 
-    const diAjusted = gravity.convert(di).SG / 1000
+    let diAjusted = gravity.convert(di).SG / 1000
     let dfAjusted = gravity.convert(df).SG / 1000
-    if (this.isRefractometerMode()) {
+    let calculatedDi;
+
+    const fixDf = (di, df) => {
+      const gravity = this.unit.getUnit('gravity', 'SG')
       const diBrix = gravity.convert(di).B
       const dfBrix = gravity.convert(df).B
-      dfAjusted = 1.001843 -
+        console.log('fixDf', di, df, diBrix, dfBrix);
+      return 1.001843 -
         0.002318474 * diBrix -
         0.000007775 * Math.pow(diBrix, 2) -
         0.000000034 * Math.pow(diBrix, 3) +
         0.00574 * dfBrix +
         0.00003344 * Math.pow(dfBrix, 2) +
         0.000000086 * Math.pow(dfBrix, 3)
+    }
+
+    if (this.isRefractometerMode()) {
+      dfAjusted = fixDf(di, df);
+    } else if (this.isMixedMode()) {
+        // @TODO regarder le comportement avec d'autre unité (brix, et autre)
+        // @TODO : Est-ce que je dois convertir les unités di et df étant la saisie utilisateur
+      calculatedDi = diAjusted // Mesure au densimetre
+      let calculatedDf = fixDf(calculatedDi, diAjusted);
+
+          console.log(calculatedDi, diAjusted, calculatedDf);
+      while (calculatedDf >= diAjusted) { // di => mesure au densimetre
+          calculatedDi = calculatedDi + 0.001
+          calculatedDf = fixDf(calculatedDi, dfAjusted);
+          console.log(calculatedDi, calculatedDf, diAjusted, dfAjusted);
+          if (calculatedDf <= diAjusted) {
+              break
+          }
+      }
+
+      diAjusted = calculatedDi;
+      dfAjusted = gravity.convert(di).SG / 1000 // Mesure au densimetre
+      //const dfRealBrix = gravity.convert(di).B
+      //const dfBrix = gravity.convert(df).B
+
+      //const diCalculated = 1 - 0.00085683 * dfRealBrix + 0.0034941 * dfBrix
+        //console.log(diCalculated, dfBrix, dfRealBrix);
+
+      //diAjusted = diCalculated;
+      //dfAjusted = di;
     }
 
     let abv = 131.25 * (diAjusted - dfAjusted)
@@ -141,7 +178,15 @@ class ViewAlcool {
           display = Translator.__('ViewAlcool:History:refractometer', {
             di,
             df,
-            dfAjusted: this.round(dfAjusted, 3),
+            dfAjusted: this.round(gravity.unconvert(dfAjusted).SG, 2),
+            abv,
+            unit: gravity.shortLabel
+          })
+        } else {
+          display = Translator.__('ViewAlcool:History:mixed', {
+            di: this.round(gravity.unconvert(calculatedDi * 1000).SG, 2),
+            dfDens: di,
+            dfRef: df,
             abv,
             unit: gravity.shortLabel
           })
@@ -190,6 +235,10 @@ class ViewAlcool {
 
   isRefractometerMode () {
     return this.mode === 'refractometer'
+  }
+
+  isMixedMode () {
+    return this.mode === 'mixed'
   }
 
   renderHistory () {
