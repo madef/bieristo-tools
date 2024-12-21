@@ -2,10 +2,22 @@ services:
   bieristo_tools:
     container_name: bieristo_tools
     build: images/httpd
-    #image: httpd:latest
     restart: always
     volumes:
-      - ../app:/usr/local/apache2/htdocs
+      - ../app:/app
+    depends_on:
+      - bieristo_tools_mongodb
+    links:
+      - bieristo_tools_mongodb
+    networks:
+      - 'web'
+  bieristo_tools_mongodb:
+    container_name: bieristo_tools_mongodb
+    image: mongo:6
+    restart: always
+    volumes:
+        - ./mongodb/init.sh:/docker-entrypoint-initdb.d/init.sh
+        - ./mongodb/data:/data/db
     networks:
       - 'web'
 networks:

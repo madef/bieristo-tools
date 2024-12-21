@@ -1,0 +1,10 @@
+<?php
+/**
+ * Fichier de configuration de l'application.
+ * Ce fichier sera mis a jour lors de l'execution de install.php
+ */
+
+// define('MONGO_HOST', 'localhost');
+// define('MONGO_PORT', 27017);
+// define('MONGO_DBNAME', 'maBase');
+// define('APP_SALT', 'xxxxx');

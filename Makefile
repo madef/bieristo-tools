@@ -23,7 +23,7 @@ docker-rebuild: ## rebuild docker
 	docker-compose -f ./docker/docker-compose.yml -f ./docker/docker-compose.override.yml up -d --force-recreate --build
 
 docker-bash: ## Connect to apache server
-	docker-compose -f ./docker/docker-compose.yml -f ./docker/docker-compose.override.yml exec -w /usr/local/apache2/htdocs bieristo_tools bash
+	docker-compose -f ./docker/docker-compose.yml -f ./docker/docker-compose.override.yml exec bieristo_tools bash
 
 tailwind-watch: ## Tailwind watch
 	docker-compose -f ./docker/docker-compose.yml -f ./docker/docker-compose.override.yml exec -w /usr/local/apache2/htdocs/tailwind bieristo_tools npx tailwindcss -i ../static/css/main.css -o ../static/css/style.min.css --minify --watch
