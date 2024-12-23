@@ -1,4 +1,5 @@
 ﻿app/static/css/style.min.css
+app/vendor
 docker/docker-compose.override.yml
 docker/mongodb/data
 docker/env/development
