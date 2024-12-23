@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // src/Services/MongoDBService.php
 
 require_once __DIR__ . '/../../config/app_config.php';
@@ -13,7 +13,7 @@ class MongoDBService
         if (self::$instance === null) {
             // creer une nouvelle connexion
             $mongoClient = new Client(
-                "mongodb://" . MONGO_USER. ':' . MONGO_PASSWORD . '@' . MONGO_HOST . ":" . MONGO_PORT,
+                "mongodb://" . MONGO_USER. ':' . MONGO_PASSWORD . '@' . MONGO_HOST . ":" . MONGO_PORT . "/" . MONGO_DBNAME,
                 [],
                 ['typeMap' => ['array' => 'array','document' => 'array','root' => 'array']]
             );

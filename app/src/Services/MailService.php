@@ -1,18 +1,18 @@
-﻿<?php
+<?php
 // src/Services/MailService.php
 
 function sendmail($email, $subject, $message)
 {
-    // Implementation minimaliste
-    // On peut utiliser mail() si le serveur PHP est configure:
-    // mail($email, $subject, $message);
-    
-    // Ou un shell_exec vers sendmail/postfix si disponible:
-    // shell_exec("echo '" . escapeshellarg($message) . "' | mail -s '" . escapeshellarg($subject) . "' " . escapeshellarg($email));
-    
-    // Pour l'instant, on laisse un mock:
-    // file_put_contents('sendmail.log', "Send to: $email\nSubject: $subject\nMessage:\n$message\n\n", FILE_APPEND);
-    
-    // A adapter selon votre environnement
+    $mail = new \Snipworks\Smtp\Email(SMTP_HOST, SMTP_PORT);
+    $mail->setProtocol(SMTP_PROTOCOL);
+    $mail->setLogin(SMTP_USERNAME, SMTP_PASSWORD);
+    $mail->setFrom(SMTP_SENDER_EMAIL, SMTP_SENDER_LABEL);
+    $mail->addTo($email, '');
+    $mail->setSubject($subject);
+    $mail->setHtmlMessage($message);
+
+    if (!$mail->send()) {
+        throw new \Exception('Email cannot be sent');
+    }
 }
 

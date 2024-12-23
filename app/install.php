@@ -32,6 +32,13 @@ define('MONGO_PASSWORD', getenv('MONGO_PASSWORD'));
 define('MONGO_HOST', getenv('MONGO_HOST'));
 define('MONGO_PORT', getenv('MONGO_PORT'));
 define('MONGO_DBNAME', getenv('MONGO_DBNAME'));
+define('SMTP_HOST', getenv('SMTP_HOST'));
+define('SMTP_PORT', getenv('SMTP_PORT'));
+define('SMTP_PROTOCOL', getenv('SMTP_PROTOCOL'));
+define('SMTP_USERNAME', getenv('SMTP_USERNAME'));
+define('SMTP_PASSWORD', getenv('SMTP_PASSWORD'));
+define('SMTP_SENDER_EMAIL', getenv('SMTP_SENDER_EMAIL'));
+define('SMTP_SENDER_LABEL', getenv('SMTP_SENDER_LABEL'));
 // Le sel pour hasher les emails
 define('APP_SALT', '{$salt}');
 PHP;
@@ -49,7 +56,6 @@ try {
     // composer require mongodb/mongodb  (s'il est possible d'utiliser Composer)
     // Sinon, extension native : extension=mongodb.so
     $mongo = new MongoDB\Client("mongodb://" . MONGO_USER. ':' . MONGO_PASSWORD . '@' . MONGO_HOST . ":" . MONGO_PORT . "/" . MONGO_DBNAME);
-    echo ("mongodb://" . MONGO_USER. ':' . MONGO_PASSWORD . '@' . MONGO_HOST . ":" . MONGO_PORT);
     $db = $mongo->{MONGO_DBNAME};
 
     echo "Connexion a MongoDB reussie sur la base : " . MONGO_DBNAME . PHP_EOL;

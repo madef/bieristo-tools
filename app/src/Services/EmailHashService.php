@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // src/Services/EmailHashService.php
 
 require_once __DIR__ . '/../../config/app_config.php';

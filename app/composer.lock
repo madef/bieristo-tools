@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3ba655d8ec68b80cf9a9004593ca5f38",
+    "content-hash": "bb44a38d35e90539b3d137f8a9a23b3e",
     "packages": [
         {
             "name": "mongodb/mongodb",
@@ -132,6 +132,42 @@
                 "source": "https://github.com/php-fig/log/tree/3.0.2"
             },
             "time": "2024-09-11T13:17:53+00:00"
+        },
+        {
+            "name": "snipworks/php-smtp",
+            "version": "v2.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/snipworks/php-smtp.git",
+                "reference": "06129fa0632b5be3ddbc91392e48352faaf31140"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/snipworks/php-smtp/zipball/06129fa0632b5be3ddbc91392e48352faaf31140",
+                "reference": "06129fa0632b5be3ddbc91392e48352faaf31140",
+                "shasum": ""
+            },
+            "require": {
+                "ext-fileinfo": "*",
+                "ext-openssl": "*",
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Snipworks\\Smtp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Simple PHP SMTP Mail Send Script",
+            "support": {
+                "issues": "https://github.com/snipworks/php-smtp/issues",
+                "source": "https://github.com/snipworks/php-smtp/tree/master"
+            },
+            "time": "2020-09-06T10:10:40+00:00"
         },
         {
             "name": "symfony/polyfill-php80",
