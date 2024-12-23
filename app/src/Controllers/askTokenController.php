@@ -46,7 +46,8 @@ function askTokenController(array $data)
 
     // 5. Envoyer un mail a l'utilisateur
     $subject = "Votre token d'acces";
-    $message = "Bonjour,\n\nVoici votre token : " . $tokenValue . "\nIl expirera dans 1 heure.\n";
+    $url = APP_URL . 'login.php?token=' . $tokenValue;
+    $message = 'Bonjour,<br />Cliquez sur l\'url suivante pour vous connecter à l\'application : <a href="' . $url. '">' . $url . '</a>';
     sendmail($email, $subject, $message);
 
     // 6. Retourner la reponse JSON au client

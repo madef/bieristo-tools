@@ -3,6 +3,7 @@
  * Fichier de configuration de l'application.
  * ATTENTION : ne pas versionner ce fichier en clair ou le proteger.
  */
+define('APP_URL', getenv('APP_URL'));
 define('MONGO_USER', getenv('MONGO_USER'));
 define('MONGO_PASSWORD', getenv('MONGO_PASSWORD'));
 define('MONGO_HOST', getenv('MONGO_HOST'));

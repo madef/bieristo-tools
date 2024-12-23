@@ -1,5 +1,4 @@
-#DOMAIN = 'bieristo.local'
-#DOMAIN_PREFIX='https://'
+APP_URL='https://bieristo.local/'
 
 MONGO_HOST=bieristo_tools_mongodb
 MONGO_DBNAME=bieristo
