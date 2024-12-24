@@ -22,6 +22,14 @@ switch ($action) {
         require_once __DIR__ . '/../src/Controllers/checkTokenController.php';
         checkTokenController($data);
         break;
+    case 'renew-token':
+        require_once __DIR__ . '/../src/Controllers/renewTokenController.php';
+        renewTokenController($data);
+        break;
+    case 'get-user':
+        require_once __DIR__ . '/../src/Controllers/getUserController.php';
+        getUserController($data);
+        break;
     case 'update-user':
         require_once __DIR__ . '/../src/Controllers/updateUserController.php';
         updateUserController($data);
@@ -29,6 +37,10 @@ switch ($action) {
     case 'delete-user':
         require_once __DIR__ . '/../src/Controllers/deleteUserController.php';
         deleteUserController($data);
+        break;
+    case 'get-brassin':
+        require_once __DIR__ . '/../src/Controllers/getBrassinController.php';
+        getBrassinController($data);
         break;
     case 'create-brassin':
         require_once __DIR__ . '/../src/Controllers/createBrassinController.php';
