@@ -22,7 +22,7 @@ function updateBrassinController(array $data)
         ]);
         return;
     }
-    
+
     $tokenValue = $data['token'];
     $brassinId  = $data['brassin_id'];
 
@@ -38,7 +38,7 @@ function updateBrassinController(array $data)
         return;
     }
 
-    // 3. Conversion du brassin_id en ObjectId
+    // 3. Convertir brassin_id en ObjectId
     try {
         $brassinObjectId = new ObjectId($brassinId);
     } catch (\Exception $e) {
@@ -50,25 +50,33 @@ function updateBrassinController(array $data)
         return;
     }
 
-    // 4. Vérifier les données à mettre à jour (ici, on met à jour le "titre")
-    //    On peut aussi accepter d'autres champs (date_debut, etc.) selon vos besoins
+    // 4. Vérifier au moins la présence du champ "titre"
+    //    (Si vous souhaitez le rendre facultatif, adaptez la logique)
     if (!isset($data['titre'])) {
         http_response_code(400);
         echo json_encode([
             'status'  => 'ERROR',
-            'message' => 'No update fields provided (titre missing)'
+            'message' => 'Missing titre in request'
         ]);
         return;
     }
     $nouveauTitre = $data['titre'];
 
-    // 5. Connexion MongoDB
+    // 5. Récupérer l'objet "history" s'il est fourni
+    //    Le champ "history" est un objet ou un tableau JSON,
+    //    tel que transmis dans la requête.
+    $nouvelleHistory = $data['history'] ?? null;
+    // Ex.:
+    // "history": {
+    //    "etape": 1,
+    //    "description": "Ajout du houblon"
+    // }
+
+    // 6. Connexion Mongo
     $mongoDb = MongoDBService::getInstance();
     $brassinCollection = $mongoDb->selectCollection('brassin');
 
-    // 6. Vérifier que le brassin appartient bien à cet user
-    //    En général, on fait un findOne({ _id: brassinObjectId, user_id: userId })
-    //    Si pas trouvé => pas le droit de modifier
+    // 7. Vérifier l'ownership du brassin
     $brassinDoc = $brassinCollection->findOne([
         '_id'     => $brassinObjectId,
         'user_id' => $userId
@@ -82,31 +90,39 @@ function updateBrassinController(array $data)
         return;
     }
 
-    // 7. Mettre à jour le document
+    // 8. Préparer le tableau des champs à mettre à jour
+    //    - "titre"
+    //    - "date_modif" (optionnel)
+    //    - "history" (si fourni)
+    $updateFields = [
+        'titre'      => $nouveauTitre,
+        'date_modif' => new UTCDateTime(), // utile pour tracer la modif
+    ];
+
+    if ($nouvelleHistory !== null) {
+        // On stocke directement l'historique dans le document
+        $updateFields['history'] = $nouvelleHistory;
+    }
+
+    // 9. Mettre à jour
     $updateResult = $brassinCollection->updateOne(
         ['_id' => $brassinObjectId],
-        [
-            '$set' => [
-                'titre'          => $nouveauTitre,
-                // Optionnel : stocker la date de dernière modif
-                'date_modif'     => new UTCDateTime(),
-            ]
-        ]
+        ['$set' => $updateFields]
     );
 
     if ($updateResult->getModifiedCount() < 1) {
         // Aucune modification effectuée ?
         echo json_encode([
             'status'  => 'ERROR',
-            'message' => 'No changes (maybe titre is identical?)'
+            'message' => 'No change performed'
         ]);
         return;
     }
 
-    // 8. Réponse de succès
+    // 10. Réponse OK
     echo json_encode([
-        'status' => 'OK',
-        'message'=> 'Brassin updated successfully',
+        'status'     => 'OK',
+        'message'    => 'Brassin updated successfully',
         'brassin_id' => (string)$brassinObjectId
     ]);
 }
