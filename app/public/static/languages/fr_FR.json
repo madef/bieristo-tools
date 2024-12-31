@@ -8,31 +8,31 @@
   "Menu:title": {
     "*": "MENU"
   },
-  "ViewImport:shortTitle": {
-    "*": "Sauvegarder"
+  "ViewAccount:shortTitle": {
+    "*": "Account"
   },
-  "ViewImport:title": {
-    "*": "Importer ou exporter l'historique"
+  "ViewAccount:title": {
+    "*": "Gestion du compte"
   },
-  "ViewImport:filename": {
+  "ViewAccount:filename": {
     "*": "sauvegarde"
   },
-  "ViewImport:save": {
+  "ViewAccount:save": {
     "*": "Sauvegarder la configuration"
   },
-  "ViewImport:open": {
+  "ViewAccount:open": {
     "*": "Charger une configuration"
   },
-  "ViewImport:remove": {
+  "ViewAccount:remove": {
     "*": "Supprimer les données locales"
   },
-  "ViewImport:Confirm:remove": {
+  "ViewAccount:Confirm:remove": {
     "*": "Confirmez-vous vouloir supprimer l'ensemble des données locales ?"
   },
-  "ViewImport:Error:cannotLoadFile": {
+  "ViewAccount:Error:cannotLoadFile": {
     "*": "Le fichier n'a pas pu être chargé."
   },
-  "ViewImport:Error:invalidSyntax": {
+  "ViewAccount:Error:invalidSyntax": {
     "*": "Le format du fichier est incorrect."
   },
   "Menu:Unit:volume": {
@@ -70,6 +70,24 @@
   },
   "Menu:back": {
     "*": "Retour"
+  },
+  "ViewUnit:UnitType:volume": {
+    "*": "Volume"
+  },
+  "ViewUnit:UnitType:temperature": {
+    "*": "Température"
+  },
+  "ViewUnit:UnitType:pressure": {
+    "*": "Pression"
+  },
+  "ViewUnit:UnitType:gravity": {
+    "*": "Densité"
+  },
+  "ViewUnit:UnitType:length": {
+    "*": "Longeur"
+  },
+  "ViewUnit:L": {
+    "*": "Litre"
   },
   "Unit:L": {
     "*": "Litre"
@@ -242,6 +260,12 @@
   "View:shortTitle": {
     "*": "Unités"
   },
+  "ViewHistory:title": {
+    "*": "Historique"
+  },
+  "ViewHistory:shortTitle": {
+    "*": "Historique"
+  },
   "View:title": {
     "*": "Conversion d'unités"
   },
@@ -249,7 +273,22 @@
     "*": "Unités"
   },
   "ViewUnit:title": {
-    "*": "Conversion d'unités"
+    "*": "Choix des unités"
+  },
+  "ViewUnit:Label:value": {
+    "*": "Valeur à convertir"
+  },
+  "ViewUnit:Label:from": {
+    "*": "De"
+  },
+  "ViewUnit:Label:to": {
+    "*": "À"
+  },
+  "ViewUnit:Label:result": {
+    "*": "Valeur convertie"
+  },
+  "ViewUnit:Label:action": {
+    "*": "Convertir"
   },
   "ViewUnit:Pressure:shortTitle": {
     "*": "Pression"

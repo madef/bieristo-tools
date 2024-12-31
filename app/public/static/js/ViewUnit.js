@@ -23,7 +23,7 @@ class ViewUnit {
         break
     }
 
-    this.history = new History(`ViewUnit:${this.unitType}`)
+    this.history = new History('ViewUnit')
 
     this.unit = Unit.getInstance()
     this.unit.addChangeObserver('view', (unitType) => {
@@ -33,38 +33,96 @@ class ViewUnit {
     })
 
     this.view = new Brique(`<div class="flex flex-col gap-4">
-        <div>
-          <label for="${this.unitType}" class="block text-sm font-medium leading-6">${Translator.__(`ViewUnit:Label:${this.unitType}`)}</label>
-          <div class="grid md:grid-cols-2 gap-2">
-            <div>
-              <div class="relative rounded-md shadow-sm flex gap-2">
-                <div class="flex w-full items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                  <input type="number" autocomplete="off" id="${this.unitType}" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="value">
-                  <div class="pointer-events-none" data-var="unit">${this.unit.get(this.unitType).shortLabel}</div>
-                </div>
+        <div class="p-2">
+          <div class="flex flex-wrap md:flex-nowrap gap-2">
+            <div class="w-full md:w-1/4 flex flex-col grow gap-1">
+              <label for="${this.unitType}" class="block text-sm font-medium leading-6">${Translator.__('ViewUnit:Label:value')}</label>
+              <div class="flex grow w-full items-stretch gap-2 rounded-md shadow-sm border border-white group hover:border-amber-500 focus-within:border-amber-500">
+                <input type="number" autocomplete="off" id="${this.unitType}" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="value">
               </div>
             </div>
-            <div class="flex flex-wrap md:flex-nowrap items-center gap-2 overflow-x-auto" data-var="result">
+            <div class="w-1/3 md:w-1/4 flex flex-col grow gap-1">
+              <label for="from" class="block text-sm font-medium leading-6">${Translator.__('ViewUnit:Label:from')}</label>
+              <div class="flex grow w-full items-stretch gap-2 rounded-md shadow-sm border border-white group hover:border-amber-500 focus-within:border-amber-500">
+                <select autocomplete="off" id="from" class="grow rounded-md py-1 px-2 w-full text-lg focus:outline-none bg-box" data-var="from">
+                </select>
+              </div>
+            </div>
+            <div class="w-1/3 md:w-1/4 flex flex-col grow gap-1">
+              <label for="to" class="block text-sm font-medium leading-6">${Translator.__('ViewUnit:Label:to')}</label>
+              <div class="flex grow w-full items-stretch gap-2 rounded-md shadow-sm border border-white group hover:border-amber-500 focus-within:border-amber-500">
+                <select autocomplete="off" id="to" class="grow rounded-md py-1 px-2 w-full text-lg focus:outline-none bg-box" data-var="to">
+                </select>
+              </div>
+            </div>
+            <div class="w-full sm:w-auto flex flex-col gap-1">
+              <label for="action" class="hidden sm:block text-sm font-medium leading-6">&nbsp;</label>
+              <button data-var="action" class="flex grow w-full items-stretch gap-2 rounded-md shadow-sm rounded-md py-1 px-2 text-lg bg-cyan-700 focus:outline-none focus:bg-transparent hover:bg-transparent focus:text-cyan-700 hover:text-cyan-700">
+                ${Translator.__('ViewUnit:Label:action')}
+              </buton>
+            </div>
+          </div>
+          <div class="hidden mt-2" data-var="group-result">
+            <div class="block text-sm font-medium leading-6">${Translator.__('ViewUnit:Label:result')}</div>
+            <div class="relative mt-2 rounded-md shadow-sm flex gap-2">
+              <div class="flex w-full items-center gap-2 rounded-md bg-cyan-950 py-1 px-2 text-lg" data-var="result">
+              </div>
             </div>
           </div>
         </div>
-        <ul data-var="history" class="border border-zinc-700 rounded">
+        <ul data-var="history" class="sm:m-2 sm:border sm:border-zinc-700 rounded">
         </ul>
       </div>`)
       .appendTo($content, true)
 
     this.view.addEventListener('value', 'keyup', () => {
+      this.view.classList('group-result', (classlist) => { classlist.add('hidden') })
+    })
+
+    this.view.addEventListener('action', 'click', () => {
       this.updateResult()
     })
 
+    this.view.addEventListener('from', 'change', () => {
+      this.renderToList()
+    })
+
+    this.renderFromList()
+    this.renderToList()
     this.renderHistory()
     this.setDefaultValue()
+  }
+
+  renderFromList () {
+    ['volume', 'pressure', 'gravity', 'temperature', 'length'].forEach((unitType) => {
+      const optgroup = new Brique(`<optgroup label="${Translator.__('ViewUnit:UnitType:' + unitType)}" data-var="optgroup"></optgroup>`)
+      this.view.append('from', optgroup)
+      this.unit.getList(unitType).forEach((unit) => {
+        const option = new Brique(`<option value="${unitType}:${unit.code}">${unit.label}</option>`)
+        optgroup.append('optgroup', option)
+      })
+    })
+  }
+
+  renderToList () {
+    this.view.empty('to')
+    const [unitType, fromUnit] = this.view.get('from').value.split(':')
+    this.unit.getList(unitType).forEach((unit) => {
+      if (unit.code !== fromUnit) {
+        const option = new Brique(`<option value="${unitType}:${unit.code}">${unit.label}</option>`)
+        this.view.append('to', option)
+      }
+    })
   }
 
   setDefaultValue () {
     const lastHistory = this.getLastHistory()
     if (lastHistory) {
-      this.view.get('value').value = lastHistory.value
+      console.log(lastHistory)
+      this.view.get('value').value = lastHistory.values[0]
+      this.view.get('from').value = lastHistory.values[1] + ':' + lastHistory.values[2]
+      this.renderToList()
+      this.view.get('to').value = lastHistory.values[1] + ':' + lastHistory.values[3]
       this.updateResult()
     }
   }
@@ -80,133 +138,40 @@ class ViewUnit {
   }
 
   updateResult () {
+    const [unitType, fromUnit] = this.view.get('from').value.split(':')
+    const [, toUnit] = this.view.get('to').value.split(':')
+    const unit = this.unit.getUnit(unitType, fromUnit)
+    const toUnitLabel = this.unit.getUnit(unitType, toUnit).shortLabel
     const value = parseFloat(this.view.get('value').value)
-    const $unit = this.view.get('unit')
+    const formatedValue = this.round(unit.convert(value)[fromUnit])
+    const result = this.round(unit.convert(value)[toUnit])
 
+    this.view.classList('group-result', (classlist) => { classlist.remove('hidden') })
     this.view.empty('result')
+    this.view.append(
+      'result',
+      new Brique(`<div class="grow">${result}</div><div>${toUnitLabel}</div>`)
+    )
 
-    if (isNaN(value)) {
-      return
+    const display = `${formatedValue}${unit.shortLabel} → ${result}${toUnitLabel}`
+
+    if (!this.getLastHistory() || this.getLastHistory().display !== display) {
+      const values = [
+        formatedValue,
+        unitType,
+        fromUnit,
+        toUnit
+      ]
+
+      const units = [
+      ]
+
+      this.history.addRow({
+        values,
+        units,
+        display
+      })
     }
-
-    const unit = this.unit.get(this.unitType)
-    const convert = unit.convert(value)
-    const unconvert = unit.unconvert(value)
-    const resultTextList = []
-    const altResultTextList = []
-    switch (this.unitType) {
-      case 'temperature':
-        switch (unit.code) {
-          case 'C':
-            resultTextList.push(`${value}°C → ${this.round(convert.F)}°F`)
-            altResultTextList.push(`${value}°F → ${this.round(unconvert.F)}°C`)
-            break
-          case 'F':
-            resultTextList.push(`${value}°F → ${this.round(convert.C)}°C`)
-            altResultTextList.push(`${value}°C → ${this.round(unconvert.C)}°F`)
-            break
-        }
-
-        break
-      case 'pressure':
-        switch (unit.code) {
-          case 'B':
-            resultTextList.push(`${value}Bar → ${this.round(convert.PSI)}PSI`)
-            altResultTextList.push(`${value}PSI → ${this.round(unconvert.PSI)}Bar`)
-            break
-          case 'PSI':
-            resultTextList.push(`${value}PSI → ${this.round(convert.B)}Bar`)
-            altResultTextList.push(`${value}Bar → ${this.round(unconvert.B)}PSI`)
-            break
-        }
-
-        break
-      case 'volume':
-        switch (unit.code) {
-          case 'L':
-            resultTextList.push(`${value}L → ${this.round(convert.G)}Gal`)
-            altResultTextList.push(`${value}Gal → ${this.round(unconvert.G)}L`)
-            break
-          case 'G':
-            resultTextList.push(`${value}Gal → ${this.round(convert.L)}L`)
-            altResultTextList.push(`${value}L → ${this.round(unconvert.L)}Gal`)
-            break
-        }
-
-        break
-      case 'gravity':
-        const sgValue = this.unit.getUnit('gravity', 'SG').convert(value).SG
-        switch (unit.code) {
-          case 'SG':
-            resultTextList.push(`${sgValue}G → ${this.round(convert.P)}°P`)
-            resultTextList.push(`${sgValue}G → ${this.round(convert.B)}°Bx`)
-            altResultTextList.push(`${value}°P → ${this.round(unconvert.P)}G`)
-            altResultTextList.push(`${value}°Bx → ${this.round(unconvert.B)}G`)
-            break
-          case 'P':
-            resultTextList.push(`${value}°P → ${this.round(convert.SG)}G`)
-            resultTextList.push(`${value}°P → ${this.round(convert.B)}°Bx`)
-            altResultTextList.push(`${sgValue}G → ${this.round(unconvert.SG)}°P`)
-            altResultTextList.push(`${value}°Bx → ${this.round(unconvert.B)}°P`)
-            break
-          case 'B':
-            resultTextList.push(`${value}°Bx → ${this.round(convert.SG)}G`)
-            resultTextList.push(`${value}°Bx → ${this.round(convert.P)}°P`)
-            altResultTextList.push(`${sgValue}G → ${this.round(unconvert.SG)}°Bx`)
-            altResultTextList.push(`${value}°Bx → ${this.round(unconvert.P)}°P`)
-            break
-        }
-
-        break
-    }
-
-    resultTextList.forEach((result) => {
-      this.view.append(
-        'result',
-        new Brique(`<div class="flex gap-2 items-center w-full md:w-auto bg-cyan-950 rounded-md p-2">
-  <span class="grow">${result}</span>
-  <button class="hover:text-amber-500" data-var="history-add" title="${Translator.__('Generic:Action:historyAdd')}" aria-label="${Translator.__('Generic:Action:historyAdd')}">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
-    </svg>
-  </button>
-</div>`)
-          .addEventListener('history-add', 'click', () => {
-            if (!this.getLastHistory() || this.getLastHistory().display !== result) {
-              this.history.addRow({
-                value,
-                unit: unit.code,
-                display: result
-              })
-            }
-          })
-      )
-    })
-
-    altResultTextList.forEach((result) => {
-      this.view.append(
-        'result',
-        new Brique(`<div class="flex gap-2 items-center w-full md:w-auto bg-green-800 rounded-md p-2" data-var="result-value">
-  <span class="grow">${result}</span>
-  <button class="hover:text-amber-500" data-var="history-add" title="${Translator.__('Generic:Action:historyAdd')}" aria-label="${Translator.__('Generic:Action:historyAdd')}">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
-    </svg>
-  </button>
-</div>`)
-          .addEventListener('history-add', 'click', () => {
-            if (!this.getLastHistory() || this.getLastHistory().display !== result) {
-              this.history.addRow({
-                value,
-                unit: unit.code,
-                display: result
-              })
-            }
-          })
-      )
-    })
-
-    $unit.innerText = `${unit.shortLabel}`
   }
 
   round (number, precision = 2) {
@@ -218,9 +183,11 @@ class ViewUnit {
       this.view.get('history'),
       this.history,
       (historyRow) => {
-        this.view.get('value').value = historyRow.value
-        this.unit.set(this.unitType, historyRow.unit)
-        this.updateResult()
+        this.view.get('value').value = historyRow.values[0]
+        this.view.get('from').value = historyRow.values[1] + ':' + historyRow.values[2]
+        this.renderToList()
+        this.view.get('to').value = historyRow.values[1] + ':' + historyRow.values[3]
+        this.view.classList('group-result', (classlist) => { classlist.add('hidden') })
       }
     )
   }

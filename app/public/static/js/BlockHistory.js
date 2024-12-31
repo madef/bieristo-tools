@@ -18,7 +18,7 @@ class BlockHistory {
 
     this.history.get().forEach((historyRow, historyKey) => {
       /* eslint-disable no-new */
-      new Brique(`<li class="flex flex-wrap odd:bg-box even:bg-zinc-800 p-4 md:justify-between items-center gap-2">
+      new Brique(`<li class="flex flex-wrap odd:bg-box even:bg-zinc-800 p-2 sm:p-4 md:justify-between items-center gap-2">
           <div class="p-2 text-sm bg-violet-500 rounded-md text-center flex gap-1 items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />

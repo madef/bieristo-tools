@@ -98,13 +98,12 @@ class ViewAlcool {
 
     let diAjusted = gravity.convert(di).SG / 1000
     let dfAjusted = gravity.convert(df).SG / 1000
-    let calculatedDi;
+    let calculatedDi
 
     const fixDf = (di, df) => {
       const gravity = this.unit.getUnit('gravity', 'SG')
       const diBrix = gravity.convert(di).B
       const dfBrix = gravity.convert(df).B
-        console.log('fixDf', di, df, diBrix, dfBrix);
       return 1.001843 -
         0.002318474 * diBrix -
         0.000007775 * Math.pow(diBrix, 2) -
@@ -115,40 +114,28 @@ class ViewAlcool {
     }
 
     if (this.isRefractometerMode()) {
-      dfAjusted = fixDf(di, df);
+      dfAjusted = fixDf(di, df)
     } else if (this.isMixedMode()) {
-        // @TODO regarder le comportement avec d'autre unité (brix, et autre)
-        // @TODO : Est-ce que je dois convertir les unités di et df étant la saisie utilisateur
       calculatedDi = diAjusted // Mesure au densimetre
-      let calculatedDf = fixDf(calculatedDi, diAjusted);
+      let calculatedDf = fixDf(calculatedDi, diAjusted)
 
-          console.log(calculatedDi, diAjusted, calculatedDf);
       while (calculatedDf >= diAjusted) { // di => mesure au densimetre
-          calculatedDi = calculatedDi + 0.001
-          calculatedDf = fixDf(calculatedDi, dfAjusted);
-          console.log(calculatedDi, calculatedDf, diAjusted, dfAjusted);
-          if (calculatedDf <= diAjusted) {
-              break
-          }
+        calculatedDi = calculatedDi + 0.001
+        calculatedDf = fixDf(calculatedDi, dfAjusted)
+        if (calculatedDf <= diAjusted) {
+          break
+        }
       }
 
-      diAjusted = calculatedDi;
+      diAjusted = calculatedDi
       dfAjusted = gravity.convert(di).SG / 1000 // Mesure au densimetre
-      //const dfRealBrix = gravity.convert(di).B
-      //const dfBrix = gravity.convert(df).B
-
-      //const diCalculated = 1 - 0.00085683 * dfRealBrix + 0.0034941 * dfBrix
-        //console.log(diCalculated, dfBrix, dfRealBrix);
-
-      //diAjusted = diCalculated;
-      //dfAjusted = di;
     }
 
     let abv = 131.25 * (diAjusted - dfAjusted)
 
     abv = this.round(abv + sugar / volume.convert(1).L / 19.5 / 0.789)
 
-    if (gravity.code == 'SG') {
+    if (gravity.code === 'SG') {
       di = gravity.convert(di).SG
       df = gravity.convert(df).SG
       dfAjusted = gravity.convert(dfAjusted).SG

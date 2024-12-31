@@ -26,10 +26,10 @@ docker-bash: ## Connect to apache server
 	docker-compose -f ./docker/docker-compose.yml -f ./docker/docker-compose.override.yml exec bieristo_tools bash
 
 tailwind-watch: ## Tailwind watch
-	docker-compose -f ./docker/docker-compose.yml -f ./docker/docker-compose.override.yml exec -w /usr/local/apache2/htdocs/tailwind bieristo_tools npx tailwindcss -i ../static/css/main.css -o ../static/css/style.min.css --minify --watch
+	docker-compose -f ./docker/docker-compose.yml -f ./docker/docker-compose.override.yml exec -w /app/tailwind bieristo_tools npx tailwindcss -i ../public/static/css/main.css -o ../public/static/css/style.min.css --minify --watch
 
 tailwind-build: ## Tailwind build
-	docker-compose -f ./docker/docker-compose.yml -f ./docker/docker-compose.override.yml exec -w /usr/local/apache2/htdocs/tailwind bieristo_tools npx tailwindcss -i ../static/css/main.css -o ../static/css/style.min.css --minify
+	docker-compose -f ./docker/docker-compose.yml -f ./docker/docker-compose.override.yml exec -w /app/tailwind bieristo_tools npx tailwindcss -i ../public/static/css/main.css -o ../public/static/css/style.min.css --minify
 
 js-standard: ## Check JS standard
-	docker-compose -f ./docker/docker-compose.yml -f ./docker/docker-compose.override.yml exec -w /usr/local/apache2/htdocs/static/js bieristo_tools standard
+	docker-compose -f ./docker/docker-compose.yml -f ./docker/docker-compose.override.yml exec -w /app/public/static/js bieristo_tools npx standard

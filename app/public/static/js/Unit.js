@@ -34,7 +34,7 @@ class Unit {
     }
   }
 
-  getUnit(unitType, code) {
+  getUnit (unitType, code) {
     for (const unit of this.getList(unitType)) {
       if (unit.code === code) {
         return unit
@@ -139,9 +139,9 @@ class Unit {
           code: 'SG',
           convert: unit => {
             if (unit > 200) {
-                unit = unit / 1000;
+              unit = unit / 1000
             } else if (unit > 2) {
-                unit = (1000 + unit) / 1000
+              unit = (1000 + unit) / 1000
             }
 
             return {
@@ -170,11 +170,11 @@ class Unit {
             }
           },
           unconvert: unit => {
-            let sgUnit = unit;
+            let sgUnit = unit
             if (sgUnit > 200) {
-                sgUnit = sgUnit / 1000;
+              sgUnit = sgUnit / 1000
             } else if (sgUnit > 2) {
-                sgUnit = (1000 + sgUnit) / 1000
+              sgUnit = (1000 + sgUnit) / 1000
             }
 
             return {
@@ -196,11 +196,11 @@ class Unit {
             }
           },
           unconvert: unit => {
-            let sgUnit = unit;
+            let sgUnit = unit
             if (sgUnit > 200) {
-                sgUnit = sgUnit / 1000;
+              sgUnit = sgUnit / 1000
             } else if (sgUnit > 2) {
-                sgUnit = (1000 + sgUnit) / 1000
+              sgUnit = (1000 + sgUnit) / 1000
             }
 
             return {
