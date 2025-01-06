@@ -122,6 +122,9 @@
   "Unit:I": {
     "*": "Pouce"
   },
+  "Generic:Action:calculate": {
+    "*": "Calculer"
+  },
   "Generic:Action:historyAdd": {
     "*": "Copier dans l'historique"
   },
@@ -139,6 +142,9 @@
   },
   "Generic:ok": {
     "*": "OK"
+  },
+  "Generic:Confirm:copy": {
+    "*": "La valeur a été copiée dans le presse-papier."
   },
   "ViewCells:shortTitle": {
     "*": "Levure"
@@ -357,10 +363,10 @@
     "*": "Densité initiale"
   },
   "ViewAlcool:Label:dfDensimeter": {
-    "*": "Densité final réelle"
+    "*": "Densité finale réelle"
   },
   "ViewAlcool:Label:dfRefractometer": {
-        "*": "Densité final réfractomètre"
+        "*": "Densité finale réfractomètre"
   },
   "ViewAlcool:Label:df": {
     "*": "Densité finale"
@@ -379,6 +385,15 @@
   },
   "ViewAlcool:Label:total": {
     "*": "Taux d'alcool"
+  },
+  "ViewAlcool:Label:diAjusted": {
+    "*": "Densité initiale"
+  },
+  "ViewAlcool:Label:dfAjusted": {
+    "*": "Densité finale"
+  },
+  "ViewAlcool:Label:sugarImpact": {
+    "*": "Impacte du sucre"
   },
   "ViewVolume:title": {
     "*": "Calcul des volumes"
@@ -427,6 +442,15 @@
   },
   "ViewClean:title": {
     "*": "Dosage des nettoyants"
+  },
+  "ViewClean:Result:label": {
+    "*": "Dosage"
+  },
+  "ViewClean:From:label": {
+    "*": "Min"
+  },
+  "ViewClean:To:label": {
+    "*": "Max"
   },
   "ViewTemperature:shortTitle": {
     "*": "Température"
@@ -487,6 +511,12 @@
   },
   "ViewVolume:Label:tankHeight": {
     "*": "Hauteur du moût"
+  },
+  "ViewVolume:Label:bottomVolume": {
+    "*": "Volume du faux fond"
+  },
+  "ViewVolume:Label:tankVolume": {
+    "*": "Volume hors faux fond"
   },
   "ViewVolume:Label:totalVolume": {
     "*": "Volume total"

@@ -36,11 +36,14 @@ class Confirm {
     const popin = new Brique(`<div class="absolute inset-0 text-white overflow-y-auto p-2 flex flex-col justify-center items-center bg-black/80 backdrop-blur-sm z-10" data-var="overlay">
         <div class="flex flex-col items-center max-w-2xl w-full flex p-4 gap-6" data-var="popin">
           <p class="text-2xl">${confirmSentence}</p>
+          <button class="w-0 h-1" data-var="focus"></button>
           <div data-var="actions" class="flex justify-between w-full gap-4 flex-wrap"></div>
         </div>
       </div>`)
       .addEventListener('overlay', 'click', (e) => proceed(e, 0))
       .appendTo(document.body)
+
+    popin.get('focus').focus()
 
     options.forEach(option => {
       const button = new Brique(`<button data-var="action">${option.label}</button>`)

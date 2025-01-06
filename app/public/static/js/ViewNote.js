@@ -11,7 +11,7 @@ class ViewNote {
     this.history = new History('ViewNote')
 
     this.view = new Brique(`<div class="flex flex-col gap-4">
-        <div>
+        <div class="p-2">
           <label for="note" class="block text-sm font-medium leading-6">${Translator.__('ViewNote:label')}</label>
           <div class="flex flex-wrap md:flex-nowrap w-full items-stretch gap-2 rounded-md">
             <textarea autocomplete="off" id="note" class="h-32 md:h-16 border border-white hover:border-amber-500 focus-within:border-amber-500 rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="note"></textarea>
@@ -19,7 +19,7 @@ class ViewNote {
           </div>
         </div>
         <div class="flex flex-col gap-2 pt-4">
-          <div class="flex flex-wrap justify-end gap-2">
+          <div class="p-2 flex flex-wrap justify-end gap-2">
             <button class="w-full sm:w-auto bg-cyan-700 hover:bg-transparent hover:text-cyan-700 focus:bg-transparent focus:text-cyan-700 rounded flex justify-center sm:justify-start gap-2 items-center p-2" data-var="download">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
@@ -39,8 +39,8 @@ class ViewNote {
               ${Translator.__('ViewNote:remove')}
             </button>
           </div>
-          <ul data-var="history" class="border border-zinc-700 rounded">
-          </ul>
+          <div data-var="history">
+          </div>
         </div>
       </div>`)
       .appendTo($content, true)

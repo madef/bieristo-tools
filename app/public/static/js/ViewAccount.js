@@ -7,7 +7,7 @@ import Confirm from './Confirm.js'
 class ViewAccount {
   constructor ($content) {
     this.view = new Brique(`<div class="flex flex-col items-center gap-4">
-        <div class="flex flex-col md:w-1/3 lg:w-1/3 gap-2 pt-4">
+        <div class="flex flex-col p-2 md:w-1/3 lg:w-1/3 gap-2 pt-4">
           <div class="flex flex-col gap-4">
             <button class="text-lg bg-cyan-700 hover:bg-transparent hover:text-cyan-700 focus:bg-transparent focus:text-cyan-700 rounded flex justify-between items-center p-4" data-var="save">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
@@ -16,10 +16,9 @@ class ViewAccount {
               ${Translator.__('ViewAccount:save')}
             </button>
             <button class="text-lg bg-cyan-700 hover:bg-transparent hover:text-cyan-700 focus:bg-transparent focus:text-cyan-700 rounded flex justify-between items-center p-4" data-var="open">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
-            </svg>
-
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+              </svg>
               ${Translator.__('ViewAccount:open')}
             </button>
             <input type="file" class="invisible w-0 absolute" data-var="file" accept=".bieristo.json" />
