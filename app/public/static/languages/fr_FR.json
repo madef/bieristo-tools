@@ -53,6 +53,21 @@
   "Api:Request:error": {
     "*": "Erreur: la requête a échoué."
   },
+  "Api:DeleteUser:invalid": {
+    "*": "Erreur : Votre connexion a expirée."
+  },
+  "Api:DeleteUser:missingToken": {
+    "*": "Erreur: Le token est manquant."
+  },
+  "Api:DeleteUser:unknowUser": {
+    "*": "Erreur: Le compte est innexistant."
+  },
+  "Api:DeleteUser:failed": {
+    "*": "Erreur: La compte n'a pas été supprimé."
+  },
+  "Api:DeleteUser:success": {
+    "*": "Compte supprimé."
+  },
   "Confirm:default": {
     "*": "Êtes-vous certain ?"
   },
@@ -80,11 +95,20 @@
   "ViewAccount:open": {
     "*": "Charger une configuration"
   },
-  "ViewAccount:remove": {
+  "ViewAccount:removeLocalData": {
     "*": "Supprimer les données locales"
   },
-  "ViewAccount:Confirm:remove": {
+  "ViewAccount:Confirm:removeLocalData": {
     "*": "Confirmez-vous vouloir supprimer l'ensemble des données locales ?"
+  },
+  "ViewAccount:removeAccount": {
+    "*": "Supprimer mon compte"
+  },
+  "ViewAccount:Confirm:removeAccount": {
+    "*": "Confirmez-vous vouloir supprimer le compte, l'ensemble des données, ainsi que des données locales ?"
+  },
+  "ViewAccount:Confirm:logout": {
+    "*": "Confirmez-vous vouloir vous déconnecter ?"
   },
   "ViewAccount:Error:cannotLoadFile": {
     "*": "Le fichier n'a pas pu être chargé."

@@ -35,7 +35,7 @@ class User {
           this.dispatchStatusChanged()
         }
 
-        if (result.status === 'ERROR' || !this.isTokenChecked()) {
+        if (result.status === 'ERROR') {
           new Confirm( // eslint-disable-line no-new
             () => {
             },
@@ -48,6 +48,7 @@ class User {
               }
             ]
           )
+          return
         }
 
         if (result.status === 'OK' && !sessionStorage.getItem('lastCheckToken')) { // eslint-disable-line no-undef

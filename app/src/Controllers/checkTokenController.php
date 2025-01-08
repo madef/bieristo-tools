@@ -76,33 +76,12 @@ function checkTokenController(array $data)
             'encoded_email' => $encodedEmail,
             'date_creation' => new MongoDB\BSON\UTCDateTime()
         ]);
-
-        $userDocId = $insertResult->getInsertedId();
-        /*
-        // Optionnellement, on peut aussi sauvegarder user_id dans le token
-        $tokenCollection->updateOne(
-            ['_id' => $tokenDoc['_id']],
-            ['$set' => ['user_id' => $userDocId]]
-        );
-         */
-    //} else {
-        $userDocId = $userDoc['_id'];
-        /*
-        // Optionnellement, on verifie si le tokenDoc a deja un user_id
-        if (empty($tokenDoc['user_id'])) {
-            $tokenCollection->updateOne(
-                ['_id' => $tokenDoc['_id']],
-                ['$set' => ['user_id' => $userDocId]]
-            );
-        }
-         */
     }
 
     // 7. Reponse au client
     echo json_encode([
         'status'  => 'OK',
         'message' => 'Api:CheckToken:success',
-        //'user_id' => (string)$userDocId
     ]);
 }
 

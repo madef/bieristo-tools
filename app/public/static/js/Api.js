@@ -16,11 +16,12 @@ class Api {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === XMLHttpRequest.DONE) { // eslint-disable-line no-undef
         if (xhr.status === 200 || xhr.status === 400 || xhr.status === 401) {
+          console.debug('Api call:', data, xhr.status, xhr.responseText, new Date().toISOString())
           if (typeof callback === 'function') {
             callback(JSON.parse(xhr.responseText))
           }
         } else {
-          console.error('Erreur XHR:', xhr.status, xhr.responseText)
+          console.error('Erreur XHR:', data, xhr.status, xhr.responseText, new Date().toISOString())
           alert(Translator.__('Api:Request:error')) // eslint-disable-line no-undef
         }
       }

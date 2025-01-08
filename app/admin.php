@@ -187,11 +187,6 @@ if ($command === 'delete-user') {
     }
 
     $userCollection = $db->selectCollection('user');
-    $brassinCollection = $db->selectCollection('brassin');
-
-    // Supprimer d'abord les brassins rattachés
-    $deleteBrassinsResult = $brassinCollection->deleteMany(['user_id' => $userObjectId]);
-    $nbrBrassins = $deleteBrassinsResult->getDeletedCount();
 
     // Supprimer le user
     $deleteUserResult = $userCollection->deleteOne(['_id' => $userObjectId]);
@@ -201,7 +196,6 @@ if ($command === 'delete-user') {
     }
 
     echo "Utilisateur $userIdInput supprimé avec succès.\n";
-    echo "Brassins supprimés: $nbrBrassins\n";
     exit(0);
 }
 

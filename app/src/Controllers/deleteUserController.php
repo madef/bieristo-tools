@@ -3,8 +3,7 @@
  * deleteUserController.php
  *
  * Contrôleur gérant l'action "delete-user".
- * Supprime l'utilisateur associé au token, 
- * ainsi que tous les brassins liés à cet utilisateur.
+ * Supprime l'utilisateur associé au token.
  */
 
 require_once __DIR__ . '/../Services/TokenService.php';
@@ -17,7 +16,7 @@ function deleteUserController(array $data)
         http_response_code(400);
         echo json_encode([
             'status'  => 'ERROR',
-            'message' => 'Token missing in request'
+            'message' => 'Api:DeleteUser:missingToken',
         ]);
         return;
     }
@@ -25,13 +24,13 @@ function deleteUserController(array $data)
     $tokenValue = $data['token'];
 
     // 2. Vérifier le token et récupérer l'user_id
-    $userId = \App\Services\TokenService::checkTokenAndGetUserId($tokenValue);
+    $userId = TokenService::checkTokenAndGetUserId($tokenValue);
     if (!$userId) {
         // Token invalide ou expiré
         http_response_code(401);
         echo json_encode([
             'status'  => 'ERROR',
-            'message' => 'Invalid or expired token'
+            'message' => 'Api:DeleteUser:invalidToken',
         ]);
         return;
     }
@@ -39,41 +38,34 @@ function deleteUserController(array $data)
     // 3. Connexion MongoDB
     $mongoDb = MongoDBService::getInstance();
     $userCollection    = $mongoDb->selectCollection('user');
-    $brassinCollection = $mongoDb->selectCollection('brassin');
 
     // Vérifier que l'user existe (optionnel mais utile pour un code 404)
-    $userDoc = $userCollection->findOne(['_id' => $userId]);
+    $userDoc = $userCollection->findOne(['encoded_email' => $userId]);
     if (!$userDoc) {
         http_response_code(404);
         echo json_encode([
             'status'  => 'ERROR',
-            'message' => 'User not found'
+            'message' => 'Api:DeleteUser:unknowUser',
         ]);
         return;
     }
 
-    // 4. Supprimer tous les brassins liés à cet user
-    $deleteBrassinsResult = $brassinCollection->deleteMany(['user_id' => $userId]);
-    $nbrBrassinsSupprimes = $deleteBrassinsResult->getDeletedCount();
-
-    // 5. Supprimer l'utilisateur
-    $deleteUserResult = $userCollection->deleteOne(['_id' => $userId]);
+    // 4. Supprimer l'utilisateur
+    $deleteUserResult = $userCollection->deleteOne(['encoded_email' => $userId]);
     if ($deleteUserResult->getDeletedCount() < 1) {
         // Aucune suppression réalisée ?
         http_response_code(500);
         echo json_encode([
             'status'  => 'ERROR',
-            'message' => 'Failed to delete user'
+            'message' => 'Api:DeleteUser:failed',
         ]);
         return;
     }
 
-    // 6. Réponse OK
+    // 5. Réponse OK
     echo json_encode([
         'status'             => 'OK',
-        'message'            => 'User and brassins deleted successfully',
-        'user_id'            => (string)$userId,
-        'brassins_deleted'   => $nbrBrassinsSupprimes
+        'message'            => 'Api:DeleteUser:success',
     ]);
 }
 
