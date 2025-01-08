@@ -9,15 +9,34 @@ RUN apt-get update && apt-get install -y \
     libicu-dev \
     libssl-dev \
     pkg-config \
+    curl \
+    gnupg \
     git \
     nano \
     nodejs \
     npm \
     && rm -rf /var/lib/apt/lists/*
 
+RUN git clone https://github.com/mongodb/mongo-php-driver.git \
+    && cd mongo-php-driver \
+    && git submodule update --init \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && docker-php-ext-enable mongodb \
+    && cd .. \
+    && rm -rf mongo-php-driver \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+
+#RUN pecl config-set preferred_state stable \
+#    && pecl config-set http_proxy https://pecl.php.net
+
 # Installation de l'extension MongoDB
-RUN pecl install mongodb \
-    && docker-php-ext-enable mongodb
+#RUN pecl channel-update pecl.php.net \
+#    && pecl install mongodb \
+#    && docker-php-ext-enable mongodb
 
 # Telechargement et installation de Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -37,7 +56,7 @@ RUN npm init -y
 # RUN npm install -g standard tailwindcss
 #
 # - Installation en local (devDependencies) pour le projet:
-RUN npm install --save-dev standard tailwindcss
+#RUN npm install --save-dev standard tailwindcss
 
 # Expose le port 80 pour Apache
 EXPOSE 80
