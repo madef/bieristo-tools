@@ -28,7 +28,7 @@ use MongoDB\BSON\UTCDateTime;
 function printUsage()
 {
     echo "Usage:\n";
-    echo "  php admin.php list-token\n";
+    echo "  php admin.php list-tokens\n";
     echo "  php admin.php list-users\n";
     echo "  php admin.php user <user_id>\n";
     echo "  php admin.php delete-user <user_id>\n";

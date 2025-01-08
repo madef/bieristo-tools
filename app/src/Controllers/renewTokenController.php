@@ -41,7 +41,7 @@ function renewTokenController(array $data)
     $newTokenValue = bin2hex(random_bytes(16)); // par ex. 32 caracteres hexa
     $dateCreation  = new UTCDateTime(); 
     // Duree de validite ex. +1h
-    $dateFinValidite = new UTCDateTime((time() + 3600) * 1000); 
+    $dateFinValidite = new UTCDateTime((time() + 48 * 3600) * 1000);
 
     // 4. Inserer le nouveau token dans la collection token
     $mongoDb = MongoDBService::getInstance();

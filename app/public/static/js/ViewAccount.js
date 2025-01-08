@@ -122,7 +122,9 @@ class ViewAccount {
         new Confirm( // eslint-disable-line no-new
           (code) => {
             if (code === 1) {
+              localStorage.clear()
               sessionStorage.clear() // eslint-disable-line no-undef
+              window.location.reload()
             }
           },
           Translator.__('ViewAccount:Confirm:logout')

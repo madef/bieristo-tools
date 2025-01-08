@@ -51,10 +51,6 @@ class User {
           return
         }
 
-        if (result.status === 'OK' && !sessionStorage.getItem('lastCheckToken')) { // eslint-disable-line no-undef
-          sessionStorage.setItem('lastCheckToken', new Date().toISOString()) // eslint-disable-line no-undef
-        }
-
         Api.send('get-user', { token: localStorage.getItem('token') }, result => { // eslint-disable-line no-undef
           if (result.status === 'OK') {
             const data = this.getData()
@@ -205,7 +201,7 @@ class User {
             ]
           )
         } else {
-          sessionStorage.setItem('token', result.token) // eslint-disable-line no-undef
+          localStorage.setItem('token', result.token) // eslint-disable-line no-undef
           sessionStorage.setItem('lastCheckToken', new Date().toISOString()) // eslint-disable-line no-undef
         }
       })
@@ -227,7 +223,7 @@ class User {
     const currentDate = new Date()
     const diffInMinutes = (currentDate - lastCheckTokenDate) / 1000 / 60
 
-    if (diffInMinutes > 15) {
+    if (diffInMinutes > 60 * 12) {
       return true
     } else {
       return false
