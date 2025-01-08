@@ -16,12 +16,12 @@ function askTokenController(array $data)
         http_response_code(400);
         echo json_encode([
             'status' => 'ERROR',
-            'message' => 'Email missing in request'
+            'message' => 'Api:AskToken:missingEmail',
         ]);
         return;
     }
 
-    $email = $data['email'];
+    $email = strtolower($data['email']);
 
     // 2. Encoder l'email via un hash robuste avec sel (cf. APP_SALT)
     $encodedEmail = encodeEmail($email);
@@ -53,8 +53,7 @@ function askTokenController(array $data)
     // 6. Retourner la reponse JSON au client
     echo json_encode([
         'status' => 'OK',
-        'message' => 'Token generated and sent',
-        'token_id' => (string)$insertResult->getInsertedId()
+        'message' => 'Api:AskToken:success'
     ]);
 }
 

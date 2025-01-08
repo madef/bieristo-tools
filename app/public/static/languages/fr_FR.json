@@ -2,6 +2,57 @@
   "AppTitle": {
     "*": "Outils de brassage - Bieristo"
   },
+  "Api:AskToken:missingEmail": {
+    "*": "Erreur : L'email est manquant."
+  },
+  "Api:AskToken:success": {
+    "*": "Un email avec un lien de connexion vous a été envoyé."
+  },
+  "Api:CheckToken:invalid": {
+    "*": "Erreur : Le lien de connexion a expiré."
+  },
+  "Api:CheckToken:missingToken": {
+    "*": "Erreur: Le token est manquant."
+  },
+  "Api:CheckToken:success": {
+    "*": "Vous êtes connecté."
+  },
+  "Api:RenewToken:invalid": {
+    "*": "Erreur : Votre connexion a expirée."
+  },
+  "Api:RenewToken:missingToken": {
+    "*": "Erreur: Le token est manquant."
+  },
+  "Api:RenewToken:success": {
+    "*": "Token renouvelé."
+  },
+  "Api:GetUser:invalid": {
+    "*": "Erreur : Votre connexion a expirée."
+  },
+  "Api:GetUser:missingToken": {
+    "*": "Erreur: Le token est manquant."
+  },
+  "Api:GetUser:unknowUser": {
+    "*": "Erreur: Le compte est innexistant."
+  },
+  "Api:UpdateUser:invalid": {
+    "*": "Erreur : Votre connexion a expirée."
+  },
+  "Api:UpdateUser:missingToken": {
+    "*": "Erreur: Le token est manquant."
+  },
+  "Api:UpdateUser:missingData": {
+    "*": "Erreur: Le champ data est manquant."
+  },
+  "Api:UpdateUser:unknowUser": {
+    "*": "Erreur: Le compte innexistant."
+  },
+  "Api:UpdateUser:success": {
+    "*": "Mise à jour effectuée."
+  },
+  "Api:Request:error": {
+    "*": "Erreur: la requête a échoué."
+  },
   "Confirm:default": {
     "*": "Êtes-vous certain ?"
   },
@@ -19,6 +70,12 @@
   },
   "ViewAccount:save": {
     "*": "Sauvegarder la configuration"
+  },
+  "ViewAccount:create": {
+    "*": "Créer un compte ou se connecter"
+  },
+  "ViewAccount:disconnect": {
+    "*": "Se déconnecter"
   },
   "ViewAccount:open": {
     "*": "Charger une configuration"

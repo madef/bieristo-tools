@@ -118,13 +118,13 @@ cat << 'EOF' > README.md
   Point d'entree unique de l'application (API). Recupere les requetes JSON et les redirige vers les controleurs adequats.
 
 - **src/Controllers**  
-  Contient les classes qui gerent chaque action (ask-token, check-token, brassin, etc.).
+  Contient les classes qui gerent chaque action (ask-token, check-token, etc.).
 
 - **src/Services**  
   Logique metier transversale (connexion MongoDB, hashing email, envoi mail, etc.).
 
 - **src/Models**  
-  Definition des schemas ou modeles pour les collections (User, Token, Brassin, History).
+  Definition des schemas ou modeles pour les collections (User, Token, ).
 
 ## Comment demarrer
 

@@ -19,60 +19,58 @@ function updateUserController(array $data)
         http_response_code(400);
         echo json_encode([
             'status'  => 'ERROR',
-            'message' => 'Token missing in request'
+            'message' => 'Api:UpdateUser:missingToken',
         ]);
         return;
     }
     $tokenValue = $data['token'];
 
     // 2. Vérifier la validité du token et extraire l'user_id
-    $userId = \App\Services\TokenService::checkTokenAndGetUserId($tokenValue);
+    $userId = TokenService::checkTokenAndGetUserId($tokenValue);
     if (!$userId) {
         // Token invalide ou expiré
         http_response_code(401);
         echo json_encode([
             'status'  => 'ERROR',
-            'message' => 'Invalid or expired token'
+            'message' => 'Api:UpdateUser:invalid',
         ]);
         return;
     }
 
     // 3. Vérifier la présence du champ "unity"
     //    (on suppose que c'est un champ JSON libre ou une simple valeur)
-    if (!array_key_exists('unity', $data)) {
+    if (!array_key_exists('data', $data)) {
         http_response_code(400);
         echo json_encode([
             'status'  => 'ERROR',
-            'message' => 'Missing "unity" field in request'
+            'message' => 'Api:UpdateUser:missingData',
         ]);
         return;
     }
-    $unityValue = $data['unity']; 
-    // Par exemple, ça peut être un objet JSON, ex. { "foo": "bar" } 
-    // ou un simple string "someUnityValue".
+    $data = $data['data'];
 
     // 4. Connexion à la base et récupération du user
     $mongoDb = MongoDBService::getInstance();
     $userCollection = $mongoDb->selectCollection('user');
 
-    $userDoc = $userCollection->findOne(['_id' => $userId]);
+    $userDoc = $userCollection->findOne(['encoded_email' => $userId]);
     if (!$userDoc) {
         // L'utilisateur n'existe pas ou a été supprimé
         http_response_code(404);
         echo json_encode([
             'status'  => 'ERROR',
-            'message' => 'User not found'
+            'message' => 'Api:UpdateUser:unknowUser',
         ]);
         return;
     }
 
-    // 5. Mettre à jour le champ "unity" 
+    // 5. Mettre à jour le champ "data"
     //    On peut aussi définir un champ "date_modif" ou "date_update" si on veut tracer.
     $updateResult = $userCollection->updateOne(
-        ['_id' => $userId],
+        ['encoded_email' => $userId],
         [
             '$set' => [
-                'unity'      => $unityValue,
+                'data' => $data,
                 'date_modif' => new UTCDateTime() // utile pour tracer les mises à jour
             ]
         ]
@@ -82,7 +80,7 @@ function updateUserController(array $data)
         // Aucune modification ?
         echo json_encode([
             'status'  => 'ERROR',
-            'message' => 'No change performed on user document'
+            'message' => 'Api:UpdateUser:noChange',
         ]);
         return;
     }
@@ -90,7 +88,7 @@ function updateUserController(array $data)
     // 6. Réponse OK
     echo json_encode([
         'status' => 'OK',
-        'message'=> 'User updated successfully',
+        'message' => 'Api:UpdateUser:success',
         'user_id'=> (string) $userId
     ]);
 }

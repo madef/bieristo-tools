@@ -40,14 +40,14 @@ class TokenService
         }
 
         // Si on souhaite etre sur que le champ user_id existe
-        if (empty($tokenDoc['user_id'])) {
+        if (empty($tokenDoc['encoded_email'])) {
             // Si pas de user_id => token associe a aucun user
             return null;
         }
 
         // Retourne l'ObjectId du user
         // Ici, on laisse sous forme d'ObjectId
-        return $tokenDoc['user_id'];
+        return $tokenDoc['encoded_email'];
     }
 }
 

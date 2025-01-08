@@ -4,20 +4,16 @@
  * admin.php
  *
  * Script CLI d'administration MongoDB pour :
+ *   - list-tokens
  *   - list-users
  *   - user <user_id>
- *   - list-brassins <user_id>
- *   - brassin <brassin_id>
  *   - delete-user <user_id>
- *   - delete-brassin <brassin_id>
  *
  * Usage :
+ *   php admin.php list-tokens
  *   php admin.php list-users
  *   php admin.php user 64abc123...
- *   php admin.php list-brassins 64abc123...
- *   php admin.php brassin 64abc999...
  *   php admin.php delete-user 64abc123...
- *   php admin.php delete-brassin 64abc999...
  */
 
 require __DIR__ . '/vendor/autoload.php';
@@ -32,12 +28,10 @@ use MongoDB\BSON\UTCDateTime;
 function printUsage()
 {
     echo "Usage:\n";
+    echo "  php admin.php list-token\n";
     echo "  php admin.php list-users\n";
     echo "  php admin.php user <user_id>\n";
-    echo "  php admin.php list-brassins <user_id>\n";
-    echo "  php admin.php brassin <brassin_id>\n";
     echo "  php admin.php delete-user <user_id>\n";
-    echo "  php admin.php delete-brassin <brassin_id>\n";
     exit(1);
 }
 
@@ -69,10 +63,42 @@ $command = $argv[1];
 $db = getMongoDB();
 
 // ----------------------------------------------------
+// Commande: list-tokens
+// ----------------------------------------------------
+if ($command === 'list-tokens') {
+    $userCollection = $db->selectCollection('token');
+    $cursor = $userCollection->find([], ['sort' => ['date_creation' => -1]]);
+
+    echo "Liste des tokens:\n";
+    foreach ($cursor as $doc) {
+        $tokenId = (string)$doc['_id'];
+        $tokenValue = $doc['valeur_token'] ?? 'inconnu';
+        $encodedEmail = $doc['encoded_email'] ?? 'inconnu';
+
+        // Conversion en timestamp
+        $dateCreation = $doc['date_creation'] instanceof UTCDateTime 
+            ? $doc['date_creation']->toDateTime()->format('Y-m-d H:i:s') 
+            : 'inconnu';
+
+        $dateFinValidite = $doc['date_fin_validite'] instanceof UTCDateTime 
+            ? $doc['date_fin_validite']->toDateTime()->format('Y-m-d H:i:s') 
+            : 'inconnu';
+
+        echo "--------------------------------------\n";
+        echo "Token ID       : $tokenId\n";
+        echo "Valeur token   : $tokenValue\n";
+        echo "Email encode   : $encodedEmail\n";
+        echo "Date creation  : $dateCreation\n";
+        echo "Date expiration: $dateFinValidite\n";
+    }
+    echo "--------------------------------------\n";
+    exit(0);
+}
+
+// ----------------------------------------------------
 // Commande: list-users
 // ----------------------------------------------------
 if ($command === 'list-users') {
-
     $userCollection = $db->selectCollection('user');
     $cursor = $userCollection->find([], ['sort' => ['date_creation' => -1]]);
 
@@ -134,96 +160,9 @@ if ($command === 'user') {
     }
 
     // Ex. si vous stockez unity ou autre champ
-    if (isset($doc['unity'])) {
+    if (isset($doc['data'])) {
         // S'il s'agit d'un objet / tableau
-        echo "unity           : " . json_encode($doc['unity']) . "\n";
-    }
-    echo "-------------------------------------------------\n";
-
-    exit(0);
-}
-
-// ----------------------------------------------------
-// Commande: list-brassins <user_id>
-// ----------------------------------------------------
-if ($command === 'list-brassins') {
-    if ($argc < 3) {
-        echo "user_id manquant\n";
-        printUsage();
-    }
-    $userIdInput = $argv[2];
-
-    try {
-        $userObjectId = new ObjectId($userIdInput);
-    } catch (Exception $e) {
-        echo "Format de user_id invalide\n";
-        exit(1);
-    }
-
-    $brassinCollection = $db->selectCollection('brassin');
-    $cursor = $brassinCollection->find(
-        ['user_id' => $userObjectId],
-        ['sort' => ['date_creation' => -1]]
-    );
-
-    echo "Liste des brassins pour user _id=$userIdInput:\n";
-    foreach ($cursor as $doc) {
-        $id = (string)$doc['_id'];
-        $titre = $doc['titre'] ?? '(N/A)';
-        $dateCreat = '';
-        if (!empty($doc['date_creation']) && $doc['date_creation'] instanceof UTCDateTime) {
-            $dateCreat = $doc['date_creation']->toDateTime()->format('Y-m-d H:i:s');
-        }
-        echo "--------------------------------------\n";
-        echo "Brassin ID   : $id\n";
-        echo "Titre        : $titre\n";
-        echo "date_creation: $dateCreat\n";
-    }
-    echo "--------------------------------------\n";
-    exit(0);
-}
-
-// ----------------------------------------------------
-// Commande: brassin <brassin_id>
-// ----------------------------------------------------
-if ($command === 'brassin') {
-    if ($argc < 3) {
-        echo "brassin_id manquant\n";
-        printUsage();
-    }
-    $brassinIdInput = $argv[2];
-    try {
-        $brassinObjectId = new ObjectId($brassinIdInput);
-    } catch (Exception $e) {
-        echo "Format de brassin_id invalide\n";
-        exit(1);
-    }
-
-    $brassinCollection = $db->selectCollection('brassin');
-    $doc = $brassinCollection->findOne(['_id' => $brassinObjectId]);
-
-    if (!$doc) {
-        echo "Aucun brassin trouvé pour _id=$brassinIdInput\n";
-        exit(0);
-    }
-
-    // Partie du code a modifier : affichage formate du brassin
-    echo "Informations pour le brassin _id=$brassinIdInput:\n";
-    echo "-------------------------------------------------\n";
-    echo "Brassin ID   : " . (string)$doc['_id'] . "\n";
-    echo "Titre        : " . ($doc['titre'] ?? 'N/A') . "\n";
-
-    if (isset($doc['date_creation']) && $doc['date_creation'] instanceof UTCDateTime) {
-        echo "date_creation : "
-             . $doc['date_creation']->toDateTime()->format('Y-m-d H:i:s')
-             . "\n";
-    } else {
-        echo "date_creation : (inconnue)\n";
-    }
-
-    // Ex. si vous stockez un champ 'history' ou autre
-    if (isset($doc['history'])) {
-        echo "history       : " . json_encode($doc['history']) . "\n";
+        echo "data            : " . json_encode($doc['data']) . "\n";
     }
     echo "-------------------------------------------------\n";
 
@@ -263,35 +202,6 @@ if ($command === 'delete-user') {
 
     echo "Utilisateur $userIdInput supprimé avec succès.\n";
     echo "Brassins supprimés: $nbrBrassins\n";
-    exit(0);
-}
-
-// ----------------------------------------------------
-// Commande: delete-brassin <brassin_id>
-// ----------------------------------------------------
-if ($command === 'delete-brassin') {
-    if ($argc < 3) {
-        echo "brassin_id manquant\n";
-        printUsage();
-    }
-    $brassinIdInput = $argv[2];
-
-    try {
-        $brassinObjectId = new ObjectId($brassinIdInput);
-    } catch (Exception $e) {
-        echo "Format de brassin_id invalide\n";
-        exit(1);
-    }
-
-    $brassinCollection = $db->selectCollection('brassin');
-
-    $deleteResult = $brassinCollection->deleteOne(['_id' => $brassinObjectId]);
-    if ($deleteResult->getDeletedCount() < 1) {
-        echo "Aucun brassin supprimé. L'_id=$brassinIdInput existe-t-il ?\n";
-        exit(1);
-    }
-
-    echo "Brassin $brassinIdInput supprimé avec succès.\n";
     exit(0);
 }
 

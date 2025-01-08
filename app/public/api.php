@@ -38,32 +38,6 @@ switch ($action) {
         require_once __DIR__ . '/../src/Controllers/deleteUserController.php';
         deleteUserController($data);
         break;
-    case 'get-brassin':
-        require_once __DIR__ . '/../src/Controllers/getBrassinController.php';
-        getBrassinController($data);
-        break;
-    case 'create-brassin':
-        require_once __DIR__ . '/../src/Controllers/createBrassinController.php';
-        createBrassinController($data);
-        break;
-    case 'update-brassin':
-        require_once __DIR__ . '/../src/Controllers/updateBrassinController.php';
-        updateBrassinController($data);
-        break;
-    case 'get-brassin-collection':
-        require_once __DIR__ . '/../src/Controllers/getBrassinCollectionController.php';
-        getBrassinCollectionController($data);
-        break;
-    /*
-    case 'add-history':
-        require_once __DIR__ . '/../src/Controllers/addHistoryController.php';
-        addHistoryController($data);
-        break;
-    case 'delete-history':
-        require_once __DIR__ . '/../src/Controllers/deleteHistoryController.php';
-        deleteHistoryController($data);
-        break;
-    */
     default:
         echo json_encode(['error' => "Unknown action: $action"]);
         break;

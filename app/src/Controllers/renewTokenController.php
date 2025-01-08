@@ -19,20 +19,20 @@ function renewTokenController(array $data)
         http_response_code(400);
         echo json_encode([
             'status'  => 'ERROR',
-            'message' => 'Token missing in request'
+            'message' => 'Api:RenewToken:missingToken',
         ]);
         return;
     }
     $oldTokenValue = $data['token'];
 
     // 2. Verifier la validite du token => recuperer l'user_id
-    $userId = \App\Services\TokenService::checkTokenAndGetUserId($oldTokenValue);
+    $userId = TokenService::checkTokenAndGetUserId($oldTokenValue);
     if (!$userId) {
         // Token invalide ou expire
         http_response_code(401);
         echo json_encode([
             'status'  => 'ERROR',
-            'message' => 'Invalid or expired token'
+            'message' => 'Api:RenewToken:invalid',
         ]);
         return;
     }
@@ -48,7 +48,7 @@ function renewTokenController(array $data)
     $tokenCollection = $mongoDb->selectCollection('token');
 
     $insertResult = $tokenCollection->insertOne([
-        'user_id'          => $userId,
+        'encoded_email'    => $userId,
         'valeur_token'     => $newTokenValue,
         'date_creation'    => $dateCreation,
         'date_fin_validite'=> $dateFinValidite
@@ -56,9 +56,9 @@ function renewTokenController(array $data)
 
     // 5. Retourner le nouveau token
     echo json_encode([
-        'status'      => 'OK',
-        'message'     => 'New token generated successfully',
-        'new_token'   => $newTokenValue
+        'status'  => 'OK',
+        'token'   => $newTokenValue,
+        'message' => 'Api:RenewToken:success',
     ]);
 }
 

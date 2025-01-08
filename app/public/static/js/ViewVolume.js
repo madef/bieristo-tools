@@ -27,7 +27,7 @@ class ViewVolume {
           <div class="w-full md:w-1/4 flex flex-col grow gap-1">
             <label for="bottomHeight" class="block text-sm font-medium leading-6">${Translator.__('ViewVolume:Label:bottomHeight')}</label>
             <div class="relative rounded-md shadow-sm flex w-full items-center border border-white group hover:border-amber-500 focus-within:border-amber-500 pr-2 gap-2">
-                <input type="number" autocomplete="off" id="bottomHeight" value="10" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="bottomHeight">
+                <input type="number" autocomplete="off" id="bottomHeight" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="bottomHeight">
                 <div class="pointer-events-none" data-var="lengthUnit">${this.unit.get('length').shortLabel}</div>
             </div>
           </div>
@@ -35,7 +35,7 @@ class ViewVolume {
             <label for="tankHeight" class="block text-sm font-medium leading-6">${Translator.__('ViewVolume:Label:tankHeight')}</label>
             <div class="relative rounded-md shadow-sm flex flex-wrap md:flex-nowrap gap-2">
               <div class="flex w-full items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <input type="number" autocomplete="off" id="tankHeight" value="50" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="tankHeight">
+                <input type="number" autocomplete="off" id="tankHeight" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="tankHeight">
                 <div class="pointer-events-none" data-var="lengthUnit">${this.unit.get('length').shortLabel}</div>
               </div>
             </div>
@@ -44,7 +44,7 @@ class ViewVolume {
             <label for="diameter" class="block text-sm font-medium leading-6">${Translator.__('ViewVolume:Label:diameter')}</label>
             <div class="relative rounded-md shadow-sm flex flex-wrap md:flex-nowrap gap-2">
               <div class="flex w-full items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <input type="number" autocomplete="off" id="diameter" value="40" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="diameter">
+                <input type="number" autocomplete="off" id="diameter" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="diameter">
                 <div class="pointer-events-none" data-var="lengthUnit">${this.unit.get('length').shortLabel}</div>
               </div>
             </div>
@@ -141,8 +141,8 @@ class ViewVolume {
       this.view.get('bottomHeight').value = lastHistory.values[0]
       this.view.get('tankHeight').value = lastHistory.values[1]
       this.view.get('diameter').value = lastHistory.values[2]
+      this.updateResult()
     }
-    this.updateResult()
   }
 
   getLastHistory () {

@@ -22,7 +22,7 @@ function checkTokenController(array $data)
         http_response_code(400);
         echo json_encode([
             'status' => 'ERROR',
-            'message' => 'Token missing in request'
+            'message' => 'Api:CheckToken:invalid',
         ]);
         return;
     }
@@ -46,7 +46,7 @@ function checkTokenController(array $data)
         http_response_code(401);
         echo json_encode([
             'status' => 'ERROR',
-            'message' => 'Invalid or expired token'
+            'message' => 'Api:CheckToken:invalid',
         ]);
         return;
     }
@@ -58,7 +58,7 @@ function checkTokenController(array $data)
         http_response_code(500);
         echo json_encode([
             'status' => 'ERROR',
-            'message' => 'Token document missing encoded_email'
+            'message' => 'Api:CheckToken:invalid',
         ]);
         return;
     }
@@ -78,13 +78,16 @@ function checkTokenController(array $data)
         ]);
 
         $userDocId = $insertResult->getInsertedId();
+        /*
         // Optionnellement, on peut aussi sauvegarder user_id dans le token
         $tokenCollection->updateOne(
             ['_id' => $tokenDoc['_id']],
             ['$set' => ['user_id' => $userDocId]]
         );
-    } else {
+         */
+    //} else {
         $userDocId = $userDoc['_id'];
+        /*
         // Optionnellement, on verifie si le tokenDoc a deja un user_id
         if (empty($tokenDoc['user_id'])) {
             $tokenCollection->updateOne(
@@ -92,13 +95,14 @@ function checkTokenController(array $data)
                 ['$set' => ['user_id' => $userDocId]]
             );
         }
+         */
     }
 
     // 7. Reponse au client
     echo json_encode([
         'status'  => 'OK',
-        'message' => 'Token valid',
-        'user_id' => (string)$userDocId
+        'message' => 'Api:CheckToken:success',
+        //'user_id' => (string)$userDocId
     ]);
 }
 

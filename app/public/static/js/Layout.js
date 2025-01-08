@@ -15,7 +15,8 @@ class Layout {
     this.unit.addChangeObserver('layout', () => { this.renderUnitList($root) })
 
     this.user = User.getInstance()
-    this.user.setStatusObserver(() => { this.renderBottomMenu() })
+    this.user.setStatusObserver(() => { this.refreshUserView() })
+    this.user.setDataChangedObserver(() => { this.refresHistory() })
 
     this.layout = new Brique(`
       <div class="flex flex-col inset-0 bg-main text-white h-svh">
@@ -183,17 +184,42 @@ class Layout {
     })
   }
 
+  refreshUserView () {
+    this.renderBottomMenu()
+
+    if (this.currentBottomAction === 'account') {
+      new ViewAccount(this.layout.get('alt-content')) // eslint-disable-line no-new
+    }
+  }
+
+  refresHistory () {
+    if (typeof this.view.currentViewInstance === 'object') {
+      if (typeof this.view.currentViewInstance.renderHistory === 'function') {
+        this.view.currentViewInstance.renderHistory()
+      }
+      if (this.currentBottomAction === 'calculator') {
+        this.currentBottomView.renderHistory()
+      }
+    }
+  }
+
   renderBottomMenu () {
     this.layout.empty('bottom-menu')
 
     const accountButton = new Brique(`<button
-      class="w-12 flex-none flex flex-col justify-center items-center gap-1 group"
+      class="w-12 flex-none flex flex-col justify-center items-center gap-1 group relative"
       data-var="action"
       aria-label="${Translator.__('ViewAccount:title')}"
       title="${Translator.__('ViewAccount:title')}"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-auto aspect-square p-2 rounded bg-${this.currentBottomAction === 'account' ? 'cyan-700' : 'amber-500'} group-hover:bg-transparent group-focus:bg-transparent" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-auto aspect-square p-2 rounded bg-${this.currentBottomAction === 'account' ? 'cyan-700' : 'amber-500'} group-hover:text-${this.currentBottomAction === 'account' ? 'cyan-700' : 'amber-500'} group-hover:bg-transparent group-focus:bg-transparent" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${this.user.isLogged ? '' : 'hidden'} group-hover:text-${this.currentBottomAction === 'account' ? 'cyan-700' : 'amber-500'} size-4 absolute top-0.5 right-0.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9.348 14.652a3.75 3.75 0 0 1 0-5.304m5.304 0a3.75 3.75 0 0 1 0 5.304m-7.425 2.121a6.75 6.75 0 0 1 0-9.546m9.546 0a6.75 6.75 0 0 1 0 9.546M5.106 18.894c-3.808-3.807-3.808-9.98 0-13.788m13.788 0c3.808 3.807 3.808 9.98 0 13.788M12 12h.008v.008H12V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${this.user.isLogged ? 'hidden' : ''} group-hover:text-${this.currentBottomAction === 'account' ? 'cyan-700' : 'amber-500'} size-4 absolute top-0.5 right-0.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m3 3 8.735 8.735m0 0a.374.374 0 1 1 .53.53m-.53-.53.53.53m0 0L21 21M14.652 9.348a3.75 3.75 0 0 1 0 5.304m2.121-7.425a6.75 6.75 0 0 1 0 9.546m2.121-11.667c3.808 3.807 3.808 9.98 0 13.788m-9.546-4.242a3.733 3.733 0 0 1-1.06-2.122m-1.061 4.243a6.75 6.75 0 0 1-1.625-6.929m-.496 9.05c-3.068-3.067-3.664-7.67-1.79-11.334M12 12h.008v.008H12V12Z" />
       </svg>
     </button>`)
       .addEventListener('action', 'click', () => {
@@ -211,42 +237,24 @@ class Layout {
       aria-label="${Translator.__('ViewUnit:title')}"
       title="${Translator.__('ViewUnit:title')}"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-auto aspect-square p-2 rounded bg-${this.currentBottomAction === 'calculator' ? 'cyan-700' : 'amber-500'} group-hover:bg-transparent group-focus:bg-transparent" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-auto aspect-square p-2 rounded bg-${this.currentBottomAction === 'calculator' ? 'cyan-700' : 'amber-500'} group-hover:text-${this.currentBottomAction === 'calculator' ? 'cyan-700' : 'amber-500'} group-hover:bg-transparent group-focus:bg-transparent" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V13.5Zm0 2.25h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V18Zm2.498-6.75h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V13.5Zm0 2.25h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V18Zm2.504-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5Zm0 2.25h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V18Zm2.498-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5ZM8.25 6h7.5v2.25h-7.5V6ZM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 0 0 2.25 2.25h10.5a2.25 2.25 0 0 0 2.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0 0 12 2.25Z" />
       </svg>
     </button>`)
       .addEventListener('action', 'click', () => {
         this.switchBottomAction('calculator', () => {
-          new ViewUnit(this.layout.get('alt-content')) // eslint-disable-line no-new
+          this.currentBottomView = new ViewUnit(this.layout.get('alt-content')) // eslint-disable-line no-new
         })
       })
     this.layout.append('bottom-menu', calculatorButton)
 
-    /*
-    const historyButton = new Brique(`<button
-      class="w-12 flex-none flex flex-col justify-center items-center gap-1 group"
-      data-var="action"
-      aria-label="${Translator.__('ViewUnit:title')}"
-      title="${Translator.__('ViewUnit:title')}"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-auto aspect-square p-2 rounded bg-${this.currentBottomAction === 'history' ? 'cyan-700' : 'amber-500'} group-hover:bg-transparent group-focus:bg-transparent" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M6.429 9.75 2.25 12l4.179 2.25m0-4.5 5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0 4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0-5.571 3-5.571-3" />
-      </svg>
-    </button>`)
-      .addEventListener('action', 'click', () => {
-        this.switchBottomAction('history', () => {
-          this.view.currentViewInstance.renderHistory(this.layout.get('alt-content'))
-        })
-      })
-    this.layout.append('bottom-menu', historyButton)
-    */
     const noteButton = new Brique(`<button
       class="w-12 flex-none flex flex-col justify-center items-center gap-1 group"
       data-var="action"
       aria-label="${Translator.__('ViewNote:title')}"
       title="${Translator.__('ViewNote:title')}"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="w-full h-auto aspect-square p-2 rounded bg-${this.currentBottomAction === 'note' ? 'cyan-700' : 'amber-500'} group-hover:bg-transparent group-focus:bg-transparent" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="w-full h-auto aspect-square p-2 rounded bg-${this.currentBottomAction === 'note' ? 'cyan-700' : 'amber-500'} group-hover:text-${this.currentBottomAction === 'note' ? 'cyan-700' : 'amber-500'} group-hover:bg-transparent group-focus:bg-transparent" aria-hidden="true">
   <path d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
   <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
   <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>

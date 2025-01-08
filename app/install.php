@@ -93,22 +93,6 @@ try {
     echo "Erreur creation token collection : " . $e->getMessage() . PHP_EOL;
 }
 
-// c) Collection brassin
-try {
-    $db->createCollection('brassin');
-    echo "Collection 'brassin' creee ou deja existante." . PHP_EOL;
-} catch (Exception $e) {
-    echo "Erreur creation brassin collection : " . $e->getMessage() . PHP_EOL;
-}
-
-// d) Collection history
-try {
-    $db->createCollection('history');
-    echo "Collection 'history' creee ou deja existante." . PHP_EOL;
-} catch (Exception $e) {
-    echo "Erreur creation history collection : " . $e->getMessage() . PHP_EOL;
-}
-
 // 6. Fin du script
 echo "Installation terminee avec succes." . PHP_EOL;
 exit(0);

@@ -45,7 +45,7 @@ class ViewPressure {
             <label for="temperature" class="block text-sm font-medium leading-6">${Translator.__('ViewPressure:Label:temperature')}</label>
             <div class="relative rounded-md shadow-sm flex gap-2">
               <div class="flex w-full items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <input type="number" autocomplete="off" id="temperature" value="4" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="temperature">
+                <input type="number" autocomplete="off" id="temperature" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="temperature">
                 <div class="pointer-events-none whitespace-nowrap" data-var="temperatureUnit">${this.unit.get('temperature').shortLabel}</div>
               </div>
             </div>
@@ -54,7 +54,7 @@ class ViewPressure {
             <label for="min" class="block text-sm font-medium leading-6">${Translator.__('ViewPressure:Label:min')}</label>
             <div class="relative rounded-md shadow-sm flex gap-2">
               <div class="flex w-full items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <input type="number" autocomplete="off" id="min" value="1.5"  min="1.5" step="0.1" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="min">
+                <input type="number" autocomplete="off" id="min" min="1.5" step="0.1" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="min">
                 <div class="pointer-events-none whitespace-nowrap" >${Translator.__('ViewPressure:Unit:co2')}</div>
               </div>
             </div>
@@ -63,7 +63,7 @@ class ViewPressure {
             <label for="max" class="block text-sm font-medium leading-6">${Translator.__('ViewPressure:Label:max')}</label>
             <div class="relative rounded-md shadow-sm flex gap-2">
               <div class="flex w-full items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <input type="number" autocomplete="off" id="max" value="2" max="4.3" step="0.1" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="max">
+                <input type="number" autocomplete="off" id="max" max="4.3" step="0.1" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="max">
                 <div class="pointer-events-none whitespace-nowrap" >${Translator.__('ViewPressure:Unit:co2')}</div>
               </div>
             </div>
@@ -99,9 +99,9 @@ class ViewPressure {
         this.view.get('max').value = this.getCurrentStyle().max
         this.hideResult()
       })
-      .appendTo($content, true);
+      .appendTo($content, true)
 
-    ['min', 'max'].forEach((type) => {
+    ;['min', 'max'].forEach((type) => {
       this.view.addEventListener(type, 'keyup', () => {
         this.hideResult()
       })
@@ -119,6 +119,9 @@ class ViewPressure {
     this.renderStyleList()
     this.renderHistory()
     this.renderForm()
+
+    this.view.get('min').value = this.getCurrentStyle().min
+    this.view.get('max').value = this.getCurrentStyle().max
   }
 
   renderStyleList () {
@@ -463,8 +466,8 @@ class ViewPressure {
       this.view.get('temperature').value = lastHistory.values[1]
       this.view.get('min').value = lastHistory.values[2]
       this.view.get('max').value = lastHistory.values[3]
+      this.updateResult()
     }
-    this.updateResult()
   }
 
   renderHistory () {

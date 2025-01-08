@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Calculatrice du Brasseur</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-100">
+
+  <!-- Header -->
+  <header class="bg-gray-800 text-center py-12">
+    <div class="w-16 h-16 mx-auto">
+      <!-- Icône du fermenteur -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-full h-full text-white">
+        <!-- Fermenteur Cylindroconique -->
+        <defs>
+          <mask id="button-mask">
+            <!-- Tout le fermenteur est blanc (visible) -->
+            <rect width="100" height="100" fill="white" />
+            <!-- Boutons (trous transparents) -->
+            <rect x="35" y="20" width="30" height="10" fill="black" />
+            <circle cx="40" cy="40" r="4" fill="black" />
+            <circle cx="50" cy="40" r="4" fill="black" />
+            <circle cx="60" cy="40" r="4" fill="black" />
+            <circle cx="40" cy="50" r="4" fill="black" />
+            <circle cx="50" cy="50" r="4" fill="black" />
+            <circle cx="60" cy="50" r="4" fill="black" />
+            <circle cx="40" cy="60" r="4" fill="black" />
+            <circle cx="50" cy="60" r="4" fill="black" />
+            <circle cx="60" cy="60" r="4" fill="black" />
+          </mask>
+        </defs>
+        <path d="M30 10 h40 q10 0 10 10 v30 l-10 20 q-5 10 -10 10 h-20 q-5 0 -10 -10 l-10 -20 v-30 q0 -10 10 -10 z"
+              fill="currentColor" stroke="currentColor" stroke-width="2" mask="url(#button-mask)"/>
+        <!-- Pieds du Fermenteur -->
+        <line x1="40" y1="80" x2="40" y2="90" stroke="currentColor" stroke-width="2" />
+        <line x1="60" y1="80" x2="60" y2="90" stroke="currentColor" stroke-width="2" />
+        <!-- Connexion en bas -->
+
+        <!-- Touches de la Calculatrice -->
+        <rect x="37" y="22" width="6" height="6" fill="currentColor" />
+        <rect x="45" y="22" width="6" height="6" fill="currentColor" />
+        <rect x="53" y="22" width="6" height="6" fill="currentColor" />
+      </svg>
+
+    </div>
+    <h1 class="text-4xl font-bold mt-4">La Calculatrice du Brasseur</h1>
+    <p class="text-gray-400 mt-2">L'Application pour Brasseurs Passionnés</p>
+  </header>
+
+  <!-- Introduction -->
+  <section class="bg-gray-700 py-12 px-6 text-center">
+    <p class="text-lg text-gray-300 max-w-3xl mx-auto">
+      La Calculatrice du Brasseur est une application web open source conçue pour accompagner les brasseurs amateurs et professionnels dans toutes les étapes de leur processus de brassage. Accessible depuis votre navigateur, elle vous offre des fonctionnalités puissantes sans nécessiter de téléchargement. Synchronisez vos données entre vos appareils (mobile et ordinateur) en créant un compte ou utilisez-la de manière anonyme pour une expérience immédiate.
+    </p>
+  </section>
+
+  <!-- Lien vers le projet -->
+  <section class="bg-gray-900 py-12 px-6 text-center">
+    <h2 class="text-2xl font-semibold">Accédez à La Calculatrice du Brasseur</h2>
+    <p class="mt-4 text-gray-300 max-w-3xl mx-auto">
+      Essayez gratuitement <strong>La Calculatrice du Brasseur</strong> dès maintenant. Optimisez vos brassages avec des outils précis et intuitifs.
+    </p>
+    <div class="mt-6">
+      <a href="https://app.lacalculatricedubrasseur.com" class="inline-flex items-center px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white text-lg font-bold rounded-lg shadow-lg">
+        Accéder au Projet
+      </a>
+    </div>
+  </section>
+
+  <!-- Pourquoi Choisir -->
+  <section class="bg-gray-800 py-12 px-6">
+    <h2 class="text-2xl font-semibold text-center">Pourquoi Choisir La Calculatrice du Brasseur ?</h2>
+    <ul class="mt-6 space-y-4 text-gray-300 max-w-3xl mx-auto">
+      <li>- <strong>Accès Direct et Gratuit</strong> : Utilisez l’application directement depuis votre navigateur, sans installation requise.</li>
+      <li>- <strong>Synchronisation des Données</strong> : En créant un compte, sauvegardez vos informations et consultez-les où que vous soyez.</li>
+      <li>- <strong>Open Source et Évolutive</strong> : Le projet est disponible sur GitHub, où vous pouvez contribuer en proposant des idées ou des améliorations.</li>
+      <li>- <strong>Créé par un Passionné</strong> : Développé par l’auteur de la chaîne YouTube <a href="https://www.youtube.com/@MaxenceLaBiereQuiFlotte" class="text-blue-400 hover:underline">Maxence - La Bière qui Flotte</a>.</li>
+    </ul>
+  </section>
+
+  <!-- Fonctionnalités -->
+  <section class="bg-gray-700 py-12 px-6">
+    <h2 class="text-2xl font-semibold text-center">Fonctionnalités Avancées pour un Brassage Réussi</h2>
+    <ol class="mt-6 space-y-4 text-gray-300 max-w-3xl mx-auto">
+      <li>1. <strong>Conversion des Unités de Brassage</strong> : Convertissez facilement les unités courantes (bar, psi, Brix, SG, Plato, °C, °F, litres, gallons).</li>
+      <li>2. <strong>Calcul du Volume des Marmites</strong> : Déterminez la taille idéale de vos marmites.</li>
+      <li>3. <strong>Dosage des Nettoyants</strong> : Calculez précisément les quantités de nettoyants.</li>
+      <li>4. <strong>Calcul du Taux d'Alcool</strong> : Estimez précisément le taux d’alcool avec densimètre et réfractomètre.</li>
+      <li>5. <strong>Correction de la Densité</strong> : Ajustez vos mesures en fonction de la température.</li>
+      <li>6. <strong>Estimation de la Carbonatation</strong> : Calculez le taux de resucrage ou la pression pour une carbonatation parfaite.</li>
+      <li>7. <strong>Prise de Notes Intégrée</strong> : Suivez chaque étape de votre brassage.</li>
+    </ol>
+  </section>
+
+  <!-- Appel à Contribution -->
+  <section class="bg-gray-800 py-12 px-6 text-center">
+    <h2 class="text-2xl font-semibold">Un Projet Open Source Ouvert à Tous</h2>
+    <p class="mt-4 text-gray-300 max-w-3xl mx-auto">
+      La Calculatrice du Brasseur est un projet en constante évolution, et vous pouvez y participer activement : proposez vos idées ou fonctionnalités sur GitHub, contribuez au code source, et améliorez l'expérience des brasseurs.
+    </p>
+    <div class="mt-6">
+      <a href="https://github.com" class="inline-flex items-center px-6 py-3 bg-gray-600 hover:bg-gray-500 text-white font-medium rounded-lg shadow">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.262.82-.582 0-.287-.011-1.043-.017-2.048-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.084 1.839 1.237 1.839 1.237 1.07 1.833 2.805 1.303 3.492.996.108-.776.418-1.303.761-1.603-2.665-.304-5.467-1.334-5.467-5.93 0-1.31.469-2.382 1.235-3.222-.123-.303-.536-1.524.117-3.176 0 0 1.007-.323 3.3 1.23a11.51 11.51 0 013.006-.404c1.02.005 2.046.138 3.006.404 2.29-1.554 3.296-1.23 3.296-1.23.655 1.653.242 2.874.12 3.176.77.84 1.232 1.912 1.232 3.222 0 4.61-2.807 5.622-5.48 5.92.429.37.814 1.103.814 2.22 0 1.605-.014 2.898-.014 3.292 0 .322.217.698.824.581C20.565 21.796 24 17.3 24 12c0-6.63-5.373-12-12-12z" />
+        </svg>
+        Voir sur GitHub
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-700 text-center py-8 text-sm text-gray-400">
+    <p>&copy; 2025 La Calculatrice du Brasseur. Créé par l’auteur de la chaîne YouTube <a href="https://www.youtube.com/@MaxenceLaBiereQuiFlotte" class="text-blue-400 hover:underline">Maxence - La Bière qui Flotte</a>.</p>
+  </footer>
+
+</body>
+</html>

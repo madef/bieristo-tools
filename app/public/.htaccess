@@ -1,0 +1,8 @@
+# Activer la réécriture d'URL
+RewriteEngine On
+
+# Si l'hôte (HTTP_HOST) ne commence pas par "app."
+RewriteCond %{HTTP_HOST} !^app\. [NC]
+
+# On redirige (ou réécrit) toutes les requêtes vers landing/index.html
+RewriteRule ^.*$ landing/index.html [L]

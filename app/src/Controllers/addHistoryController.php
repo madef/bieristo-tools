@@ -22,12 +22,12 @@ function addHistoryController(array $data)
         ]);
         return;
     }
-    
+
     $tokenValue  = $data['token'];
     $brassinId   = $data['brassin_id'];
 
     // 2. Vérifier le token et extraire le doc
-    $tokenDoc = \App\Services\TokenService::getTokenDoc($tokenValue);
+    $tokenDoc = TokenService::getTokenDoc($tokenValue);
     if (!$tokenDoc) {
         http_response_code(401);
         echo json_encode([

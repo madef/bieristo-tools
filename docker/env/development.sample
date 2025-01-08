@@ -1,4 +1,4 @@
-APP_URL='https://bieristo.local/'
+APP_URL='https://app.lacalculatricedubrasseur.local/'
 
 MONGO_HOST=bieristo_tools_mongodb
 MONGO_DBNAME=bieristo

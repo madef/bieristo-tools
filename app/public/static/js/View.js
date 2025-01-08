@@ -234,7 +234,7 @@ class View {
   }
 
   get () {
-    const view = localStorage.getItem('view') // eslint-disable-line no-undef
+    const view = sessionStorage.getItem('view') // eslint-disable-line no-undef
 
     if (!view) {
       return this.getList()[0].key
@@ -260,7 +260,7 @@ class View {
       view = this.get()
     }
 
-    const subview = localStorage.getItem('subview') // eslint-disable-line no-undef
+    const subview = sessionStorage.getItem('subview') // eslint-disable-line no-undef
 
     const viewEntry = this.getEntry(view)
 
@@ -334,8 +334,8 @@ class View {
         throw new Error(`Unknow view ${view}`)
     }
 
-    localStorage.setItem('view', view) // eslint-disable-line no-undef
-    localStorage.setItem('subview', subview) // eslint-disable-line no-undef
+    sessionStorage.setItem('view', view) // eslint-disable-line no-undef
+    sessionStorage.setItem('subview', subview) // eslint-disable-line no-undef
   }
 }
 

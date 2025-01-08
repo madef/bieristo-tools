@@ -39,7 +39,7 @@ class ViewAlcool {
             <label for="sugar" class="block text-sm font-medium leading-6">${Translator.__('ViewAlcool:Label:sugar')}</label>
             <div class="relative rounded-md shadow-sm flex gap-2">
               <div class="flex w-full items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <input type="number" autocomplete="off" id="sugar" value="0" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="sugar">
+                <input type="number" autocomplete="off" id="sugar" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="sugar">
                 <div class="pointer-events-none whitespace-nowrap" data-var="sugarUnit">g/${this.unit.get('volume').shortLabel}</div>
               </div>
             </div>
@@ -48,7 +48,7 @@ class ViewAlcool {
             <label for="di" class="block text-sm font-medium leading-6">${Translator.__(this.isMixedMode() ? 'ViewAlcool:Label:dfDensimeter' : 'ViewAlcool:Label:di')}</label>
             <div class="relative rounded-md shadow-sm flex gap-2">
               <div class="flex w-full items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <input type="number" autocomplete="off" id="di" value="1.200" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="di">
+                <input type="number" autocomplete="off" id="di" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="di">
                 <div class="pointer-events-none" data-var="gravityUnit">${this.unit.get('gravity').shortLabel}</div>
               </div>
             </div>
@@ -57,7 +57,7 @@ class ViewAlcool {
             <label for="df" class="block text-sm font-medium leading-6">${Translator.__(this.isMixedMode() ? 'ViewAlcool:Label:dfRefractometer' : 'ViewAlcool:Label:df')}</label>
             <div class="relative rounded-md shadow-sm flex gap-2">
               <div class="flex w-full items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <input type="number" autocomplete="off" id="df" value="1.000" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="df">
+                <input type="number" autocomplete="off" id="df" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="df">
                 <div class="pointer-events-none" data-var="gravityUnit">${this.unit.get('gravity').shortLabel}</div>
               </div>
             </div>
@@ -292,8 +292,8 @@ class ViewAlcool {
       this.view.get('sugar').value = lastHistory.values[0]
       this.view.get('di').value = lastHistory.values[1]
       this.view.get('df').value = lastHistory.values[2]
+      this.updateResult()
     }
-    this.updateResult()
   }
 
   isRefractometerMode () {
@@ -314,8 +314,6 @@ class ViewAlcool {
         this.view.get('df').value = historyRow.values[2]
         this.unit.set('gravity', historyRow.units[0])
         this.unit.set('volume', historyRow.units[1])
-
-        this.updateResult()
       }
     )
   }

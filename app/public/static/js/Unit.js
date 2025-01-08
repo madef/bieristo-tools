@@ -3,10 +3,12 @@
 import InvalidUnitIdentifier from './Exception/InvalidUnitIdentifier.js'
 import Translator from './Translator.js'
 import InvalidUnitCode from './Exception/InvalidUnitCode.js'
+import User from './User.js'
 
 class Unit {
   constructor () {
     this.changeCallback = {}
+    this.user = User.getInstance()
   }
 
   static getInstance () {
@@ -22,16 +24,15 @@ class Unit {
   }
 
   get (unitType) {
-    const code = localStorage.getItem(`UNIT_${unitType}`) // eslint-disable-line no-undef
-    if (code === null) {
-      return this.getList(unitType)[0]
-    }
+    const code = sessionStorage.getItem(`UNIT_${unitType}`) // eslint-disable-line no-undef
 
     for (const unit of this.getList(unitType)) {
       if (unit.code === code) {
         return unit
       }
     }
+
+    return this.getList(unitType)[0]
   }
 
   getUnit (unitType, code) {
@@ -46,9 +47,10 @@ class Unit {
     for (const unit of this.getList(unitType)) {
       if (unit.code === code) {
         if (this.get(unitType).code !== code) {
-          localStorage.setItem(`UNIT_${unitType}`, code) // eslint-disable-line no-undef
+          sessionStorage.setItem(`UNIT_${unitType}`, code) // eslint-disable-line no-undef
           for (const type in this.changeCallback) {
             this.changeCallback[type](unitType)
+            this.user.update(`UNIT_${unitType}`)
           }
         }
         return

@@ -26,7 +26,7 @@ class ViewTemperature {
             <label for="gravity" class="block text-sm font-medium leading-6">${Translator.__('ViewTemperature:Label:gravity')}</label>
             <div class="relative rounded-md shadow-sm flex gap-2">
               <div class="flex w-full items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <input type="number" autocomplete="off" id="gravity" value="1.000" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="gravity">
+                <input type="number" autocomplete="off" id="gravity" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="gravity">
                 <div class="pointer-events-none" data-var="gravityUnit">${this.unit.get('gravity').shortLabel}</div>
               </div>
             </div>
@@ -35,7 +35,7 @@ class ViewTemperature {
             <label for="temperature" class="block text-sm font-medium leading-6">${Translator.__('ViewTemperature:Label:temperature')}</label>
             <div class="relative rounded-md shadow-sm flex gap-2">
               <div class="flex w-full items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <input type="number" autocomplete="off" id="temperature" value="20" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="temperature">
+                <input type="number" autocomplete="off" id="temperature" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="temperature">
                 <div class="pointer-events-none whitespace-nowrap" data-var="temperatureUnit">${this.unit.get('temperature').shortLabel}</div>
               </div>
             </div>
@@ -165,8 +165,8 @@ class ViewTemperature {
     if (lastHistory) {
       this.view.get('temperature').value = lastHistory.values[0]
       this.view.get('gravity').value = lastHistory.values[1]
+      this.updateResult()
     }
-    this.updateResult()
   }
 
   renderHistory () {

@@ -9,37 +9,16 @@ import Confirm from './Confirm.js'
 
 class ViewUnit {
   constructor ($content, subview) {
-    switch (subview) {
-      case 'volume':
-        this.unitType = 'volume'
-        break
-      case 'gravity':
-        this.unitType = 'gravity'
-        break
-      case 'temperature':
-        this.unitType = 'temperature'
-        break
-      default:
-        this.unitType = 'pressure'
-        break
-    }
-
     this.history = new History('ViewUnit')
-
     this.unit = Unit.getInstance()
-    this.unit.addChangeObserver('view', (unitType) => {
-      if (this.unitType === unitType) {
-        this.updateResult()
-      }
-    })
 
     this.view = new Brique(`<div class="flex flex-col gap-4">
         <div class="p-2">
           <div class="flex flex-wrap md:flex-nowrap gap-2">
             <div class="w-full md:w-1/4 flex flex-col grow gap-1">
-              <label for="${this.unitType}" class="block text-sm font-medium leading-6">${Translator.__('ViewUnit:Label:value')}</label>
+              <label for="value" class="block text-sm font-medium leading-6">${Translator.__('ViewUnit:Label:value')}</label>
               <div class="flex grow w-full items-stretch gap-2 rounded-md shadow-sm border border-white group hover:border-amber-500 focus-within:border-amber-500">
-                <input type="number" autocomplete="off" id="${this.unitType}" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="value">
+                <input type="number" autocomplete="off" id="value" class="rounded-md py-1 px-2 bg-transparent w-full text-lg focus:outline-none" data-var="value">
               </div>
             </div>
             <div class="w-1/3 md:w-1/4 flex flex-col grow gap-1">

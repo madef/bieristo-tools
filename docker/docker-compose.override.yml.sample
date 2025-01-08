@@ -1,14 +1,19 @@
 services:
   bieristo_tools:
+    env_file:
+      - ./env/development
     labels:
       traefik.enable: "true"
       traefik.http.routers.bieristo_tools-http.entrypoints: "http"
-      traefik.http.routers.bieristo_tools-http.rule: "Host(`tools.bieristo.local`)"
+      traefik.http.routers.bieristo_tools-http.rule: "Host(`app.lacalculatricedubrasseur.local`) || Host(`lacalculatricedubrasseur.local`)"
       traefik.http.middlewares.bieristo_tools-https.redirectscheme.scheme: "https"
       traefik.http.routers.bieristo_tools-http.middlewares: "redirect@file"
       traefik.http.routers.bieristo_tools-https.entrypoints: "https"
-      traefik.http.routers.bieristo_tools-https.rule: "Host(`tools.bieristo.local`)"
+      traefik.http.routers.bieristo_tools-https.rule: "Host(`app.lacalculatricedubrasseur.local`) || Host(`lacalculatricedubrasseur.local`)"
       traefik.http.routers.bieristo_tools-https.tls: "true"
+  bieristo_tools_mongodb:
+    env_file:
+      - ./env/development
 networks:
   web:
     external: true
