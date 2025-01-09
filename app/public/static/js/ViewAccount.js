@@ -122,7 +122,7 @@ class ViewAccount {
         new Confirm( // eslint-disable-line no-new
           (code) => {
             if (code === 1) {
-              localStorage.clear()
+              localStorage.clear() // eslint-disable-line no-undef
               sessionStorage.clear() // eslint-disable-line no-undef
               window.location.reload()
             }
@@ -134,10 +134,10 @@ class ViewAccount {
         new Confirm( // eslint-disable-line no-new
           (code) => {
             if (code === 1) {
-              Api.send('delete-user', { token: localStorage.getItem('token') }, result => {
+              Api.send('delete-user', { token: localStorage.getItem('token') }, result => { // eslint-disable-line no-undef
                 if (result.status === 'OK') {
-                  localStorage.clear()
-                  sessionStorage.clear()
+                  localStorage.clear() // eslint-disable-line no-undef
+                  sessionStorage.clear() // eslint-disable-line no-undef
                   window.location.reload()
                 } else {
                   new Confirm( // eslint-disable-line no-new

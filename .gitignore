@@ -1,5 +1,5 @@
 ﻿app/public/static/css/style.min.css
-app/config/app_config.php
+app/config/
 app/vendor
 docker/docker-compose.override.yml
 docker/mongodb/data

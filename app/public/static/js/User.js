@@ -202,19 +202,19 @@ class User {
           )
         } else {
           localStorage.setItem('token', result.token) // eslint-disable-line no-undef
-          sessionStorage.setItem('lastCheckToken', new Date().toISOString()) // eslint-disable-line no-undef
+          localStorage.setItem('lastCheckToken', new Date().toISOString()) // eslint-disable-line no-undef
         }
       })
     }
   }
 
   isTokenChecked () {
-    const lastCheckToken = sessionStorage.getItem('lastCheckToken') // eslint-disable-line no-undef
+    const lastCheckToken = localStorage.getItem('lastCheckToken') // eslint-disable-line no-undef
     return !!lastCheckToken
   }
 
   isTokenInvalidated () {
-    const lastCheckToken = sessionStorage.getItem('lastCheckToken') // eslint-disable-line no-undef
+    const lastCheckToken = localStorage.getItem('lastCheckToken') // eslint-disable-line no-undef
     if (!lastCheckToken) {
       return true
     }
