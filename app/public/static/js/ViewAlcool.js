@@ -223,12 +223,13 @@ class ViewAlcool {
     if (gravity.code === 'SG') {
       di = gravity.convert(di).SG
       df = gravity.convert(df).SG
+      diAjusted = gravity.convert(diAjusted).SG
       dfAjusted = gravity.convert(dfAjusted).SG
     }
 
     this.showResult()
     this.view.get('totalSugar').value = sugarImpact
-    this.view.get('totalDi').value = di
+    this.view.get('totalDi').value = diAjusted
     this.view.get('totalDf').value = dfAjusted
     this.view.get('total').value = abv
 
