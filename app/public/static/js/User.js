@@ -9,7 +9,6 @@ class User {
     this.isLogged = false
 
     this.load(true, '')
-    setInterval(() => { this.renewToken() }, 60000)
     setInterval(() => { this.load(false, '', true) }, 30000)
   }
 
@@ -53,6 +52,7 @@ class User {
 
         Api.send('get-user', { token: localStorage.getItem('token') }, result => { // eslint-disable-line no-undef
           if (result.status === 'OK') {
+            this.renewToken()
             const data = this.getData()
             const mergedAttributes = [...Object.keys(result.data), ...Object.keys(data)]
             const attributes = [...new Set(mergedAttributes)]
@@ -186,6 +186,7 @@ class User {
       Api.send('renew-token', { token: localStorage.getItem('token') }, result => { // eslint-disable-line no-undef
         if (result.status === 'ERROR') {
           localStorage.removeItem('token') // eslint-disable-line no-undef
+          localStorage.removeItem('lastCheckToken') // eslint-disable-line no-undef
           this.isLogged = false
           this.dispatchStatusChanged()
           new Confirm( // eslint-disable-line no-new
@@ -223,7 +224,7 @@ class User {
     const currentDate = new Date()
     const diffInMinutes = (currentDate - lastCheckTokenDate) / 1000 / 60
 
-    if (diffInMinutes > 60 * 12) {
+    if (diffInMinutes > 60 * 24 * 7) {
       return true
     } else {
       return false
