@@ -288,7 +288,7 @@ class User {
     const lastChanged = localStorage.getItem('lastChanged') // eslint-disable-line no-undef
     const lastSessionChanged = sessionStorage.getItem('lastChanged') // eslint-disable-line no-undef
     if (!lastSessionChanged || lastChanged !== lastSessionChanged) {
-      if (typeof this.dataChangedObserver() === 'function') {
+      if (typeof this.dataChangedObserver === 'function') {
         this.dataChangedObserver()
         sessionStorage.setItem('lastChanged', lastChanged) // eslint-disable-line no-undef
       }
