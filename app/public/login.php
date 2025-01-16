@@ -15,7 +15,10 @@ header('Content-Type: text/html; charset=utf-8');
 <body>
 <script>
 // Enregistre le token recupere dans localStorage
-localStorage.setItem('token', '<?= $token; ?>');
+localStorage.setItem('token', '<?= $token; ?>')
+
+// Force le recheck du token
+localStorage.removeItem('lastCheckToken')
 
 // Redirige vers la page d'accueil
 window.location.href = '/';
