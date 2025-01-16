@@ -79,7 +79,7 @@ function updateUserController(array $data)
     if ($updateResult->getModifiedCount() < 1) {
         // Aucune modification ?
         echo json_encode([
-            'status'  => 'ERROR',
+            'status'  => 'OK',
             'message' => 'Api:UpdateUser:noChange',
         ]);
         return;
@@ -88,8 +88,7 @@ function updateUserController(array $data)
     // 6. Réponse OK
     echo json_encode([
         'status' => 'OK',
-        'message' => 'Api:UpdateUser:success',
-        'user_id'=> (string) $userId
+        'message' => 'Api:UpdateUser:success'
     ]);
 }
 
