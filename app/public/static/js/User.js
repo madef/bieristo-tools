@@ -268,7 +268,11 @@ class User {
     const token = localStorage.getItem('token') // eslint-disable-line no-undef
 
     if (sessionToken !== token) {
-      sessionStorage.setItem('token', token) // eslint-disable-line no-undef
+      if (token === null) {
+        sessionStorage.removeItem('token') // eslint-disable-line no-undef
+      } else {
+        sessionStorage.setItem('token', token) // eslint-disable-line no-undef
+      }
 
       if (typeof this.statusObserver === 'function') {
         this.statusObserver()
