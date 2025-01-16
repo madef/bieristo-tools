@@ -24,14 +24,14 @@ class ViewUnit {
             <div class="w-1/3 md:w-1/4 flex flex-col grow gap-1">
               <label for="from" class="block text-sm font-medium leading-6">${Translator.__('ViewUnit:Label:from')}</label>
               <div class="flex grow w-full items-stretch gap-2 rounded-md shadow-sm border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <select autocomplete="off" id="from" class="grow rounded-md py-1 px-2 w-full text-lg focus:outline-none bg-box" data-var="from">
+                <select autocomplete="off" id="from" class="grow rounded-md py-1 px-2 w-full text-lg focus:outline-none bg-transparent" data-var="from">
                 </select>
               </div>
             </div>
             <div class="w-1/3 md:w-1/4 flex flex-col grow gap-1">
               <label for="to" class="block text-sm font-medium leading-6">${Translator.__('ViewUnit:Label:to')}</label>
               <div class="flex grow w-full items-stretch gap-2 rounded-md shadow-sm border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <select autocomplete="off" id="to" class="grow rounded-md py-1 px-2 w-full text-lg focus:outline-none bg-box" data-var="to">
+                <select autocomplete="off" id="to" class="grow rounded-md py-1 px-2 w-full text-lg focus:outline-none bg-transparent" data-var="to">
                 </select>
               </div>
             </div>

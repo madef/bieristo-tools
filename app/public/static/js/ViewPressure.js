@@ -36,7 +36,7 @@ class ViewPressure {
             <label for="style" class="block text-sm font-medium leading-6">${Translator.__('ViewPressure:Label:style')}</label>
             <div class="relative grow rounded-md shadow-sm flex gap-2">
               <div class="flex grow w-full items-center gap-2 rounded-md border border-white pr-2 group hover:border-amber-500 focus-within:border-amber-500">
-                <select autocomplete="off" id="style" class="grow rounded-md py-1 px-2 w-full text-lg focus:outline-none bg-box" data-var="style">
+                <select autocomplete="off" id="style" class="grow rounded-md py-1 px-2 w-full text-lg focus:outline-none bg-transparent" data-var="style">
                 </select>
               </div>
             </div>

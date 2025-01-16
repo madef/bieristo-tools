@@ -5,11 +5,18 @@ import Translator from './Translator.js'
 import Confirm from './Confirm.js'
 import User from './User.js'
 import Api from './Api.js'
+import Unit from './Unit.js'
 
 class ViewAccount {
   constructor ($content) {
+    this.unit = Unit.getInstance()
+    this.unit.addChangeObserver('ViewAccount', () => { this.renderUnitList() })
+
     this.user = User.getInstance()
     this.view = new Brique(`<div class="flex flex-col items-center gap-4">
+        <div class="rounded flex justify-between items-center mb-2 md:mb-6 gap-2 p-2 bg-main">
+          <div class="flex gap-2 overflow-x-auto" data-var="unitList"></div>
+        </div>
         <div class="flex flex-col p-2 md:w-1/3 lg:w-1/3 gap-2 pt-4">
           <div class="flex flex-col gap-4">
             <form class="text-lg bg-cyan-700 rounded flex flex-wrap justify-between items-center p-4 gap-2" data-var="create">
@@ -170,6 +177,8 @@ class ViewAccount {
       this.view.classList('logout', (classlist) => { classlist.add('hidden') })
       this.view.classList('removeAccount', (classlist) => { classlist.add('hidden') })
     }
+
+    this.renderUnitList()
   }
 
   displayError (message) {
@@ -185,6 +194,56 @@ class ViewAccount {
         }
       ]
     )
+  }
+
+  renderUnitList () {
+    this.view.empty('unitList');
+
+    ['pressure', 'gravity', 'volume', 'temperature', 'length'].forEach((type) => {
+      const unit = this.unit.get(type)
+      const button = new Brique(`<button
+          class="bg-amber-500 hover:bg-transparent hover:text-amber-500 focus:bg-transparent focus:text-amber-500 rounded w-12 md:w-20 h-auto aspect-square md:h-16"
+          aria-label="${Translator.__(`Menu:Unit:Label:${type}`, { value: unit.label })}"
+          data-var="action"
+        >
+          <div class="text-xl md:text-2xl font-black">${unit.shortLabel}</div>
+          <div class="hidden md:block text-ellipsis overflow-hidden text-xs">${Translator.__(`Menu:Unit:${type}`)}</div>
+        </button>`)
+        .addEventListener('action', 'click', () => {
+          this.openUnitMenu(document.getElementsByTagName('body')[0], type)
+        })
+      this.view.append('unitList', button)
+    })
+  }
+
+  openUnitMenu ($root, type) {
+    const menu = new Brique(`<div class="absolute inset-0 text-white overflow-y-auto p-2 flex flex-col items-center bg-black/80 backdrop-blur-sm z-10" data-var="overlay">
+      <div class="flex flex-col items-center gap-2" data-var="menu">
+        <button class="bg-red-700 hover:bg-transparent hover:text-red-700 focus:bg-transparent focus:text-red-700 rounded p-2 w-full text-xl flex gap-2 items-center justify-center h-12" data-var="close">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+          ${Translator.__('Menu:close')}
+        </button>
+      </div>
+    </div>`)
+    menu.appendTo($root)
+
+    const closeMenu = () => {
+      menu.remove()
+    }
+
+    menu.addEventListener('close', 'click', closeMenu)
+    menu.addEventListener('overlay', 'click', closeMenu)
+
+    this.unit.getList(type).forEach((value) => {
+      const button = new Brique(`<button class="bg-amber-500 hover:bg-transparent hover:text-amber-500 focus:bg-transparent focus:text-amber-500 rounded p-2 w-full text-xl h-12" data-var="action">${value.label}</button>`)
+        .addEventListener('action', 'click', () => {
+          this.unit.set(type, value.code)
+          closeMenu()
+        })
+      menu.append('menu', button)
+    })
   }
 }
 
