@@ -604,5 +604,8 @@
   },
   "History:Confirm:remove": {
     "*": "Voulez-vous supprimer l'entrée « %entry% » de l'historique ?"
+  },
+  "History:Action:copy": {
+    "*": "Reprendre"
   }
 }

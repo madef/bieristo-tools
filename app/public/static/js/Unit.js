@@ -24,7 +24,7 @@ class Unit {
   }
 
   get (unitType) {
-    const code = sessionStorage.getItem(`UNIT_${unitType}`) // eslint-disable-line no-undef
+    const code = localStorage.getItem(`UNIT_${unitType}`) // eslint-disable-line no-undef
 
     for (const unit of this.getList(unitType)) {
       if (unit.code === code) {
@@ -47,7 +47,7 @@ class Unit {
     for (const unit of this.getList(unitType)) {
       if (unit.code === code) {
         if (this.get(unitType).code !== code) {
-          sessionStorage.setItem(`UNIT_${unitType}`, code) // eslint-disable-line no-undef
+          localStorage.setItem(`UNIT_${unitType}`, code) // eslint-disable-line no-undef
           for (const type in this.changeCallback) {
             this.changeCallback[type](unitType)
             this.user.update(`UNIT_${unitType}`)

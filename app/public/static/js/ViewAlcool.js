@@ -175,7 +175,6 @@ class ViewAlcool {
     let di = parseFloat(this.view.get('di').value)
     let df = parseFloat(this.view.get('df').value)
     const sugar = parseFloat(this.view.get('sugar').value || 0)
-      console.log(sugar)
     const gravity = this.unit.get('gravity')
     const volume = this.unit.get('volume')
 

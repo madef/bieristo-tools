@@ -14,7 +14,7 @@ class History {
   }
 
   get () {
-    const storage = sessionStorage.getItem(this.getStorageKey()) // eslint-disable-line no-undef
+    const storage = localStorage.getItem(this.getStorageKey()) // eslint-disable-line no-undef
     if (storage === null) {
       return []
     } else {
@@ -32,7 +32,7 @@ class History {
       history.splice(0, history.length - HISTORY_MAX_LENGTH)
     }
 
-    sessionStorage.setItem(this.getStorageKey(), JSON.stringify(history)) // eslint-disable-line no-undef
+    localStorage.setItem(this.getStorageKey(), JSON.stringify(history)) // eslint-disable-line no-undef
 
     this.user.update()
     this.changeCallback()
@@ -43,7 +43,7 @@ class History {
   removeRow (historyKey) {
     const history = this.get()
     history.splice(historyKey, 1)
-    sessionStorage.setItem(this.getStorageKey(), JSON.stringify(history.reverse())) // eslint-disable-line no-undef
+    localStorage.setItem(this.getStorageKey(), JSON.stringify(history.reverse())) // eslint-disable-line no-undef
 
     this.user.update(this.getStorageKey())
     this.changeCallback()
@@ -52,7 +52,7 @@ class History {
   }
 
   clear () {
-    sessionStorage.removeItem(this.getStorageKey()) // eslint-disable-line no-undef
+    localStorage.removeItem(this.getStorageKey()) // eslint-disable-line no-undef
 
     this.user.update(this.getStorageKey())
     this.changeCallback()

@@ -21,7 +21,7 @@ class Translator {
   }
 
   load (callback, defaultLanguage = 'fr_FR') {
-    const languageStored = sessionStorage.getItem('language') // eslint-disable-line no-undef
+    const languageStored = localStorage.getItem('language') // eslint-disable-line no-undef
     this.language = languageStored || defaultLanguage
 
     return fetch(`/static/languages/${this.language}.json`, { method: 'GET' })

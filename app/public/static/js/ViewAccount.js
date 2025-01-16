@@ -58,6 +58,7 @@ class ViewAccount {
         new Confirm( // eslint-disable-line no-new
           (code) => {
             if (code === 1) {
+              localStorage.clear() // eslint-disable-line no-undef
               sessionStorage.clear() // eslint-disable-line no-undef
             }
           },
@@ -78,9 +79,9 @@ class ViewAccount {
         reader.onload = (e) => {
           try {
             const data = JSON.parse(e.target.result)
-            sessionStorage.clear() // eslint-disable-line no-undef
+            localStorage.clear() // eslint-disable-line no-undef
             for (const [key, value] of Object.entries(data)) {
-              sessionStorage.setItem(key, value) // eslint-disable-line no-undef
+              localStorage.setItem(key, value) // eslint-disable-line no-undef
             }
           } catch (e) {
             console.error(e)
@@ -92,11 +93,13 @@ class ViewAccount {
       .addEventListener('save', 'click', () => {
         const link = document.createElement('a')
         link.download = `${Translator.__('ViewAccount:filename')}_${new Date().toLocaleString().replaceAll(' ', '-')}.bieristo.json`
-        const data = JSON.parse(JSON.stringify(sessionStorage)) // eslint-disable-line no-undef
+        const data = JSON.parse(JSON.stringify(localStorage)) // eslint-disable-line no-undef
         delete data.token
         delete data.lastCheckToken
         delete data.view
         delete data.subview
+        delete data.lastChanged
+        delete data.lastLoaded
         const blob = new Blob([JSON.stringify(data)], { type: 'text/plain' })
         link.href = window.URL.createObjectURL(blob)
         link.click()
@@ -160,7 +163,7 @@ class ViewAccount {
         )
       })
 
-    if (this.user.isLogged) {
+    if (this.user.isLogged()) {
       this.view.classList('create', (classlist) => { classlist.add('hidden') })
       this.view.classList('removeLocalData', (classlist) => { classlist.add('hidden') })
     } else {

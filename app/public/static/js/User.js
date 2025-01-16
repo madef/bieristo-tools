@@ -6,10 +6,10 @@ import Translator from './Translator.js'
 
 class User {
   constructor () {
-    this.isLogged = false
-
     this.load(true, '')
-    setInterval(() => { this.load(false, '', true) }, 30000)
+    setInterval(() => { this.load(false, '', true) }, 500)
+    setInterval(() => { this.dispatchDataChanged() }, 500)
+    setInterval(() => { this.dispatchStatusChanged() }, 500)
   }
 
   static getInstance () {
@@ -20,18 +20,24 @@ class User {
     return User.instance
   }
 
+  isLogged () {
+    return localStorage.getItem('token') !== null // eslint-disable-line no-undef
+  }
+
   update (attribute) {
     this.load(true, attribute)
+    localStorage.setItem('lastChanged', new Date().toISOString()) // eslint-disable-line no-undef
   }
 
   load (push = false, updatedAttribute = '', removeLocal = false) {
+    if (this.isUpToDate() && !push) {
+      return
+    }
+
     if (localStorage.getItem('token') !== null) { // eslint-disable-line no-undef
       Api.send('check-token', { token: localStorage.getItem('token') }, result => { // eslint-disable-line no-undef
         if (result.status === 'ERROR') {
           localStorage.removeItem('token') // eslint-disable-line no-undef
-        } else {
-          this.isLogged = true
-          this.dispatchStatusChanged()
         }
 
         if (result.status === 'ERROR') {
@@ -53,6 +59,7 @@ class User {
         Api.send('get-user', { token: localStorage.getItem('token') }, result => { // eslint-disable-line no-undef
           if (result.status === 'OK') {
             this.renewToken()
+
             const data = this.getData()
             const mergedAttributes = [...Object.keys(result.data), ...Object.keys(data)]
             const attributes = [...new Set(mergedAttributes)]
@@ -131,21 +138,24 @@ class User {
               }
 
               if (typeof mergedData[attribute] === 'undefined') {
-                sessionStorage.removeItem(attribute) // eslint-disable-line no-undef
+                localStorage.removeItem(attribute) // eslint-disable-line no-undef
               } else {
                 if (attribute.indexOf('history') === 0) { // History entry
-                  sessionStorage.setItem(attribute, JSON.stringify(mergedData[attribute])) // eslint-disable-line no-undef
+                  localStorage.setItem(attribute, JSON.stringify(mergedData[attribute])) // eslint-disable-line no-undef
                 } else {
-                  sessionStorage.setItem(attribute, mergedData[attribute]) // eslint-disable-line no-undef
+                  localStorage.setItem(attribute, mergedData[attribute]) // eslint-disable-line no-undef
                 }
               }
             }
 
+            localStorage.setItem('lastLoaded', new Date().toISOString()) // eslint-disable-line no-undef
+
             if (hasDistMissingData) {
               this.push()
             }
+
             if (hasMissingData) {
-              this.dispatchDataChanged()
+              localStorage.setItem('lastChanged', new Date().toISOString()) // eslint-disable-line no-undef
             }
           }
         })
@@ -173,9 +183,11 @@ class User {
   }
 
   getData () {
-    const data = JSON.parse(JSON.stringify(sessionStorage)) // eslint-disable-line no-undef
+    const data = JSON.parse(JSON.stringify(localStorage)) // eslint-disable-line no-undef
     delete data.token
     delete data.lastCheckToken
+    delete data.lastChanged
+    delete data.lastLoaded
     delete data.view
     delete data.subview
     return data
@@ -187,8 +199,6 @@ class User {
         if (result.status === 'ERROR') {
           localStorage.removeItem('token') // eslint-disable-line no-undef
           localStorage.removeItem('lastCheckToken') // eslint-disable-line no-undef
-          this.isLogged = false
-          this.dispatchStatusChanged()
           new Confirm( // eslint-disable-line no-new
             () => {
             },
@@ -231,9 +241,22 @@ class User {
     }
   }
 
+  isUpToDate () {
+    const lastLoaded = localStorage.getItem('lastLoaded') // eslint-disable-line no-undef
+
+    if (!lastLoaded) {
+      return false
+    }
+
+    const lastLoadedDate = new Date(lastLoaded)
+    const currentDate = new Date()
+    const diffInSeconds = (currentDate - lastLoadedDate) / 1000
+
+    return diffInSeconds < 30
+  }
+
   logout () {
-    sessionStorage.clear() // eslint-disable-line no-undef
-    this.isLogged = false
+    localStorage.clear() // eslint-disable-line no-undef
   }
 
   setStatusObserver (callback) {
@@ -241,8 +264,15 @@ class User {
   }
 
   dispatchStatusChanged () {
-    if (typeof this.statusObserver === 'function') {
-      this.statusObserver()
+    const sessionToken = sessionStorage.getItem('token') // eslint-disable-line no-undef
+    const token = localStorage.getItem('token') // eslint-disable-line no-undef
+
+    if (sessionToken !== token) {
+      sessionStorage.setItem('token', token) // eslint-disable-line no-undef
+
+      if (typeof this.statusObserver === 'function') {
+        this.statusObserver()
+      }
     }
   }
 
@@ -251,8 +281,13 @@ class User {
   }
 
   dispatchDataChanged () {
-    if (typeof this.dataChangedObserver() === 'function') {
-      this.dataChangedObserver()
+    const lastChanged = localStorage.getItem('lastChanged') // eslint-disable-line no-undef
+    const lastSessionChanged = sessionStorage.getItem('lastChanged') // eslint-disable-line no-undef
+    if (!lastSessionChanged || lastChanged !== lastSessionChanged) {
+      if (typeof this.dataChangedObserver() === 'function') {
+        this.dataChangedObserver()
+        sessionStorage.setItem('lastChanged', lastChanged) // eslint-disable-line no-undef
+      }
     }
   }
 }
