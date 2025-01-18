@@ -476,8 +476,11 @@
   "ViewAlcool:Label:sugarImpact": {
     "*": "Impacte du sucre"
   },
-  "ViewVolume:title": {
+  "ViewVolume:Generic:title": {
     "*": "Calcul des volumes"
+  },
+  "ViewVolume:title": {
+    "*": "Calcul du volume d'une marmite"
   },
   "ViewClean:shortTitle": {
     "*": "Nettoyant"
@@ -582,6 +585,9 @@
     "*": "L'historique a été copié dans le presse-papier."
   },
   "ViewVolume:shortTitle": {
+    "*": "Hauteur"
+  },
+  "ViewVolume:Generic:shortTitle": {
     "*": "Volumes"
   },
   "ViewVolume:Label:diameter": {
@@ -607,5 +613,26 @@
   },
   "History:Action:copy": {
     "*": "Reprendre"
+  },
+  "ViewVolumeRetractation:Label:tempMout": {
+    "*": "Température du moût"
+  },
+  "ViewVolumeRetractation:Label:volumeAtTemp": {
+    "*": "Volume mesuré à la température"
+  },
+  "ViewVolumeRetractation:Label:densite20C": {
+    "*": "Densité à 20 °C"
+  },
+  "ViewVolumeRetractation:Label:volume20C": {
+    "*": "Volume à 20 °C"
+  },
+  "ViewVolumeRetractation:Label:retractationRate": {
+    "*": "Taux de rétractation"
+  },
+  "ViewVolumeRetractation:title": {
+    "*": "Correction du volume en fonction de la température"
+  },
+  "ViewVolumeRetractation:shortTitle": {
+    "*": "Température"
   }
 }

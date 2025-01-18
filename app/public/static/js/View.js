@@ -5,6 +5,7 @@ import ViewClean from './ViewClean.js'
 import ViewPressure from './ViewPressure.js'
 import ViewTemperature from './ViewTemperature.js'
 import ViewVolume from './ViewVolume.js'
+import ViewVolumeRetractation from './ViewVolumeRetractation.js'
 import Translator from './Translator.js'
 
 class View {
@@ -14,57 +15,28 @@ class View {
 
   getList () {
     return [
-      /* {
-        key: 'UNIT',
-        label: Translator.__('ViewUnit:shortTitle'),
-        description: Translator.__('ViewUnit:title'),
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="w-full h-auto aspect-square p-2 rounded bg-amber-500 group-hover:text-amber-500 group-hover:bg-transparent group-focus:text-amber-500 group-focus:bg-transparent" aria-hidden="true">
-  <path d="M1 0a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h5v-1H2v-1h4v-1H4v-1h2v-1H2v-1h4V9H4V8h2V7H2V6h4V2h1v4h1V4h1v2h1V2h1v4h1V4h1v2h1V2h1v4h1V1a1 1 0 0 0-1-1z"/>
-</svg>`,
-        children: [
-          {
-            key: 'pressure',
-            label: Translator.__('ViewUnit:Pressure:shortTitle'),
-            description: Translator.__('ViewUnit:Pressure:title'),
-            icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="w-full h-auto aspect-square p-2 rounded bg-amber-500 group-hover:text-amber-500 group-hover:bg-transparent group-focus:text-amber-500 group-focus:bg-transparent" aria-hidden="true">
-  <path d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2M3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707M2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8m9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5m.754-4.246a.39.39 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.39.39 0 0 0-.029-.518z"/>
-  <path fill-rule="evenodd" d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.95 11.95 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0"/>
-</svg>`
-          },
-          {
-            key: 'volume',
-            label: Translator.__('ViewUnit:Volume:shortTitle'),
-            description: Translator.__('ViewUnit:Volume:title'),
-            icon: '<svg fill="currentColor" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 468.871 468.871" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 468.871 468.871" class="w-full h-auto aspect-square p-2 rounded bg-amber-500 group-hover:text-amber-500 group-hover:bg-transparent group-focus:text-amber-500 group-focus:bg-transparent" aria-hidden="true"><g><path d="m467.244,186.322l-9.929-24.005c-5.267-12.742-15.877-22.577-28.705-27.085v-33.682c0-14.423-10.578-34.982-60.973-51.019-35.78-11.386-83.16-17.656-133.413-17.656s-97.633,6.271-133.413,17.656c-50.393,16.037-60.971,36.596-60.971,51.02v30.972h-18.498c-7.14,0-13.771,3.544-17.739,9.479-3.968,5.936-4.708,13.418-1.978,20.016l9.933,24.004c5.321,12.859 15.696,22.479 28.28,26.975v154.323c0,14.423 10.578,34.982 60.973,51.019 35.78,11.386 83.16,17.656 133.413,17.656s97.632-6.271 133.413-17.656c50.395-16.037 60.973-36.595 60.973-51.019v-151.505h18.917c7.142,0 13.774-3.543 17.741-9.477 3.968-5.935 4.706-13.418 1.976-20.016zm-360.367-116.732c33.872-10.779 79.098-16.715 127.348-16.715 48.25,0 93.476,5.936 127.348,16.715 21.699,6.905 47.038,19.418 47.038,31.96s-25.339,25.055-47.038,31.96c-33.872,10.779-79.098,16.715-127.348,16.715-48.25,0-93.477-5.936-127.348-16.715-21.699-6.905-47.038-19.418-47.038-31.96s25.339-25.055 47.038-31.96zm-76.837,108.785l-9.933-24.004c-0.067-0.163-0.273-0.66 0.124-1.255 0.397-0.594 0.935-0.594 1.112-0.594h18.497v38.12c-4.264-3.012-7.706-7.205-9.8-12.267zm331.533,220.906c-33.872,10.779-79.098,16.715-127.348,16.715-48.25,0-93.477-5.936-127.348-16.715-21.699-6.905-47.038-19.418-47.038-31.96v-151.506h34.025c5.523,0 10-4.477 10-10s-4.477-10-10-10h-34.024v-62.301c9.221,6.61 22.387,13.14 40.973,19.055 35.78,11.386 83.16,17.656 133.413,17.656s97.632-6.271 133.413-17.656c18.586-5.914 31.752-12.444 40.973-19.054v233.805c-0.001,12.542-25.34,25.056-47.039,31.961zm87.068-204.057c-0.396,0.592-0.936,0.592-1.113,0.592h-18.917v-38.384c4.492,3.062 8.099,7.391 10.222,12.528l9.931,24.009c0.067,0.163 0.274,0.662-0.123,1.255z"/><path d="m205.279,111.551c5.523,0 10-4.477 10-10 0-10.447 8.5-18.946 18.946-18.946s18.946,8.499 18.946,18.946c0,5.523 4.477,10 10,10s10-4.477 10-10c0-21.475-17.471-38.946-38.946-38.946-21.475,0-38.946,17.471-38.946,38.946 0,5.522 4.477,10 10,10z"/></g></svg>'
-          },
-          {
-            key: 'temperature',
-            label: Translator.__('ViewUnit:Temperature:shortTitle'),
-            description: Translator.__('ViewUnit:Temperature:title'),
-            icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="p-2 w-full h-auto aspect-square rounded bg-amber-500 group-hover:text-amber-500 group-hover:bg-transparent group-focus:text-amber-500 group-focus:bg-transparent" aria-hidden="true">
-  <path d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V2.5a.5.5 0 0 1 1 0v8.585a1.5 1.5 0 0 1 1 1.415"/>
-  <path d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1"/>
-</svg>`
-          },
-          {
-            key: 'gravity',
-            label: Translator.__('ViewUnit:Gravity:shortTitle'),
-            description: Translator.__('ViewUnit:Gravity:title'),
-            icon: `<svg fill="currentColor" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 296 296" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 296 296" class="w-full h-auto aspect-square p-2 rounded bg-amber-500 group-hover:text-amber-500 group-hover:bg-transparent group-focus:text-amber-500 group-focus:bg-transparent" aria-hidden="true">
-  <g>
-    <g>
-      <path d="m197.5,264.465v-211.797l17.333-52.668h-115.333v264.295l-67,15.705v16h115.829 0.669 114.502v-16l-66-15.535zm-16-83.465v16h-66v-16h66zm-66-17v-16h33v16h-33zm33,50v16h-33v-16h33zm33-83h-66v-16h66v16zm-33-33h-33v-16h33v16zm44.333-82h0.065l-10.301,31.947-.363,1.053h-66.734v-33h77.333z"/>
-    </g>
-  </g>
-</svg>`
-          }
-        ]
-      } */
       {
         key: 'VOLUME',
-        label: Translator.__('ViewVolume:shortTitle'),
-        description: Translator.__('ViewVolume:title'),
-        icon: '<svg fill="currentColor" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 468.871 468.871" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 468.871 468.871" class="w-full h-auto aspect-square p-2 rounded bg-amber-500 group-hover:text-amber-500 group-hover:bg-transparent group-focus:text-amber-500 group-focus:bg-transparent" aria-hidden="true"><g><path d="m467.244,186.322l-9.929-24.005c-5.267-12.742-15.877-22.577-28.705-27.085v-33.682c0-14.423-10.578-34.982-60.973-51.019-35.78-11.386-83.16-17.656-133.413-17.656s-97.633,6.271-133.413,17.656c-50.393,16.037-60.971,36.596-60.971,51.02v30.972h-18.498c-7.14,0-13.771,3.544-17.739,9.479-3.968,5.936-4.708,13.418-1.978,20.016l9.933,24.004c5.321,12.859 15.696,22.479 28.28,26.975v154.323c0,14.423 10.578,34.982 60.973,51.019 35.78,11.386 83.16,17.656 133.413,17.656s97.632-6.271 133.413-17.656c50.395-16.037 60.973-36.595 60.973-51.019v-151.505h18.917c7.142,0 13.774-3.543 17.741-9.477 3.968-5.935 4.706-13.418 1.976-20.016zm-360.367-116.732c33.872-10.779 79.098-16.715 127.348-16.715 48.25,0 93.476,5.936 127.348,16.715 21.699,6.905 47.038,19.418 47.038,31.96s-25.339,25.055-47.038,31.96c-33.872,10.779-79.098,16.715-127.348,16.715-48.25,0-93.477-5.936-127.348-16.715-21.699-6.905-47.038-19.418-47.038-31.96s25.339-25.055 47.038-31.96zm-76.837,108.785l-9.933-24.004c-0.067-0.163-0.273-0.66 0.124-1.255 0.397-0.594 0.935-0.594 1.112-0.594h18.497v38.12c-4.264-3.012-7.706-7.205-9.8-12.267zm331.533,220.906c-33.872,10.779-79.098,16.715-127.348,16.715-48.25,0-93.477-5.936-127.348-16.715-21.699-6.905-47.038-19.418-47.038-31.96v-151.506h34.025c5.523,0 10-4.477 10-10s-4.477-10-10-10h-34.024v-62.301c9.221,6.61 22.387,13.14 40.973,19.055 35.78,11.386 83.16,17.656 133.413,17.656s97.632-6.271 133.413-17.656c18.586-5.914 31.752-12.444 40.973-19.054v233.805c-0.001,12.542-25.34,25.056-47.039,31.961zm87.068-204.057c-0.396,0.592-0.936,0.592-1.113,0.592h-18.917v-38.384c4.492,3.062 8.099,7.391 10.222,12.528l9.931,24.009c0.067,0.163 0.274,0.662-0.123,1.255z"/><path d="m205.279,111.551c5.523,0 10-4.477 10-10 0-10.447 8.5-18.946 18.946-18.946s18.946,8.499 18.946,18.946c0,5.523 4.477,10 10,10s10-4.477 10-10c0-21.475-17.471-38.946-38.946-38.946-21.475,0-38.946,17.471-38.946,38.946 0,5.522 4.477,10 10,10z"/></g></svg>'
+        label: Translator.__('ViewVolume:Generic:shortTitle'),
+        description: Translator.__('ViewVolume:Generic:title'),
+        icon: '<svg fill="currentColor" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 468.871 468.871" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 468.871 468.871" class="w-full h-auto aspect-square p-2 rounded bg-amber-500 group-hover:text-amber-500 group-hover:bg-transparent group-focus:text-amber-500 group-focus:bg-transparent" aria-hidden="true"><g><path d="m467.244,186.322l-9.929-24.005c-5.267-12.742-15.877-22.577-28.705-27.085v-33.682c0-14.423-10.578-34.982-60.973-51.019-35.78-11.386-83.16-17.656-133.413-17.656s-97.633,6.271-133.413,17.656c-50.393,16.037-60.971,36.596-60.971,51.02v30.972h-18.498c-7.14,0-13.771,3.544-17.739,9.479-3.968,5.936-4.708,13.418-1.978,20.016l9.933,24.004c5.321,12.859 15.696,22.479 28.28,26.975v154.323c0,14.423 10.578,34.982 60.973,51.019 35.78,11.386 83.16,17.656 133.413,17.656s97.632-6.271 133.413-17.656c50.395-16.037 60.973-36.595 60.973-51.019v-151.505h18.917c7.142,0 13.774-3.543 17.741-9.477 3.968-5.935 4.706-13.418 1.976-20.016zm-360.367-116.732c33.872-10.779 79.098-16.715 127.348-16.715 48.25,0 93.476,5.936 127.348,16.715 21.699,6.905 47.038,19.418 47.038,31.96s-25.339,25.055-47.038,31.96c-33.872,10.779-79.098,16.715-127.348,16.715-48.25,0-93.477-5.936-127.348-16.715-21.699-6.905-47.038-19.418-47.038-31.96s25.339-25.055 47.038-31.96zm-76.837,108.785l-9.933-24.004c-0.067-0.163-0.273-0.66 0.124-1.255 0.397-0.594 0.935-0.594 1.112-0.594h18.497v38.12c-4.264-3.012-7.706-7.205-9.8-12.267zm331.533,220.906c-33.872,10.779-79.098,16.715-127.348,16.715-48.25,0-93.477-5.936-127.348-16.715-21.699-6.905-47.038-19.418-47.038-31.96v-151.506h34.025c5.523,0 10-4.477 10-10s-4.477-10-10-10h-34.024v-62.301c9.221,6.61 22.387,13.14 40.973,19.055 35.78,11.386 83.16,17.656 133.413,17.656s97.632-6.271 133.413-17.656c18.586-5.914 31.752-12.444 40.973-19.054v233.805c-0.001,12.542-25.34,25.056-47.039,31.961zm87.068-204.057c-0.396,0.592-0.936,0.592-1.113,0.592h-18.917v-38.384c4.492,3.062 8.099,7.391 10.222,12.528l9.931,24.009c0.067,0.163 0.274,0.662-0.123,1.255z"/><path d="m205.279,111.551c5.523,0 10-4.477 10-10 0-10.447 8.5-18.946 18.946-18.946s18.946,8.499 18.946,18.946c0,5.523 4.477,10 10,10s10-4.477 10-10c0-21.475-17.471-38.946-38.946-38.946-21.475,0-38.946,17.471-38.946,38.946 0,5.522 4.477,10 10,10z"/></g></svg>',
+        children: [
+          {
+            key: 'VOLUME',
+            label: Translator.__('ViewVolume:shortTitle'),
+            description: Translator.__('ViewVolume:title'),
+            icon: '<svg fill="currentColor" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 468.871 468.871" class="w-full h-auto aspect-square p-2 rounded bg-amber-500 group-hover:text-amber-500 group-hover:bg-transparent group-focus:text-amber-500 group-focus:bg-transparent" aria-hidden="true"><path d="M1 0a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h5v-1H2v-1h4v-1H4v-1h2v-1H2v-1h4V9H4V8h2V7H2V6h4V2h1v4h1V4h1v2h1V2h1v4h1V4h1v2h1V2h1v4h1V1a1 1 0 0 0-1-1z"/></svg>'
+          },
+          {
+            key: 'TEMPERATURE',
+            label: Translator.__('ViewVolumeRetractation:shortTitle'),
+            description: Translator.__('ViewVolumeRetractation:title'),
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="p-2 w-full h-auto aspect-square rounded bg-amber-500 group-hover:text-amber-500 group-hover:bg-transparent group-focus:text-amber-500 group-focus:bg-transparent" aria-hidden="true">
+      <path d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V2.5a.5.5 0 0 1 1 0v8.585a1.5 1.5 0 0 1 1 1.415"/>
+      <path d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1"/>
+    </svg>`
+          }
+        ]
       },
       {
         key: 'CLEAN',
@@ -186,24 +158,6 @@ class View {
         ]
       }/*,
       {
-        key: 'NOTE',
-        label: Translator.__('ViewNote:shortTitle'),
-        description: Translator.__('ViewNote:title'),
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="w-full h-auto aspect-square p-2 rounded bg-amber-500 group-hover:text-amber-500 group-hover:bg-transparent group-focus:text-amber-500 group-focus:bg-transparent" aria-hidden="true">
-  <path d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
-  <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
-  <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
-</svg>`
-      },
-      {
-        key: 'IMPORT',
-        label: Translator.__('ViewImport:shortTitle'),
-        description: Translator.__('ViewImport:title'),
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="w-full h-auto aspect-square p-2 rounded bg-amber-500 group-hover:text-amber-500 group-hover:bg-transparent group-focus:text-amber-500 group-focus:bg-transparent" aria-hidden="true">
-  <path d="M8.5 1.5A1.5 1.5 0 0 1 10 0h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h6c-.314.418-.5.937-.5 1.5v6h-2a.5.5 0 0 0-.354.854l2.5 2.5a.5.5 0 0 0 .708 0l2.5-2.5A.5.5 0 0 0 10.5 7.5h-2z"/>
-</svg>`
-      },
-      {
         key: 'CELLS',
         label: Translator.__('ViewCells:shortTitle'),
         description: Translator.__('ViewCells:title'),
@@ -287,18 +241,18 @@ class View {
     }
 
     switch (view) {
-      /*
-      case 'UNIT':
-        this.currentViewInstance = new ViewUnit(
-          this.$root,
-          subview
-        )
-        break
-      */
       case 'VOLUME':
-        this.currentViewInstance = new ViewVolume(
-          this.$root
-        )
+        switch (subview) {
+          case 'TEMPERATURE':
+            this.currentViewInstance = new ViewVolumeRetractation(
+              this.$root
+            )
+            break
+          default:
+            this.currentViewInstance = new ViewVolume(
+              this.$root
+            )
+        }
         break
       case 'CLEAN':
         this.currentViewInstance = new ViewClean(
@@ -323,13 +277,6 @@ class View {
           subview
         )
         break
-      /*
-      case 'NOTE':
-        this.currentViewInstance = new ViewNote(
-          this.$root
-        )
-        break
-      */
       default:
         throw new Error(`Unknow view ${view}`)
     }
