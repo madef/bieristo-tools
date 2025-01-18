@@ -206,7 +206,7 @@ class ViewVolumeRetractation {
     this.view.get('retractationRate').value = taux
     this.showResult()
 
-    const display = `${volumeT} ${this.unit.get('volume').shortLabel} @${tempMout}${this.unit.get('temperature').shortLabel} => ${vol20C} @20C, ${taux}%`
+    const display = `${volumeT}${this.unit.get('volume').shortLabel} @${tempMout}${this.unit.get('temperature').shortLabel} => ${vol20C}${this.unit.get('volume').shortLabel} @20C, ${taux}%`
     if (!this.getLastHistory() || this.getLastHistory().display !== display) {
       const values = [tempMout, volumeT]
       const units = [this.unit.get('volume').code, this.unit.get('temperature').code]
