@@ -12,11 +12,20 @@ class ViewTemperature {
     this.history = new History('ViewTemperature')
     this.unit = Unit.getInstance()
 
-    this.unit.addChangeObserver('view', (unitType) => {
-      if (unitType === 'temperature' || unitType === 'gravity') {
-        this.view.forEach('gravityUnit', $unit => { $unit.innerText = this.unit.get('gravity').shortLabel })
-        this.view.get('temperatureUnit').innerText = this.unit.get('temperature').shortLabel
-        this.hideResult()
+    this.unit.addChangeObserver('view', (unitType, oldUnitCode) => {
+      switch (unitType) {
+        case 'temperature':
+          this.convert('temperature', 'temperature', oldUnitCode)
+          this.view.get('temperatureUnit').innerText = this.unit.get('temperature').shortLabel
+
+          this.hideResult()
+          break
+        case 'gravity':
+          this.convert('gravity', 'gravity', oldUnitCode)
+          this.view.forEach('gravityUnit', $unit => { $unit.innerText = this.unit.get('gravity').shortLabel })
+
+          this.hideResult()
+          break
       }
     })
 
@@ -163,6 +172,9 @@ class ViewTemperature {
   setDefaultValue () {
     const lastHistory = this.getLastHistory()
     if (lastHistory) {
+      this.unit.set('temperature', lastHistory.units[0])
+      this.unit.set('gravity', lastHistory.units[1])
+
       this.view.get('temperature').value = lastHistory.values[0]
       this.view.get('gravity').value = lastHistory.values[1]
       this.updateResult()
@@ -174,10 +186,13 @@ class ViewTemperature {
       this.view.get('history'),
       this.history,
       (historyRow) => {
-        this.view.get('temperature').value = historyRow.values[0]
-        this.view.get('gravity').value = historyRow.values[1]
         this.unit.set('temperature', historyRow.units[0])
         this.unit.set('gravity', historyRow.units[1])
+
+        this.view.get('temperature').value = historyRow.values[0]
+        this.view.get('gravity').value = historyRow.values[1]
+        this.view.get('temperature').value = historyRow.values[0]
+        this.view.get('gravity').value = historyRow.values[1]
         this.hideResult()
       }
     )
@@ -185,6 +200,17 @@ class ViewTemperature {
 
   round (number, precision = 2) {
     return Math.round(number * Math.pow(10, precision)) / Math.pow(10, precision)
+  }
+
+  convert (input, unitType, oldUnitCode) {
+    const unit = this.unit.get(unitType)
+    const value = parseFloat(this.view.get(input).value)
+
+    if (isNaN(value)) {
+      return
+    }
+
+    this.view.get(input).value = this.round(unit.unconvert(value)[oldUnitCode])
   }
 }
 

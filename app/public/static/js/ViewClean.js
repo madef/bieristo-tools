@@ -81,10 +81,15 @@ class ViewClean {
     this.history = new History(`ViewClean:${this.product.code}`)
 
     this.unit = Unit.getInstance()
-    this.unit.addChangeObserver('view', (unitType) => {
-      this.view.forEach('volumeUnit', $unit => { $unit.innerText = this.unit.get('volume').shortLabel })
+    this.unit.addChangeObserver('view', (unitType, oldUnitCode) => {
+      switch (unitType) {
+        case 'volume':
+          this.convert('productEntry', 'volume', oldUnitCode)
+          this.view.forEach('volumeUnit', $unit => { $unit.innerText = this.unit.get('volume').shortLabel })
 
-      this.view.empty('productResult')
+          this.view.empty('productResult')
+          break
+      }
     })
 
     this.view = new Brique(`<div class="flex flex-col gap-4">
@@ -128,6 +133,7 @@ class ViewClean {
   setDefaultValue () {
     const lastHistory = this.getLastHistory()
     if (lastHistory) {
+      this.unit.set('volume', lastHistory.unit)
       this.view.get('productEntry').value = lastHistory.value
       this.updateResult()
     }
@@ -242,6 +248,17 @@ class ViewClean {
         this.view.get('productEntry').value = historyRow.value
       }
     )
+  }
+
+  convert (input, unitType, oldUnitCode) {
+    const unit = this.unit.get(unitType)
+    const value = parseFloat(this.view.get(input).value)
+
+    if (isNaN(value)) {
+      return
+    }
+
+    this.view.get(input).value = this.round(unit.unconvert(value)[oldUnitCode])
   }
 }
 

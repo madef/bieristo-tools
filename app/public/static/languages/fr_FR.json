@@ -207,7 +207,7 @@
     "*": "Fahrenheit"
   },
   "Unit:cm": {
-    "*": "Centimètres"
+    "*": "Centimètre"
   },
   "Unit:I": {
     "*": "Pouce"

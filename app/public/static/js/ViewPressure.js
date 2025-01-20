@@ -19,14 +19,16 @@ class ViewPressure {
     }
 
     this.history = new History(`ViewPressure:${this.mode}`)
+
     this.unit = Unit.getInstance()
+    this.unit.addChangeObserver('view', (unitType, oldUnitCode) => {
+      switch (unitType) {
+        case 'temperature':
+          this.view.get('temperatureUnit').innerText = this.unit.get('temperature').shortLabel
+          this.convert('temperature', 'temperature', oldUnitCode)
 
-    this.unit.addChangeObserver('view', (unitType) => {
-      if (unitType === 'temperature' || unitType === 'pressure') {
-        this.view.get('temperatureUnit').innerText = this.unit.get('temperature').shortLabel
-        this.view.forEach('pressureUnit', $unit => { $unit.innerText = this.unit.get('presure').shortLabel })
-
-        this.hideResult()
+          this.hideResult()
+          break
       }
     })
 
@@ -462,6 +464,9 @@ class ViewPressure {
   setDefaultValue () {
     const lastHistory = this.getLastHistory()
     if (lastHistory) {
+      this.unit.set('temperature', lastHistory.units[0])
+      this.unit.set('pressure', lastHistory.units[1])
+
       this.view.get('style').value = lastHistory.values[0]
       this.view.get('temperature').value = lastHistory.values[1]
       this.view.get('min').value = lastHistory.values[2]
@@ -475,12 +480,13 @@ class ViewPressure {
       this.view.get('history'),
       this.history,
       (historyRow) => {
+        this.unit.set('temperature', historyRow.units[0])
+        this.unit.set('pressure', historyRow.units[1])
+
         this.view.get('style').value = historyRow.values[0]
         this.view.get('temperature').value = historyRow.values[1]
         this.view.get('min').value = historyRow.values[2]
         this.view.get('max').value = historyRow.values[3]
-        this.unit.set('temperature', historyRow.units[0])
-        this.unit.set('pressure', historyRow.units[1])
         this.hideResult()
       }
     )
@@ -488,6 +494,17 @@ class ViewPressure {
 
   round (number, precision = 2) {
     return Math.round(number * Math.pow(10, precision)) / Math.pow(10, precision)
+  }
+
+  convert (input, unitType, oldUnitCode) {
+    const unit = this.unit.get(unitType)
+    const value = parseFloat(this.view.get(input).value)
+
+    if (isNaN(value)) {
+      return
+    }
+
+    this.view.get(input).value = this.round(unit.unconvert(value)[oldUnitCode])
   }
 }
 

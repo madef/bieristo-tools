@@ -12,7 +12,7 @@ class ViewVolumeRetractation {
     this.history = new History('ViewVolumeRetractation')
 
     this.unit = Unit.getInstance()
-    this.unit.addChangeObserver('viewRetractation', (unitType) => {
+    this.unit.addChangeObserver('view', (unitType) => {
       if (unitType === 'volume' || unitType === 'temperature') {
         this.view.forEach('volumeUnit', $unit => { $unit.innerText = this.unit.get('volume').shortLabel })
         this.view.forEach('temperatureUnit', $unit => { $unit.innerText = this.unit.get('temperature').shortLabel })

@@ -24,12 +24,21 @@ class ViewAlcool {
     this.history = new History(`ViewAlcool:${this.mode}`)
     this.unit = Unit.getInstance()
 
-    this.unit.addChangeObserver('view', (unitType) => {
-      if (unitType === 'volume' || unitType === 'gravity') {
-        this.view.forEach('gravityUnit', $unit => { $unit.innerText = this.unit.get('gravity').shortLabel })
-        this.view.get('sugarUnit').innerText = `g/${this.unit.get('volume').shortLabel}`
+    this.unit.addChangeObserver('view', (unitType, oldUnitCode) => {
+      switch (unitType) {
+        case 'volume':
+          this.convert('sugar', 'volume', oldUnitCode)
+          this.view.get('sugarUnit').innerText = `g/${this.unit.get('volume').shortLabel}`
 
-        this.hideResult()
+          this.hideResult()
+          break
+        case 'gravity':
+          this.convert('di', 'gravity', oldUnitCode)
+          this.convert('df', 'gravity', oldUnitCode)
+          this.view.forEach('gravityUnit', $unit => { $unit.innerText = this.unit.get('gravity').shortLabel })
+
+          this.hideResult()
+          break
       }
     })
 
@@ -290,6 +299,9 @@ class ViewAlcool {
   setDefaultValue () {
     const lastHistory = this.getLastHistory()
     if (lastHistory) {
+      this.unit.set('gravity', lastHistory.units[0])
+      this.unit.set('volume', lastHistory.units[1])
+
       this.view.get('sugar').value = lastHistory.values[0]
       this.view.get('di').value = lastHistory.values[1]
       this.view.get('df').value = lastHistory.values[2]
@@ -310,17 +322,39 @@ class ViewAlcool {
       this.view.get('history'),
       this.history,
       (historyRow) => {
+        this.unit.set('gravity', historyRow.units[0])
+        this.unit.set('volume', historyRow.units[1])
+
         this.view.get('sugar').value = historyRow.values[0]
         this.view.get('di').value = historyRow.values[1]
         this.view.get('df').value = historyRow.values[2]
-        this.unit.set('gravity', historyRow.units[0])
-        this.unit.set('volume', historyRow.units[1])
       }
     )
   }
 
   round (number, precision = 2) {
     return Math.round(number * Math.pow(10, precision)) / Math.pow(10, precision)
+  }
+
+  convert (input, unitType, oldUnitCode) {
+    const unit = this.unit.get(unitType)
+    let value = parseFloat(this.view.get(input).value)
+
+    if (unitType === 'volume') {
+      value = 1 / value
+    }
+
+    if (isNaN(value)) {
+      return
+    }
+
+    value = unit.unconvert(value)[oldUnitCode]
+
+    if (unitType === 'volume') {
+      value = 1 / value
+    }
+
+    this.view.get(input).value = this.round(value)
   }
 }
 

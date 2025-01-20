@@ -11,7 +11,7 @@ class ViewUpdateMaischeTemp {
   constructor ($content) {
     this.history = new History('ViewUpdateMaischeTemp')
     this.unit = Unit.getInstance()
-    this.unit.addChangeObserver('viewUpdateMaischeTemp', (unitType, oldUnitCode) => {
+    this.unit.addChangeObserver('view', (unitType, oldUnitCode) => {
       switch (unitType) {
         case 'temperature':
           this.view.forEach('temperatureUnit', ($el) => {

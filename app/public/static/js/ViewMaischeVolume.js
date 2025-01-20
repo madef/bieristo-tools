@@ -11,7 +11,7 @@ class ViewMaischeVolume {
   constructor ($content) {
     this.history = new History('ViewMaischeVolume')
     this.unit = Unit.getInstance()
-    this.unit.addChangeObserver('viewUpdateMaischeTemp', (unitType, oldUnitCode) => {
+    this.unit.addChangeObserver('view', (unitType, oldUnitCode) => {
       switch (unitType) {
         case 'weight':
           this.view.forEach('weightUnit', ($el) => {
