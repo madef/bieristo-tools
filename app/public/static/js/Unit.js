@@ -47,11 +47,12 @@ class Unit {
     for (const unit of this.getList(unitType)) {
       if (unit.code === code) {
         if (this.get(unitType).code !== code) {
+          const oldCode = this.get(unitType).code
           localStorage.setItem(`UNIT_${unitType}`, code) // eslint-disable-line no-undef
           for (const type in this.changeCallback) {
-            this.changeCallback[type](unitType)
-            this.user.update(`UNIT_${unitType}`)
+            this.changeCallback[type](unitType, oldCode)
           }
+          this.user.update(`UNIT_${unitType}`)
         }
         return
       }
@@ -259,6 +260,12 @@ class Unit {
               cm: unit,
               I: unit / 2.54
             }
+          },
+          unconvert: unit => {
+            return {
+              cm: unit,
+              I: unit * 2.54
+            }
           }
         },
         {
@@ -269,6 +276,48 @@ class Unit {
             return {
               cm: unit * 2.54,
               I: unit
+            }
+          },
+          unconvert: unit => {
+            return {
+              cm: unit / 2.54,
+              I: unit
+            }
+          }
+        }
+      ],
+      weight: [
+        {
+          label: Translator.__('Unit:g'),
+          shortLabel: 'g',
+          code: 'g',
+          convert: unit => {
+            return {
+              g: unit,
+              lbs: unit * 0.00220462
+            }
+          },
+          unconvert: unit => {
+            return {
+              g: unit,
+              lbs: unit / 0.00220462
+            }
+          }
+        },
+        {
+          label: Translator.__('Unit:lbs'),
+          shortLabel: 'lbs',
+          code: 'lbs',
+          convert: unit => {
+            return {
+              g: unit / 0.00220462,
+              lbs: unit
+            }
+          },
+          unconvert: unit => {
+            return {
+              g: unit * 0.00220462,
+              lbs: unit
             }
           }
         }

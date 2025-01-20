@@ -131,6 +131,9 @@
   "Menu:Unit:length": {
     "*": "Longeur"
   },
+  "Menu:Unit:weight": {
+    "*": "Poids"
+  },
   "Menu:Unit:Label:volume": {
     "*": "Volume: %value%"
   },
@@ -145,6 +148,9 @@
   },
   "Menu:Unit:Label:length": {
     "*": "Longeur: %value%"
+  },
+  "Menu:Unit:Label:weight": {
+    "*": "Poids: %value%"
   },
   "Menu:close": {
     "*": "Fermer"
@@ -166,6 +172,9 @@
   },
   "ViewUnit:UnitType:length": {
     "*": "Longeur"
+  },
+  "ViewUnit:UnitType:weight": {
+    "*": "Poids"
   },
   "ViewUnit:L": {
     "*": "Litre"
@@ -202,6 +211,12 @@
   },
   "Unit:I": {
     "*": "Pouce"
+  },
+  "Unit:g": {
+    "*": "Gramme"
+  },
+  "Unit:lbs": {
+    "*": "Livre"
   },
   "Generic:Action:calculate": {
     "*": "Calculer"
@@ -447,7 +462,7 @@
     "*": "Densité finale réelle"
   },
   "ViewAlcool:Label:dfRefractometer": {
-        "*": "Densité finale réfractomètre"
+    "*": "Densité finale réfractomètre"
   },
   "ViewAlcool:Label:df": {
     "*": "Densité finale"
@@ -536,8 +551,14 @@
   "ViewClean:To:label": {
     "*": "Max"
   },
-  "ViewTemperature:shortTitle": {
+  "ViewTemperature:Generic:shortTitle": {
     "*": "Température"
+  },
+  "ViewTemperature:Generic:title": {
+    "*": "Calcul des températures"
+  },
+  "ViewTemperature:shortTitle": {
+    "*": "Densité"
   },
   "ViewTemperature:title": {
     "*": "Correction de la densité en fonction de la température"
@@ -634,5 +655,71 @@
   },
   "ViewVolumeRetractation:shortTitle": {
     "*": "Température"
+  },
+  "ViewMaischeTemp:title": {
+    "*": "Calculer la temperature de l'eau pour atteindre la maische cible"
+  },
+  "ViewMaischeTemp:shortTitle": {
+    "*": "Empâtage"
+  },
+  "ViewMaischeTemp:Label:grainWeight": {
+    "*": "Poids des céréales"
+  },
+  "ViewMaischeTemp:Label:waterVolume": {
+    "*": "Volume d'eau"
+  },
+  "ViewMaischeTemp:Label:targetMashTemp": {
+    "*": "Température cible"
+  },
+  "ViewMaischeTemp:Label:grainInitialTemp": {
+    "*": "Température des céréales"
+  },
+  "ViewMaischeTemp:Label:requiredWaterTemp": {
+    "*": "Température d'eau requise"
+  },
+  "ViewUpdateMaischeTemp:title": {
+    "*": "Ajouter de l'eau pour moduler la temperature de la maische"
+  },
+  "ViewUpdateMaischeTemp:shortTitle": {
+    "*": "Correction"
+  },
+  "ViewUpdateMaischeTemp:Label:mashVolume": {
+    "*": "Volume de maische"
+  },
+  "ViewUpdateMaischeTemp:Label:mashTemp": {
+    "*": "Température de la maische"
+  },
+  "ViewUpdateMaischeTemp:Label:targetTemp": {
+    "*": "Température cible"
+  },
+  "ViewUpdateMaischeTemp:Label:waterTemp": {
+    "*": "Température de l'eau"
+  },
+  "ViewUpdateMaischeTemp:Label:waterToAdd": {
+    "*": "Quantité d'eau à ajouter"
+  },
+  "ViewUpdateMaischeTemp:DeltaTemp:invalid": {
+    "*": "La température cible et la température de l'eau doivent être différentes."
+  },
+  "ViewMaischeVolume:shortTitle": {
+    "*": "Maische"
+  },
+  "ViewMaischeVolume:title": {
+    "*": "Calculer le volume en fonction de la quantite d'eau et de cereales"
+  },
+  "ViewMaischeVolume:Label:absorptionRate": {
+    "*": "Taux d'absorption"
+  },
+  "ViewMaischeVolume:Label:waterQuantity": {
+    "*": "Volume d'eau"
+  },
+  "ViewMaischeVolume:Label:cerealWeight": {
+    "*": "Poids de céréales"
+  },
+  "ViewMaischeVolume:Label:mashVolume": {
+    "*": "Volume de maische"
+  },
+  "ViewMaischeVolume:Label:historyDisplay": {
+    "*": "Volume final de maische"
   }
 }

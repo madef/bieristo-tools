@@ -98,7 +98,7 @@ class ViewUnit {
   }
 
   renderFromList () {
-    ['volume', 'pressure', 'gravity', 'temperature', 'length'].forEach((unitType) => {
+    ['volume', 'pressure', 'gravity', 'temperature', 'length', 'weight'].forEach((unitType) => {
       const optgroup = new Brique(`<optgroup label="${Translator.__('ViewUnit:UnitType:' + unitType)}" data-var="optgroup"></optgroup>`)
       this.view.append('from', optgroup)
       this.unit.getList(unitType).forEach((unit) => {

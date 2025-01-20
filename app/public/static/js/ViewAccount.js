@@ -199,7 +199,7 @@ class ViewAccount {
   renderUnitList () {
     this.view.empty('unitList');
 
-    ['pressure', 'gravity', 'volume', 'temperature', 'length'].forEach((type) => {
+    ['pressure', 'gravity', 'volume', 'temperature', 'length', 'weight'].forEach((type) => {
       const unit = this.unit.get(type)
       const button = new Brique(`<button
           class="bg-amber-500 hover:bg-transparent hover:text-amber-500 focus:bg-transparent focus:text-amber-500 rounded w-12 md:w-20 h-auto aspect-square md:h-16"
