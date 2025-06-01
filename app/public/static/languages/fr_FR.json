@@ -69,7 +69,7 @@
     "*": "Compte supprimé."
   },
   "Confirm:default": {
-    "*": "Êtes-vous certain ?"
+    "*": "Êtes-vous certain ?"
   },
   "Menu:title": {
     "*": "MENU"
@@ -223,6 +223,9 @@
   },
   "Generic:Action:historyAdd": {
     "*": "Copier dans l'historique"
+  },
+  "Generic:calculate": {
+    "*": "Calculer"
   },
   "Generic:Action:copy": {
     "*": "Copier"
@@ -630,7 +633,7 @@
     "*": "Volume total"
   },
   "History:Confirm:remove": {
-    "*": "Voulez-vous supprimer l'entrée « %entry% » de l'historique ?"
+    "*": "Voulez-vous supprimer l'entrée « %entry% » de l'historique ?"
   },
   "History:Action:copy": {
     "*": "Reprendre"
@@ -660,7 +663,7 @@
     "*": "Calculer la temperature de l'eau pour atteindre la maische cible"
   },
   "ViewMaischeTemp:shortTitle": {
-    "*": "Empâtage"
+    "*": "Maische"
   },
   "ViewMaischeTemp:Label:grainWeight": {
     "*": "Poids des céréales"
@@ -721,5 +724,35 @@
   },
   "ViewMaischeVolume:Label:historyDisplay": {
     "*": "Volume final de maische"
+  },
+  "ViewBoilingWater:shortTitle": {
+    "*": "Empâtage"
+  },
+  "ViewBoilingWater:title": {
+    "*": "Calculer le volume d'eau bouillante nécessaire"
+  },
+  "ViewBoilingWater:Label:totalVolume": {
+    "*": "Volume total désiré"
+  },
+  "ViewBoilingWater:Label:finalTemp": {
+    "*": "Température finale désirée"
+  },
+  "ViewBoilingWater:Label:boilingTemp": {
+    "*": "Température de l'eau bouillante"
+  },
+  "ViewBoilingWater:Label:coldTemp": {
+    "*": "Température de l'eau froide"
+  },
+  "ViewBoilingWater:Label:boilingWaterVolume": {
+    "*": "Volume d'eau bouillante nécessaire"
+  },
+  "ViewBoilingWater:Label:coldWaterVolume": {
+    "*": "Volume d'eau froide nécessaire"
+  },
+  "ViewBoilingWater:WaterMixing:shortTitle": {
+    "*": "Empâtage"
+  },
+  "ViewBoilingWater:WaterMixing:title": {
+    "*": "Calculer le volume d'eau bouillante nécessaire"
   }
 }
